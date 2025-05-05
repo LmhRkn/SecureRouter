@@ -23,17 +23,17 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
-@Entity
+@Entity(tableName = "router")
 data class Router(
-    val name: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var uid: Int = 0
-}
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val name: String,
+    val isConnected: Boolean = false,
+    val isVpn: Boolean = false
+)
 
 @Dao
 interface RouterDao {
-    @Query("SELECT * FROM router ORDER BY uid DESC LIMIT 10")
+    @Query("SELECT * FROM router ORDER BY id DESC LIMIT 10")
     fun getRouters(): Flow<List<Router>>
 
     @Insert

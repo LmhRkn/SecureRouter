@@ -18,18 +18,13 @@ package com.tfg.securerouter.ui.router
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import com.tfg.securerouter.data.RouterRepository
-import com.tfg.securerouter.ui.router.RouterUiState.Error
-import com.tfg.securerouter.ui.router.RouterUiState.Loading
-import com.tfg.securerouter.ui.router.RouterUiState.Success
+import com.tfg.securerouter.data.local.database.Router
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.tfg.securerouter.ui.router.model.RouterUIModel
 
 @HiltViewModel
 class RouterViewModel @Inject constructor(
@@ -37,9 +32,21 @@ class RouterViewModel @Inject constructor(
 ) : ViewModel() {
 
     val uiState: StateFlow<RouterUiState> = routerRepository
-        .routers.map<List<String>, RouterUiState>(::Success)
-        .catch { emit(Error(it)) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+        .routers
+        .map<List<Router>, RouterUiState> { list ->
+            RouterUiState.Success(
+                list.map {
+                    RouterUIModel(
+                        id = it.id,
+                        name = it.name,
+                        isConnected = it.isConnected,
+                        isVpn = it.isVpn
+                    )
+                }
+            )
+        }
+        .catch { emit(RouterUiState.Error(it)) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), RouterUiState.Loading)
 
     fun addRouter(name: String) {
         viewModelScope.launch {
@@ -51,5 +58,6 @@ class RouterViewModel @Inject constructor(
 sealed interface RouterUiState {
     object Loading : RouterUiState
     data class Error(val throwable: Throwable) : RouterUiState
-    data class Success(val data: List<String>) : RouterUiState
+    data class Success(val data: List<RouterUIModel>) : RouterUiState
 }
+

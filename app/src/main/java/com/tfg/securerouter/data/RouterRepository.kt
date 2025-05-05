@@ -17,13 +17,12 @@
 package com.tfg.securerouter.data
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import com.tfg.securerouter.data.local.database.Router
 import com.tfg.securerouter.data.local.database.RouterDao
 import javax.inject.Inject
 
 interface RouterRepository {
-    val routers: Flow<List<String>>
+    val routers: Flow<List<Router>>
 
     suspend fun add(name: String)
 }
@@ -32,10 +31,11 @@ class DefaultRouterRepository @Inject constructor(
     private val routerDao: RouterDao
 ) : RouterRepository {
 
-    override val routers: Flow<List<String>> =
-        routerDao.getRouters().map { items -> items.map { it.name } }
+    override val routers: Flow<List<Router>> = routerDao.getRouters()
 
     override suspend fun add(name: String) {
-        routerDao.insertRouter(Router(name = name))
+        // Por defecto el router se agrega como desconectado y no VPN
+        val newRouter = Router(name = name, isConnected = false, isVpn = false)
+        routerDao.insertRouter(newRouter)
     }
 }

@@ -17,79 +17,98 @@
 package com.tfg.securerouter.ui.router
 
 import com.tfg.securerouter.ui.theme.MyApplicationTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tfg.securerouter.ui.router.model.RouterUIModel
 
 @Composable
 fun RouterScreen(modifier: Modifier = Modifier, viewModel: RouterViewModel = hiltViewModel()) {
-    val items by viewModel.uiState.collectAsStateWithLifecycle()
-    if (items is RouterUiState.Success) {
-        RouterScreen(
-            items = (items as RouterUiState.Success).data,
-            onSave = viewModel::addRouter,
-            modifier = modifier
-        )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        is RouterUiState.Loading -> CircularProgressIndicator()
+        is RouterUiState.Error -> Text("Error cargando routers")
+        is RouterUiState.Success -> {
+            val routers = (uiState as RouterUiState.Success).data
+            RouterScreen(
+                items = routers,
+                onSave = viewModel::addRouter,
+                modifier = modifier
+            )
+        }
     }
 }
 
 @Composable
 internal fun RouterScreen(
-    items: List<String>,
+    items: List<RouterUIModel>,
     onSave: (name: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier) {
-        var nameRouter by remember { mutableStateOf("Compose") }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextField(
-                value = nameRouter,
-                onValueChange = { nameRouter = it }
-            )
+    var nameRouter by remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf("") }
 
-            Button(modifier = Modifier.width(96.dp), onClick = { onSave(nameRouter) }) {
-                Text("Save")
-            }
+    // Filtrar por búsqueda
+    val filteredItems = items.filter {
+        it.name.contains(searchQuery, ignoreCase = true)
+    }
+
+    val (mainRouter, vpnRouters) = filteredItems.partition { !it.isVpn }
+
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        // Campo de búsqueda
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            label = { Text("Buscar router...") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+        )
+
+        // Router principal (si existe)
+        mainRouter.firstOrNull()?.let {
+            RouterCard(router = it, isMain = true)
         }
-        items.forEach {
-            Text("Saved item: $it")
+
+        // Routers VPN
+        vpnRouters.forEach {
+            RouterCard(router = it, isMain = false)
+        }
+
+        // Si no hay coincidencias
+        if (filteredItems.isEmpty()) {
+            Text("No se encontraron routers con ese nombre.", style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
 
-// Previews
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 400)
 @Composable
-private fun DefaultPreview() {
-    MyApplicationTheme {
-        RouterScreen(listOf("Compose", "Room", "Kotlin"), onSave = {})
-    }
-}
+fun PreviewRouterScreen() {
+    val fakeData = listOf(
+        RouterUIModel(1, "Piso Madrid", isConnected = true, isVpn = false),
+        RouterUIModel(2, "Casa Pueblo", isConnected = false, isVpn = true),
+        RouterUIModel(3, "Casa Julia", isConnected = false, isVpn = true)
+    )
 
-@Preview(showBackground = true, widthDp = 480)
-@Composable
-private fun PortraitPreview() {
     MyApplicationTheme {
-        RouterScreen(listOf("Compose", "Room", "Kotlin"), onSave = {})
+        RouterScreen(
+            items = fakeData,
+            onSave = {}
+        )
     }
 }

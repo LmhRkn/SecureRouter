@@ -24,26 +24,47 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import com.tfg.securerouter.data.RouterRepository
 import com.tfg.securerouter.data.DefaultRouterRepository
+import com.tfg.securerouter.data.local.database.Router
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+//interface DataModule {
+//
+//    @Singleton
+//    @Binds
+//    fun bindsRouterRepository(
+//        routerRepository: DefaultRouterRepository
+//    ): RouterRepository
+//}
 interface DataModule {
 
     @Singleton
     @Binds
     fun bindsRouterRepository(
-        routerRepository: DefaultRouterRepository
+        fake: FakeRouterRepository
     ): RouterRepository
+
 }
 
 class FakeRouterRepository @Inject constructor() : RouterRepository {
-    override val routers: Flow<List<String>> = flowOf(fakeRouters)
+    override val routers: Flow<List<Router>> = flowOf(
+        listOf(
+            Router(id = 1, name = "Piso Madrid", isConnected = true, isVpn = false),
+            Router(id = 2, name = "Casa Pueblo", isConnected = false, isVpn = true),
+            Router(id = 3, name = "Casa Julia", isConnected = false, isVpn = true)
+        )
+    )
 
     override suspend fun add(name: String) {
-        throw NotImplementedError()
+        // No-op para que no rompa
     }
 }
 
-val fakeRouters = listOf("One", "Two", "Three")
+
+val fakeRouters = listOf(
+    Router(id = 1, name = "One", isConnected = true, isVpn = false),
+    Router(id = 2, name = "Two", isConnected = false, isVpn = true),
+    Router(id = 3, name = "Three", isConnected = false, isVpn = true)
+)
