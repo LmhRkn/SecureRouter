@@ -37,6 +37,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.ui.res.stringResource
+import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.theme.MainBackgroundColorLight
 
 @Composable
@@ -63,7 +65,6 @@ internal fun RouterScreen(
     onSave: (name: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var nameRouter by remember { mutableStateOf("") }
     var searchQuery by remember { mutableStateOf("") }
 
     val filteredItems = items.filter {
@@ -85,63 +86,86 @@ internal fun RouterScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {
-                // Campo de búsqueda
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    label = { Text("Buscar router...") },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                SearchBar(searchQuery) { searchQuery = it }
             }
 
-            // Router principal
             mainRouter.firstOrNull()?.let {
                 item {
-                    RouterCard(router = it, isMain = true)
+                    MainRouterCard(it)
                 }
             }
 
-            // Routers VPN
             items(vpnRouters.size) { index ->
                 RouterCard(router = vpnRouters[index], isMain = false)
             }
 
-            // Mensaje si no hay resultados
             if (filteredItems.isEmpty()) {
                 item {
-                    Text("No se encontraron routers con ese nombre.")
+                    EmptyRouterMessage()
                 }
             }
         }
 
-        // FAB de volver arriba
         if (showScrollToTop) {
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        listState.animateScrollToItem(0)
-                    }
-                },
+            ScrollToTopFab(
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
+                    .align(Alignment.TopCenter)
                     .padding(16.dp)
-                    .size(48.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = CircleShape
-                    )
             ) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowUp,
-                    contentDescription = "Volver arriba",
-                    tint = MainBackgroundColorLight
-                )
+                coroutineScope.launch {
+                    listState.animateScrollToItem(0)
+                }
             }
         }
+
     }
 }
 
+@Composable
+fun SearchBar(query: String, onQueryChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        label = { Text(stringResource(id = R.string.buscar_router)) },
+        modifier = Modifier.fillMaxWidth()
+    )
+}
 
+@Composable
+fun MainRouterCard(router: RouterUIModel) {
+    RouterCard(router = router, isMain = true)
+}
+
+@Composable
+fun EmptyRouterMessage() {
+    Text(
+        text = stringResource(id = R.string.no_routers_encontrados),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurface
+    )
+}
+
+@Composable
+fun ScrollToTopFab(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+            .size(48.dp)
+            .background(
+                color = MaterialTheme.colorScheme.tertiary,
+                shape = CircleShape
+            )
+    ) {
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowUp,
+            contentDescription = stringResource(id = R.string.volver_arriba),
+            tint = MainBackgroundColorLight
+        )
+    }
+}
 
 @Preview(showBackground = true, widthDp = 400)
 @Composable

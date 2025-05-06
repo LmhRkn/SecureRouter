@@ -7,43 +7,22 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.router.model.RouterUIModel
 import com.tfg.securerouter.ui.theme.*
 
 @Composable
 fun RouterCard(router: RouterUIModel, isMain: Boolean) {
-    val statusText: String
-    val statusColor: Color
-    val backgroundColor: Color
-    val extraColors = LocalExtraColors.current
-
-    when {
-        router.error -> {
-            statusText = "Error de conexión"
-            statusColor = extraColors.onStatusErrorColor
-            backgroundColor = extraColors.statusErrorColor
-        }
-        router.isConnected -> {
-            statusText = "Red conectada"
-            statusColor = extraColors.onStatusConnectedColor
-            backgroundColor = extraColors.statusConnectedColor
-        }
-        else -> {
-            statusText = "Desconectado"
-            statusColor = extraColors.onStatusDisconnectedColor
-            backgroundColor = extraColors.statusDisconnectedColor
-        }
-    }
+    val (statusText, statusColor, backgroundColor) = getRouterStatusData(router)
 
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .height(if (isMain) 200.dp else 120.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
@@ -62,25 +41,56 @@ fun RouterCard(router: RouterUIModel, isMain: Boolean) {
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Text(
-                    text = statusText,
-                    color = statusColor,
-                    modifier = Modifier
-                        .background(backgroundColor, RoundedCornerShape(6.dp))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                )
+                StatusText(statusText, statusColor, backgroundColor)
             }
 
-            Button(
-                onClick = { /* TODO: lógica de acceso */ },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            ) {
-                Text("Acceder")
-            }
+            AccessButton()
         }
+    }
+}
+
+@Composable
+fun getRouterStatusData(router: RouterUIModel): Triple<String, Color, Color> {
+    return when {
+        router.error -> Triple(
+            stringResource(id = R.string.status_error),
+            LocalExtraColors.current.onStatusErrorColor,
+            LocalExtraColors.current.statusErrorColor
+        )
+        router.isConnected -> Triple(
+            stringResource(id = R.string.status_connected),
+            LocalExtraColors.current.onStatusConnectedColor,
+            LocalExtraColors.current.statusConnectedColor
+        )
+        else -> Triple(
+            stringResource(id = R.string.status_disconnected),
+            LocalExtraColors.current.onStatusDisconnectedColor,
+            LocalExtraColors.current.statusDisconnectedColor
+        )
+    }
+}
+
+@Composable
+fun StatusText(text: String, textColor: Color, backgroundColor: Color) {
+    Text(
+        text = text,
+        color = textColor,
+        modifier = Modifier
+            .background(backgroundColor, RoundedCornerShape(6.dp))
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    )
+}
+
+@Composable
+fun AccessButton() {
+    Button(
+        onClick = { /* TODO: lógica de acceso */ },
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
+    ) {
+        Text(stringResource(id = R.string.acceder_router_button))
     }
 }

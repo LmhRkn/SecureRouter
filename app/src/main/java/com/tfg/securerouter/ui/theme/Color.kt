@@ -31,7 +31,7 @@ val OnPrimaryColorLight = Color(0xFFFFFFFF)
 val SecondaryColorLight = Color(0xFF000000)
 val OnSecondaryColorLight = Color(0xFFFFFFFF)
 
-val TertiaryColorLight = Color(0xFF000000)
+val TertiaryColorLight = Color(0xFFCCCCCC)
 val OnTertiaryColorLight = Color(0xFFFFFFFF)
 
 val StatusErrorColorLight = Color(0xFFFFCDD2)
@@ -57,7 +57,7 @@ val OnPrimaryColorDark = Color(0xFFFFFFFF)
 val SecondaryColorDark = Color(0xFF000000)
 val OnSecondaryColorDark = Color(0xFFFFFFFF)
 
-val TertiaryColorDark = Color(0xFF000000)
+val TertiaryColorDark = Color(0xFFCCCCCC)
 val OnTertiaryColorDark = Color(0xFFFFFFFF)
 
 val StatusErrorColorDark = Color(0xFFFFCDD2)

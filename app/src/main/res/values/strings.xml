@@ -16,4 +16,16 @@
 
 <resources>
     <string name="app_name">SecureRouter</string>
+    <!-- Main Screen -->
+    <string name="status_connected">Red conectada</string>
+    <string name="status_disconnected">Red desconectada</string>
+    <string name="status_error">Error</string>
+    <string name="status_unknown">Desconocido</string>
+
+    <string name="acceder_router_button">Acceder</string>
+
+    <string name="buscar_router">Buscar router...</string>
+
+    <string name="no_routers_encontrados">No se encontraron routers con ese nombre.</string>
+    <string name="volver_arriba">Volver arriba</string>
 </resources>
