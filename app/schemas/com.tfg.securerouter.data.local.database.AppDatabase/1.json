@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7ee09d8ba7cf4b29ed66f160ae81b217",
+    "identityHash": "5eaa50e5e0c7b35b68304f9aedd3601a",
     "entities": [
       {
         "tableName": "router",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `isConnected` INTEGER NOT NULL, `isVpn` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `isConnected` INTEGER NOT NULL, `isVpn` INTEGER NOT NULL, `error` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -31,6 +31,12 @@
             "columnName": "isVpn",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "error",
+            "columnName": "error",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -43,7 +49,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ee09d8ba7cf4b29ed66f160ae81b217')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5eaa50e5e0c7b35b68304f9aedd3601a')"
     ]
   }
 }

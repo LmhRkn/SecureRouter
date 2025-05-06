@@ -50,11 +50,7 @@ interface DataModule {
 
 class FakeRouterRepository @Inject constructor() : RouterRepository {
     override val routers: Flow<List<Router>> = flowOf(
-        listOf(
-            Router(id = 1, name = "Piso Madrid", isConnected = true, isVpn = false),
-            Router(id = 2, name = "Casa Pueblo", isConnected = false, isVpn = true),
-            Router(id = 3, name = "Casa Julia", isConnected = false, isVpn = true)
-        )
+        fakeRouters
     )
 
     override suspend fun add(name: String) {
@@ -64,7 +60,11 @@ class FakeRouterRepository @Inject constructor() : RouterRepository {
 
 
 val fakeRouters = listOf(
-    Router(id = 1, name = "One", isConnected = true, isVpn = false),
-    Router(id = 2, name = "Two", isConnected = false, isVpn = true),
-    Router(id = 3, name = "Three", isConnected = false, isVpn = true)
+    Router(id = 1, name = "One", isConnected = true),
+    Router(id = 2, name = "Two", isVpn = true),
+    Router(id = 3, name = "Three", isVpn = true),
+    Router(id = 4, name = "Four", isVpn = true),
+    Router(id = 5, name = "Five", isVpn = true),
+    Router(id = 6, name = "Six", isVpn = true),
+    Router(id = 7, name = "Seven", isVpn = true, error = true)
 )

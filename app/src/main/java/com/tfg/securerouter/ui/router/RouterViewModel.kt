@@ -40,7 +40,8 @@ class RouterViewModel @Inject constructor(
                         id = it.id,
                         name = it.name,
                         isConnected = it.isConnected,
-                        isVpn = it.isVpn
+                        isVpn = it.isVpn,
+                        error = it.error
                     )
                 }
             )

@@ -26,38 +26,81 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+import androidx.compose.runtime.CompositionLocalProvider
+
+data class ExtraColors(
+    val statusErrorColor: Color = Color.White,
+    val onStatusErrorColor: Color = Color.White,
+    val statusConnectedColor: Color = Color.White,
+    val onStatusConnectedColor: Color = Color.White,
+    val statusDisconnectedColor: Color = Color.White,
+    val onStatusDisconnectedColor: Color = Color.White
+)
+
+val DarkExtraColors = ExtraColors(
+    statusErrorColor = StatusErrorColorDark,
+    onStatusErrorColor = OnStatusErrorColorDark,
+    statusConnectedColor = StatusConnectedColorDark,
+    onStatusConnectedColor = OnStatusConnectedColorDark,
+    statusDisconnectedColor = StatusDisconnectedColorDark,
+    onStatusDisconnectedColor = OnStatusDisconnectedColorDark
+)
+
+val LightExtraColors = ExtraColors(
+    statusErrorColor = StatusErrorColorLight,
+    onStatusErrorColor = OnStatusErrorColorLight,
+    statusConnectedColor = StatusConnectedColorLight,
+    onStatusConnectedColor = OnStatusConnectedColorLight,
+    statusDisconnectedColor = StatusDisconnectedColorLight,
+    onStatusDisconnectedColor = OnStatusDisconnectedColorLight
+)
+
+val LocalExtraColors = compositionLocalOf { LightExtraColors }
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    background = MainBackgroundColorDark,
+    onBackground = OnMainBackgroundColorDark,
+
+    surface = SecondBackgroundColorDark,
+    onSurface = OnSecondBackgroundColorDark,
+
+    primary = PrimaryColorDark,
+    onPrimary = OnPrimaryColorDark,
+
+    secondary = SecondaryColorDark,
+    onSecondary = OnSecondaryColorDark,
+
+    tertiary = TertiaryColorDark,
+    onTertiary = OnTertiaryColorDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    background = MainBackgroundColorLight,
+    onBackground = OnMainBackgroundColorLight,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    surface = SecondBackgroundColorLight,
+    onSurface = OnSecondBackgroundColorLight,
+
+    primary = PrimaryColorLight,
+    onPrimary = OnPrimaryColorLight,
+
+    secondary = SecondaryColorLight,
+    onSecondary = OnSecondaryColorLight,
+
+    tertiary = TertiaryColorLight,
+    onTertiary = OnTertiaryColorLight
 )
 
 @Composable
 fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -68,6 +111,9 @@ fun MyApplicationTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
+    val extraColors = if (darkTheme) DarkExtraColors else LightExtraColors
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
@@ -76,9 +122,12 @@ fun MyApplicationTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalExtraColors provides extraColors) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
+

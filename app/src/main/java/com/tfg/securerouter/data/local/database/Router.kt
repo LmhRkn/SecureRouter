@@ -28,7 +28,8 @@ data class Router(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
     val isConnected: Boolean = false,
-    val isVpn: Boolean = false
+    val isVpn: Boolean = false,
+    val error: Boolean = false
 )
 
 @Dao
