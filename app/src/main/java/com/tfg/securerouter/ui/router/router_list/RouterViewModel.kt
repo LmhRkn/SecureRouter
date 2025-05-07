@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.tfg.securerouter.ui.router
+package com.tfg.securerouter.ui.router.router_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tfg.securerouter.data.RouterRepository
+import com.tfg.securerouter.data.router.repository.RouterRepository
 import com.tfg.securerouter.data.local.database.Router
+import com.tfg.securerouter.ui.router.router_list.model.RouterUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.tfg.securerouter.ui.router.model.RouterUIModel
 
 @HiltViewModel
 class RouterViewModel @Inject constructor(

@@ -1,6 +1,6 @@
-package com.tfg.securerouter.ui.router.state
+package com.tfg.securerouter.ui.router.router_list.state
 
-import com.tfg.securerouter.ui.router.model.RouterUIModel
+import com.tfg.securerouter.ui.router.router_list.model.RouterUIModel
 
 sealed interface RouterUiState {
     object Loading : RouterUiState // La app está cargando datos

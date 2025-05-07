@@ -22,8 +22,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import com.tfg.securerouter.data.RouterRepository
-import com.tfg.securerouter.data.DefaultRouterRepository
+import com.tfg.securerouter.data.router.repository.RouterRepository
 import com.tfg.securerouter.data.local.database.Router
 import javax.inject.Inject
 import javax.inject.Singleton

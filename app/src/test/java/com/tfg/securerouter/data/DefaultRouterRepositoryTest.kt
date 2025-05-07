@@ -25,6 +25,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.tfg.securerouter.data.local.database.Router
 import com.tfg.securerouter.data.local.database.RouterDao
+import com.tfg.securerouter.data.router.repository.DefaultRouterRepository
 
 /**
  * Unit tests for [DefaultRouterRepository].

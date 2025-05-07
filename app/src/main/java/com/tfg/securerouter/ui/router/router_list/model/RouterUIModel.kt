@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.router.model
+package com.tfg.securerouter.ui.router.router_list.model
 
 data class RouterUIModel(
     val id: Int,

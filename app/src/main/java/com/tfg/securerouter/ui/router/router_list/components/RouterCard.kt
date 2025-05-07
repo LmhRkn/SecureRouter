@@ -1,8 +1,6 @@
 package com.tfg.securerouter.ui.router
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,11 +8,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.ui.router.model.RouterUIModel
+import com.tfg.securerouter.ui.router.router_list.model.RouterUIModel
 import com.tfg.securerouter.ui.theme.*
+import com.tfg.securerouter.ui.router.router_list.components.router_card.AccessButton
+import com.tfg.securerouter.ui.router.router_list.components.router_card.StatusText
 
 @Composable
-fun RouterCard(router: RouterUIModel, isMain: Boolean) {
+fun RouterCard(
+    router: RouterUIModel,
+    isMain: Boolean,
+    onAccessClick: () -> Unit
+) {
     val (statusText, statusColor, backgroundColor) = getRouterStatusData(router)
 
     Card(
@@ -44,7 +48,7 @@ fun RouterCard(router: RouterUIModel, isMain: Boolean) {
                 StatusText(statusText, statusColor, backgroundColor)
             }
 
-            AccessButton()
+            AccessButton(onClick = onAccessClick)
         }
     }
 }
@@ -67,30 +71,5 @@ fun getRouterStatusData(router: RouterUIModel): Triple<String, Color, Color> {
             LocalExtraColors.current.onStatusDisconnectedColor,
             LocalExtraColors.current.statusDisconnectedColor
         )
-    }
-}
-
-@Composable
-fun StatusText(text: String, textColor: Color, backgroundColor: Color) {
-    Text(
-        text = text,
-        color = textColor,
-        modifier = Modifier
-            .background(backgroundColor, RoundedCornerShape(6.dp))
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-    )
-}
-
-@Composable
-fun AccessButton() {
-    Button(
-        onClick = { /* TODO: lógica de acceso */ },
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        )
-    ) {
-        Text(stringResource(id = R.string.acceder_router_button))
     }
 }

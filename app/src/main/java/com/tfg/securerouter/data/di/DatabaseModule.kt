@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tfg.securerouter.data.local.di
+package com.tfg.securerouter.data.di
 
 import android.content.Context
 import androidx.room.Room

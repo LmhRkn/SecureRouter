@@ -20,7 +20,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import com.tfg.securerouter.data.RouterRepository
+import com.tfg.securerouter.data.router.repository.RouterRepository
 import com.tfg.securerouter.data.di.DataModule
 import com.tfg.securerouter.data.di.FakeRouterRepository
 

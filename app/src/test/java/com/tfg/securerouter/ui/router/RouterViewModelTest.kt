@@ -24,7 +24,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import com.tfg.securerouter.data.RouterRepository
+import com.tfg.securerouter.data.router.repository.RouterRepository
+import com.tfg.securerouter.ui.router.router_list.RouterUiState
+import com.tfg.securerouter.ui.router.router_list.RouterViewModel
 
 /**
  * Example local unit test, which will execute on the development machine (host).

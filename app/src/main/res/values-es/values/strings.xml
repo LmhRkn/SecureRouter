@@ -28,14 +28,4 @@
 
     <string name="no_routers_encontrados">No se encontraron routers con ese nombre.</string>
     <string name="volver_arriba">Volver arriba</string>
-
-    <!-- HOME -->
-    <string name="home_title">Inicio</string>
-    <string name="home_vpm_icon_string">VPN</string>
-    <string name="home_connected_devices_list">Dispositivos conectados</string>
-
-    <string name="home_menu_icon_description">Menú</string>
-    <string name="home_router_connected_icon_description">Estado router</string>
-    <string name="home_router_Info_section_description">Editar alias</string>
-    <string name="home_device_card_description">Editar dispositivo</string>
 </resources>

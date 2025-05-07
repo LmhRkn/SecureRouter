@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tfg.securerouter.data
+package com.tfg.securerouter.data.router.repository
 
 import kotlinx.coroutines.flow.Flow
 import com.tfg.securerouter.data.local.database.Router
