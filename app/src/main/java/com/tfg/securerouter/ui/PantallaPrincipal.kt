@@ -12,37 +12,70 @@ import com.tfg.securerouter.ui.screens.HomeScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.tfg.securerouter.ui.screens.AdministrarDispositivosScreen
+import com.tfg.securerouter.ui.screens.ConfigurationScreen
+import com.tfg.securerouter.ui.screens.FiltrosScreen
+import com.tfg.securerouter.ui.screens.WifiScreen
+
 @Composable
 fun PantallaPrincipal() {
+    val navController = rememberNavController()
     var visible by remember { mutableStateOf(false) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-    val drawerOnItemClick: (String) -> Unit = {
-        visible = false
+
+    val onDrawerItemClick: (String) -> Unit = { screen ->
+        navController.navigate(screen) {
+            launchSingleTop = true
+            popUpTo(0) // evita duplicados en el stack
+        }
         scope.launch { drawerState.close() }
+        visible = false
     }
-    val topBarOnClick: () -> Unit = {
-        visible = true
+
+    val onMenuClick: () -> Unit = {
         scope.launch { drawerState.open() }
+        visible = true
     }
 
-
-    // Efecto para detectar cuando se cierra el drawer
     LaunchedEffect(drawerState.isClosed) {
-        if (drawerState.isClosed && visible) {
-            visible = false
+        if (drawerState.isClosed) visible = false
+    }
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            DrawerContent(visible = visible, onItemClick = onDrawerItemClick)
+        }
+    ) {
+        Scaffold(
+            topBar = {
+                TopBar(
+                    scope = scope,
+                    title = "SecureRouter",
+                    router_connected = true,
+                    vpn_connected = false,
+                    drawerState = drawerState,
+                    onMenuClick = onMenuClick
+                )
+            }
+        ) { innerPadding ->
+            Box(modifier = Modifier.padding(innerPadding)) {
+                NavHost(navController = navController, startDestination = "home") {
+                    composable("home") { HomeScreen() }
+                    composable("administrar") { AdministrarDispositivosScreen() }
+                    composable("wifi") { WifiScreen() }
+                    composable("filtros") { FiltrosScreen() }
+                    composable("configuracion") { ConfigurationScreen() }
+                }
+            }
         }
     }
-
-    MenuDesplegable(
-        drawerState = drawerState,
-        visible = visible,
-        drawerOnClick = drawerOnItemClick,
-        topBarOnClick = topBarOnClick,
-        scope = scope
-    )
 }
+
 
 @Composable
 fun MenuDesplegable(
@@ -74,35 +107,6 @@ fun MenuDesplegable(
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues)) {
                 HomeScreen()
-            }
-        }
-    }
-}
-
-@Composable
-fun Drawer(visible: Boolean = false , onItemClick: (String) -> Unit) {
-    val menuItems = listOf("Prueba 1", "Prueba 2", "Prueba 3", "Prueba 4")
-
-    if (visible) Surface(
-        color = MaterialTheme.colorScheme.surface, // Fondo opaco
-        tonalElevation = 2.dp, // Puedes ajustar si quieres sombra
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth(0.85f) // ancho típico del drawer
-    ) {
-
-        Column(modifier = Modifier.padding(16.dp)) {
-            menuItems.forEach { item ->
-                TextButton(
-                    onClick = { onItemClick(item) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = item,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }

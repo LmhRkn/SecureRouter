@@ -23,11 +23,12 @@ fun DrawerContent(
 ) {
     val items = listOf(
         "Home" to Icons.Default.Home,
-        "Administrar Dispositivos" to Icons.Default.Warning,
-        "Config. WiFi" to Icons.Default.Warning,
-        "Filtros" to Icons.Default.Warning,
-        "Configuración" to Icons.Default.Settings
+        "administrar" to Icons.Default.Warning,
+        "wifi" to Icons.Default.Warning,
+        "filtros" to Icons.Default.Warning,
+        "configuracion" to Icons.Default.Settings
     )
+
 
     if (visible) Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -41,8 +42,10 @@ fun DrawerContent(
             modifier = Modifier
                 .fillMaxHeight()
         ) {
-            itemsIndexed(items) { index, (label, icon) ->
-                DrawerItem(label = label, icon = icon, onItemClick = onItemClick)
+            itemsIndexed(items) { index, (route, icon) ->
+                DrawerItem(label = route.capitalize(), icon = icon) {
+                    onItemClick(route)
+                }
                 // Agregar Divider entre los ítems, excepto después del último
                 if (index < items.lastIndex) {
                     Divider(

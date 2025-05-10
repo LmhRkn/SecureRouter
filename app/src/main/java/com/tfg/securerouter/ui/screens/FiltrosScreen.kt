@@ -21,13 +21,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun AdministrarDispositivosScreen() {
-    Text(text = "Administrar Dispositivos Screen",
+fun FiltrosScreen() {
+    Text(text = "Filtros Screen",
             color = Color.Black)
 }
 
 @Preview
 @Composable
-fun AdministrarDispositivosScreenPreview() {
-    AdministrarDispositivosScreen()
+fun FiltrosScreenPreview() {
+    FiltrosScreen()
 }

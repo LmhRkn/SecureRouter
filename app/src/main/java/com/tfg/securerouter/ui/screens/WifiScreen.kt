@@ -21,13 +21,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun AdministrarDispositivosScreen() {
-    Text(text = "Administrar Dispositivos Screen",
+fun WifiScreen() {
+    Text(text = "WIFI Screen",
             color = Color.Black)
 }
 
 @Preview
 @Composable
-fun AdministrarDispositivosScreenPreview() {
-    AdministrarDispositivosScreen()
+fun WifiScreenPreview() {
+    WifiScreen()
 }

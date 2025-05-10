@@ -1,5 +1,6 @@
 package com.tfg.securerouter.ui.screens
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +22,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun AdministrarDispositivosScreen() {
-    Text(text = "Administrar Dispositivos Screen",
+fun ConfigurationScreen() {
+    Text(text = "Configurtacion Screen",
             color = Color.Black)
 }
 
 @Preview
 @Composable
-fun AdministrarDispositivosScreenPreview() {
-    AdministrarDispositivosScreen()
+fun ConfigurationScreenPreview() {
+    ConfigurationScreen()
 }
