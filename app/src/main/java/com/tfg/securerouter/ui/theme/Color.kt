@@ -1,70 +1,93 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.tfg.securerouter.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// EXTRAS
+// STATUS
+val ConnectedStatusLight = Color(0xFF00FF00)
+val OnConnectedStatusLight = Color(0xFF000000)
 
-//  Light
-val MainBackgroundColorLight = Color(0xFFFFFFFF)
-val OnMainBackgroundColorLight = Color(0xFF000000)
-val SecondBackgroundColorLight = Color(0xFFAFAFAF)
-val OnSecondBackgroundColorLight = Color(0xFF000000)
+val DisconnectedStatusLight = Color(0xFF9B9B9B)
+val OnDisconnectedStatusLight = Color(0xFFFFFFFF)
 
-val PrimaryColorLight = Color(0xFF123456)
-val OnPrimaryColorLight = Color(0xFFFFFFFF)
+val ErrorStatusLight = Color(0xFFFF0000)
+val OnErrorStatusLight = Color(0xFFFFFFFF)
 
-val SecondaryColorLight = Color(0xFF000000)
-val OnSecondaryColorLight = Color(0xFFFFFFFF)
+// BACKGROUND
+val BackgroundLight = Color(0XFFFFFFFF)
+val OnBackgroundLight = Color(0xFF000000)
 
-val TertiaryColorLight = Color(0xFFCCCCCC)
-val OnTertiaryColorLight = Color(0xFFFFFFFF)
+// PRIMARY
+val PrimaryLight = Color(0xFF0000FF)
+val OnPrimaryLight = Color(0XFFFFFFFF)
 
-val StatusErrorColorLight = Color(0xFFFFCDD2)
-val OnStatusErrorColorLight = Color(0xFFF44336)
+val PrimaryContainerLight = Color(0xFF0000FF)
+val OnPrimaryContainerLight = Color(0XFFFFFFFF)
 
-val StatusConnectedColorLight = Color(0xFFA5D6A7)
-val OnStatusConnectedColorLight = Color(0xFF4CAF50)
+//val PrimaryFixedLight = Color(0XFFFFFFFF)
+//val OnPrimaryFixedLight = Color(0XFFFFFFFF)
+//
+//val PrimaryFixedDimLight = Color(0XFFFFFFFF)
+//val OnPrimaryFixedVariantLight = Color(0XFFFFFFFF)
 
-val StatusDisconnectedColorLight = Color(0xFFB0BEC5)
-val OnStatusDisconnectedColorLight = Color(0xFF7C7C7C)
+val InversePrimaryLight = Color(0XFFFFFFFF)
 
+// SECONDARY
+val SecondaryLight = Color(0XFFFFFFFF)
+val OnSecondaryLight = Color(0XFFFFFFFF)
 
-//  Light
+val SecondaryContainerLight = Color(0XFFFFFFFF)
+val OnSecondaryContainerLight = Color(0XFFFFFFFF)
 
-val MainBackgroundColorDark = Color(0xFFFFFFFF)
-val OnMainBackgroundColorDark = Color(0xFF000000)
-val SecondBackgroundColorDark = Color(0xFFAFAFAF)
-val OnSecondBackgroundColorDark = Color(0xFF000000)
+//val SecondaryFixedLight = Color(0XFFFFFFFF)
+//val OnSecondaryFixedLight = Color(0XFFFFFFFF)
+//
+//val SecondaryFixedDimLight = Color(0XFFFFFFFF)
+//val OnSecondaryFixedVariantLight = Color(0XFFFFFFFF)
 
-val PrimaryColorDark = Color(0xFF123456)
-val OnPrimaryColorDark = Color(0xFFFFFFFF)
+// TERTIARY
+val TertiaryLight = Color(0XFFFFFFFF)
+val OnTertiaryLight = Color(0XFFFFFFFF)
 
-val SecondaryColorDark = Color(0xFF000000)
-val OnSecondaryColorDark = Color(0xFFFFFFFF)
+val TertiaryContainerLight = Color(0XFFFFFFFF)
+val OnTertiaryContainerLight = Color(0XFFFFFFFF)
 
-val TertiaryColorDark = Color(0xFFCCCCCC)
-val OnTertiaryColorDark = Color(0xFFFFFFFF)
+//val TertiaryFixedLight = Color(0XFFFFFFFF)
+//val OnTertiaryFixedLight = Color(0XFFFFFFFF)
+//
+//val TertiaryFixedDimLight = Color(0XFFFFFFFF)
+//val OnTertiaryFixedVariantLight = Color(0XFFFFFFFF)
 
-val StatusErrorColorDark = Color(0xFFFFCDD2)
-val OnStatusErrorColorDark = Color(0xFFF44336)
+// SURFACE
+val SurfaceLight = Color(0xFFA4A4A4)
+val OnSurfaceLight = Color(0xFF000000)
 
-val StatusConnectedColorDark = Color(0xFFA5D6A7)
-val OnStatusConnectedColorDark = Color(0xFF4CAF50)
+val SurfaceBrightLight = Color(0XFFFFFFFF)
 
-val StatusDisconnectedColorDark = Color(0xFFB0BEC5)
-val OnStatusDisconnectedColorDark = Color(0xFF7C7C7C)
+val SurfaceContainerLight = Color(0XFFFFFFFF)
+val SurfaceContainerHighLight = Color(0XFFFFFFFF)
+val SurfaceContainerHighestLight = Color(0XFFFFFFFF)
+val SurfaceContainerLowLight = Color(0XFFFFFFFF)
+val SurfaceContainerLowestLight = Color(0XFFFFFFFF)
+
+//val SurfaceDimLight = Color(0XFFFFFFFF)
+//val SurfaceTintLight = Color(0XFFFFFFFF)
+
+val SurfaceVariantLight = Color(0XFFFFFFFF)
+val OnSurfaceVariantLight = Color(0XFFFFFFFF)
+
+val InverseSurfaceLight = Color(0XFFFFFFFF)
+val InverseOnSurfaceLight = Color(0XFFFFFFFF)
+
+// ERROR
+val ErrorLight = Color(0XFFFFFFFF)
+val OnErrorLight = Color(0XFFFFFFFF)
+val ErrorContainerLight = Color(0XFFFFFFFF)
+val OnErrorContainerLight = Color(0XFFFFFFFF)
+
+// LINE
+val OutlineLight = Color(0XFFFFFFFF)
+val OutlineVariantLight = Color(0XFFFFFFFF)
+
+// SCRIM
+val ScrimLight = Color(0XFFFFFFFF)

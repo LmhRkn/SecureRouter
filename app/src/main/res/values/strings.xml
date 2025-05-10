@@ -1,41 +1,7 @@
-<!--
-  ~ Copyright (C) 2022 The Android Open Source Project
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <resources>
     <string name="app_name">SecureRouter</string>
-    <!-- Main Screen -->
-    <string name="status_connected">Red conectada</string>
-    <string name="status_disconnected">Red desconectada</string>
-    <string name="status_error">Error</string>
-    <string name="status_unknown">Desconocido</string>
-
-    <string name="acceder_router_button">Acceder</string>
-
-    <string name="buscar_router">Buscar router...</string>
-
-    <string name="no_routers_encontrados">No se encontraron routers con ese nombre.</string>
-    <string name="volver_arriba">Volver arriba</string>
-
-    <!-- HOME -->
-    <string name="home_title">Inicio</string>
-    <string name="home_vpm_icon_string">VPN</string>
-    <string name="home_connected_devices_list">Dispositivos conectados</string>
-
-    <string name="home_menu_icon_description">Menú</string>
-    <string name="home_router_connected_icon_description">Estado router</string>
-    <string name="home_router_Info_section_description">Editar alias</string>
-    <string name="home_device_card_description">Editar dispositivo</string>
+    <string name="vpn_icon_string">VPN</string>
+    <string name="menu_ic_description">Menú</string>
+    <string name="home_screen_title">Inicio</string>
+    <string name="administrar_dispositivos_screen_title">Administrar Dispositivos</string>
 </resources>

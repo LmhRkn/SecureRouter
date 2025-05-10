@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.tfg.securerouter.ui.theme
 
 import android.app.Activity
@@ -25,6 +9,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -32,95 +17,196 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
-import androidx.compose.runtime.CompositionLocalProvider
 
 data class ExtraColors(
-    val statusErrorColor: Color = Color.White,
-    val onStatusErrorColor: Color = Color.White,
-    val statusConnectedColor: Color = Color.White,
-    val onStatusConnectedColor: Color = Color.White,
-    val statusDisconnectedColor: Color = Color.White,
-    val onStatusDisconnectedColor: Color = Color.White
+    val connectedStatus: Color = Color.White,
+    val onConnectedStatus: Color = Color.White,
+    val disconnectedStatus: Color = Color.White,
+    val onDisconnectedStatus: Color = Color.White,
+    val errorStatus: Color = Color.White,
+    val onErrorStatus: Color = Color.White,
 )
 
-val DarkExtraColors = ExtraColors(
-    statusErrorColor = StatusErrorColorDark,
-    onStatusErrorColor = OnStatusErrorColorDark,
-    statusConnectedColor = StatusConnectedColorDark,
-    onStatusConnectedColor = OnStatusConnectedColorDark,
-    statusDisconnectedColor = StatusDisconnectedColorDark,
-    onStatusDisconnectedColor = OnStatusDisconnectedColorDark
+val LocalExtraColors = compositionLocalOf<ExtraColors> {
+    error("No ExtraColors provided")
+}
+
+private val ExtraColorsLight = ExtraColors(
+    connectedStatus = ConnectedStatusLight,
+    onConnectedStatus = OnConnectedStatusLight,
+    disconnectedStatus = DisconnectedStatusLight,
+    onDisconnectedStatus = OnDisconnectedStatusLight,
+    errorStatus = ErrorStatusLight,
+    onErrorStatus = OnErrorStatusLight
 )
 
-val LightExtraColors = ExtraColors(
-    statusErrorColor = StatusErrorColorLight,
-    onStatusErrorColor = OnStatusErrorColorLight,
-    statusConnectedColor = StatusConnectedColorLight,
-    onStatusConnectedColor = OnStatusConnectedColorLight,
-    statusDisconnectedColor = StatusDisconnectedColorLight,
-    onStatusDisconnectedColor = OnStatusDisconnectedColorLight
+private val ExtraColorsDark = ExtraColors(
+    connectedStatus = ConnectedStatusLight,
+    onConnectedStatus = OnConnectedStatusLight,
+    disconnectedStatus = DisconnectedStatusLight,
+    onDisconnectedStatus = OnDisconnectedStatusLight,
+    errorStatus = ErrorStatusLight,
+    onErrorStatus = OnErrorStatusLight
 )
 
-val LocalExtraColors = compositionLocalOf { LightExtraColors }
 
-private val DarkColorScheme = darkColorScheme(
-    background = MainBackgroundColorDark,
-    onBackground = OnMainBackgroundColorDark,
+private val LightColorScheme = darkColorScheme(
+    background = BackgroundLight,
+    onBackground = OnBackgroundLight,
 
-    surface = SecondBackgroundColorDark,
-    onSurface = OnSecondBackgroundColorDark,
+    primary = PrimaryLight,
+    onPrimary = OnPrimaryLight,
 
-    primary = PrimaryColorDark,
-    onPrimary = OnPrimaryColorDark,
+    primaryContainer = PrimaryContainerLight,
+    onPrimaryContainer = OnPrimaryContainerLight,
 
-    secondary = SecondaryColorDark,
-    onSecondary = OnSecondaryColorDark,
+    // primaryFixed = PrimaryFixedLight,
+    //onPrimaryFixed = OnPrimaryFixedLight,
+    //
+    //primaryFixedDim = PrimaryFixedDimLight,
+    //onPrimaryFixedVariant = OnPrimaryFixedVariantLight,
 
-    tertiary = TertiaryColorDark,
-    onTertiary = OnTertiaryColorDark
+    inversePrimary = InversePrimaryLight,
+
+    secondary = SecondaryLight,
+    onSecondary = OnSecondaryLight,
+
+    secondaryContainer = SecondaryContainerLight,
+    onSecondaryContainer = OnSecondaryContainerLight,
+
+    //secondaryFixed = SecondaryFixedLight,
+    //onSecondaryFixed = OnSecondaryFixedLight,
+    //
+    //secondaryFixedDim = SecondaryFixedDimLight,
+    //onSecondaryFixedVariant = OnSecondaryFixedVariantLight,
+
+    tertiary = TertiaryLight,
+    onTertiary = OnTertiaryLight,
+
+    tertiaryContainer = TertiaryContainerLight,
+    onTertiaryContainer = OnTertiaryContainerLight,
+
+    //tertiaryFixed = TertiaryFixedLight,
+    //onTertiaryFixed = OnTertiaryFixedLight,
+    //
+    //tertiaryFixedDim = TertiaryFixedDimLight,
+    //onTertiaryFixedVariant = OnTertiaryFixedVariantLight,
+
+    surface = SurfaceLight,
+    onSurface = OnSurfaceLight,
+
+    surfaceBright = SurfaceBrightLight,
+
+    surfaceContainer = SurfaceContainerLight,
+    surfaceContainerHigh = SurfaceContainerHighLight,
+    surfaceContainerHighest = SurfaceContainerHighestLight,
+    surfaceContainerLow = SurfaceContainerLowLight,
+    surfaceContainerLowest = SurfaceContainerLowestLight,
+
+    //surfaceDim = SurfaceDimLight,
+    //surfaceTint = SurfaceTintLight,
+
+    surfaceVariant = SurfaceVariantLight,
+    onSurfaceVariant = OnSurfaceVariantLight,
+
+    inverseSurface = InverseSurfaceLight,
+    inverseOnSurface = InverseOnSurfaceLight,
+
+    error = ErrorLight,
+    onError = OnErrorLight,
+    errorContainer = ErrorContainerLight,
+    onErrorContainer = OnErrorContainerLight,
+
+    outline = OutlineLight,
+    outlineVariant = OutlineVariantLight,
+
+    scrim = ScrimLight
 )
 
-private val LightColorScheme = lightColorScheme(
-    background = MainBackgroundColorLight,
-    onBackground = OnMainBackgroundColorLight,
+private val DarkColorScheme = lightColorScheme(
+    background = BackgroundLight,
+    onBackground = OnBackgroundLight,
 
-    surface = SecondBackgroundColorLight,
-    onSurface = OnSecondBackgroundColorLight,
+    primary = PrimaryLight,
+    onPrimary = OnPrimaryLight,
 
-    primary = PrimaryColorLight,
-    onPrimary = OnPrimaryColorLight,
+    primaryContainer = PrimaryContainerLight,
+    onPrimaryContainer = OnPrimaryContainerLight,
 
-    secondary = SecondaryColorLight,
-    onSecondary = OnSecondaryColorLight,
+    // primaryFixed = PrimaryFixedLight,
+    //onPrimaryFixed = OnPrimaryFixedLight,
+    //
+    //primaryFixedDim = PrimaryFixedDimLight,
+    //onPrimaryFixedVariant = OnPrimaryFixedVariantLight,
 
-    tertiary = TertiaryColorLight,
-    onTertiary = OnTertiaryColorLight
+    inversePrimary = InversePrimaryLight,
+
+    secondary = SecondaryLight,
+    onSecondary = OnSecondaryLight,
+
+    secondaryContainer = SecondaryContainerLight,
+    onSecondaryContainer = OnSecondaryContainerLight,
+
+    //secondaryFixed = SecondaryFixedLight,
+    //onSecondaryFixed = OnSecondaryFixedLight,
+    //
+    //secondaryFixedDim = SecondaryFixedDimLight,
+    //onSecondaryFixedVariant = OnSecondaryFixedVariantLight,
+
+    tertiary = TertiaryLight,
+    onTertiary = OnTertiaryLight,
+
+    tertiaryContainer = TertiaryContainerLight,
+    onTertiaryContainer = OnTertiaryContainerLight,
+
+    //tertiaryFixed = TertiaryFixedLight,
+    //onTertiaryFixed = OnTertiaryFixedLight,
+    //
+    //tertiaryFixedDim = TertiaryFixedDimLight,
+    //onTertiaryFixedVariant = OnTertiaryFixedVariantLight,
+
+    surface = SurfaceLight,
+    onSurface = OnSurfaceLight,
+
+    surfaceBright = SurfaceBrightLight,
+
+    surfaceContainer = SurfaceContainerLight,
+    surfaceContainerHigh = SurfaceContainerHighLight,
+    surfaceContainerHighest = SurfaceContainerHighestLight,
+    surfaceContainerLow = SurfaceContainerLowLight,
+    surfaceContainerLowest = SurfaceContainerLowestLight,
+
+    //surfaceDim = SurfaceDimLight,
+    //surfaceTint = SurfaceTintLight,
+
+    surfaceVariant = SurfaceVariantLight,
+    onSurfaceVariant = OnSurfaceVariantLight,
+
+    inverseSurface = InverseSurfaceLight,
+    inverseOnSurface = InverseOnSurfaceLight,
+
+    error = ErrorLight,
+    onError = OnErrorLight,
+    errorContainer = ErrorContainerLight,
+    onErrorContainer = OnErrorContainerLight,
+
+    outline = OutlineLight,
+    outlineVariant = OutlineVariantLight,
+
+    scrim = ScrimLight
 )
 
 @Composable
-fun MyApplicationTheme(
+fun SecureRouterTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
-    val extraColors = if (darkTheme) DarkExtraColors else LightExtraColors
-
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
-        }
-    }
+    val extraColors = if (darkTheme) ExtraColorsDark else ExtraColorsLight
 
     CompositionLocalProvider(LocalExtraColors provides extraColors) {
         MaterialTheme(
@@ -130,4 +216,3 @@ fun MyApplicationTheme(
         )
     }
 }
-
