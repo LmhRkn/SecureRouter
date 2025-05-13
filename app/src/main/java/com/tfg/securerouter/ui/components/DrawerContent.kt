@@ -3,50 +3,42 @@ package com.tfg.securerouter.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.tfg.securerouter.data.state.items
 
-data class DrawerItem(val label: String, val icon: ImageVector)
+data class DrawerItem(val route: String, val labelResId: Int, val icon: ImageVector)
 
 @Composable
 fun DrawerContent(
     visible: Boolean = false,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
+    topPadding: Dp = 0.dp // nuevo
 ) {
-    val items = listOf(
-        "Home" to Icons.Default.Home,
-        "administrar" to Icons.Default.Warning,
-        "wifi" to Icons.Default.Warning,
-        "filtros" to Icons.Default.Warning,
-        "configuracion" to Icons.Default.Settings
-    )
-
-
     if (visible) Surface(
         color = MaterialTheme.colorScheme.surface,
         tonalElevation = 2.dp,
         modifier = Modifier
+            .padding(top = topPadding)
             .fillMaxHeight()
             .fillMaxWidth(0.85f)
-            .padding(top = 115.dp)
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight()
         ) {
-            itemsIndexed(items) { index, (route, icon) ->
-                DrawerItem(label = route.capitalize(), icon = icon) {
-                    onItemClick(route)
+            itemsIndexed(items) { index, item ->
+                val label = stringResource(id = item.labelResId)
+                DrawerItem(label = label, icon = item.icon) {
+                    onItemClick(item.route)
                 }
-                // Agregar Divider entre los ítems, excepto después del último
                 if (index < items.lastIndex) {
                     Divider(
                         color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
@@ -60,7 +52,11 @@ fun DrawerContent(
 }
 
 @Composable
-fun DrawerItem(label: String, icon: ImageVector, onItemClick: (String) -> Unit) {
+fun DrawerItem(
+    label: String,
+    icon: ImageVector,
+    onItemClick: (String) -> Unit
+) {
     Surface(
         tonalElevation = 1.dp,
         color = MaterialTheme.colorScheme.surface,

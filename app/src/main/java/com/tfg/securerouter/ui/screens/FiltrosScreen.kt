@@ -22,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun FiltrosScreen() {
-    Text(text = "Filtros Screen",
+    Text(text = "Filtros Screen 2",
             color = Color.Black)
 }
 

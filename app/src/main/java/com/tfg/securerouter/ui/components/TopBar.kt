@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
+import com.tfg.securerouter.data.state.TopBarModel
 import com.tfg.securerouter.ui.icons.StatusCircle
 import com.tfg.securerouter.ui.icons.VpnBadge
 import com.tfg.securerouter.ui.theme.SecureRouterTheme
@@ -33,20 +34,20 @@ import kotlinx.coroutines.CoroutineScope
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
+    modifier: Modifier = Modifier,
     scope: CoroutineScope,
     drawerState: DrawerState,
-    title: String,
-    router_connected: Boolean,
-    vpn_connected: Boolean,
+    topBarModel: TopBarModel,
     onMenuClick: () -> Unit
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(title) },
+        modifier = modifier,
+        title = { Text(topBarModel.title) },
         navigationIcon = {
             menuButton(onMenuClick)
         },
         actions = {
-            statusConnecitons(router_connected, vpn_connected)
+            statusConnecitons(topBarModel.routerConnected, topBarModel.vpnConnected)
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -90,9 +91,11 @@ fun TopBarPreview() {
         TopBar(
             scope = CoroutineScope(kotlinx.coroutines.Dispatchers.Main),
             drawerState = DrawerState(DrawerValue.Closed),
-            title = "Home",
-            router_connected = true,
-            vpn_connected = false,
+            topBarModel = TopBarModel(
+                title = "Home",
+                routerConnected = true,
+                vpnConnected = false
+            ),
             onMenuClick = {}
         )
     }

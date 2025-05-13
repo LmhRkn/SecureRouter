@@ -1,5 +1,6 @@
 package com.tfg.securerouter
 
+import HomeScreen
 import PantallaPrincipal
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -26,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.ui.components.DrawerContent
-import com.tfg.securerouter.ui.screens.HomeScreen
 import com.tfg.securerouter.ui.theme.SecureRouterTheme
 import kotlinx.coroutines.launch
 

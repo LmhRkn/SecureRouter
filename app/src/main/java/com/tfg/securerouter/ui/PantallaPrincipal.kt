@@ -5,16 +5,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.tfg.securerouter.ui.components.DrawerContent
 import com.tfg.securerouter.ui.components.TopBar
-import com.tfg.securerouter.ui.screens.HomeScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.tfg.securerouter.R
+import com.tfg.securerouter.data.model.TopBarViewModel
+import com.tfg.securerouter.data.state.TopBarModel
 import com.tfg.securerouter.ui.screens.AdministrarDispositivosScreen
 import com.tfg.securerouter.ui.screens.ConfigurationScreen
 import com.tfg.securerouter.ui.screens.FiltrosScreen
@@ -30,7 +39,7 @@ fun PantallaPrincipal() {
     val onDrawerItemClick: (String) -> Unit = { screen ->
         navController.navigate(screen) {
             launchSingleTop = true
-            popUpTo(0) // evita duplicados en el stack
+            popUpTo(0)
         }
         scope.launch { drawerState.close() }
         visible = false
@@ -41,23 +50,74 @@ fun PantallaPrincipal() {
         visible = true
     }
 
-    LaunchedEffect(drawerState.isClosed) {
-        if (drawerState.isClosed) visible = false
+    val topBarHeightPx = remember { mutableStateOf(0) }
+    val density = LocalDensity.current
+    val topBarHeightDp = with(density) { topBarHeightPx.value.toDp() }
+    val topBarViewModel: TopBarViewModel = viewModel()
+
+    val topBarState by topBarViewModel.topBarState
+
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val titleHome = stringResource(R.string.home_title)
+    val titleAdmin = stringResource(R.string.administrar_title)
+    val titleWifi = stringResource(R.string.wifi_title)
+    val titleFiltros = stringResource(R.string.filtros_title)
+    val titleConfig = stringResource(R.string.configuracion_title)
+
+    LaunchedEffect(currentBackStackEntry?.destination?.route) {
+        when (currentBackStackEntry?.destination?.route) {
+            "home" -> topBarViewModel.updateTitle(titleHome)
+            "administrar" -> topBarViewModel.updateTitle(titleAdmin)
+            "wifi" -> topBarViewModel.updateTitle(titleWifi)
+            "filtros" -> topBarViewModel.updateTitle(titleFiltros)
+            "configuracion" -> topBarViewModel.updateTitle(titleConfig)
+        }
     }
 
+    MainNavegation(
+        scope = scope,
+        drawerState = drawerState,
+        topBarState = topBarState,
+        onMenuClick = onMenuClick,
+        onDrawerItemClick = onDrawerItemClick,
+        visible = visible,
+        topBarHeightPx = topBarHeightPx,
+        topBarHeightDp = topBarHeightDp,
+        navController = navController
+    )
+}
+
+@Composable
+fun MainNavegation(
+    scope: CoroutineScope,
+    drawerState: DrawerState,
+    topBarState: TopBarModel,
+    onMenuClick: () -> Unit,
+    onDrawerItemClick: (String) -> Unit,
+    visible: Boolean,
+    topBarHeightPx: MutableState<Int>,
+    topBarHeightDp: Dp,
+    navController: NavHostController
+) {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            DrawerContent(visible = visible, onItemClick = onDrawerItemClick)
+            DrawerContent(
+                visible = visible,
+                onItemClick = onDrawerItemClick,
+                topPadding = topBarHeightDp
+            )
         }
     ) {
         Scaffold(
             topBar = {
                 TopBar(
+                    modifier = Modifier.onGloballyPositioned {
+                        topBarHeightPx.value = it.size.height
+                    },
                     scope = scope,
-                    title = "SecureRouter",
-                    router_connected = true,
-                    vpn_connected = false,
+                    topBarModel = topBarState,
                     drawerState = drawerState,
                     onMenuClick = onMenuClick
                 )
@@ -71,42 +131,6 @@ fun PantallaPrincipal() {
                     composable("filtros") { FiltrosScreen() }
                     composable("configuracion") { ConfigurationScreen() }
                 }
-            }
-        }
-    }
-}
-
-
-@Composable
-fun MenuDesplegable(
-    drawerState: DrawerState,
-    visible: Boolean,
-    drawerOnClick: (String) -> Unit,
-    topBarOnClick: () -> Unit,
-    scope: CoroutineScope,
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
-) {
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            DrawerContent(visible = visible, onItemClick = drawerOnClick)
-        }
-    ) {
-        Scaffold(
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            topBar = {
-                TopBar(
-                    scope = scope,
-                    title = "Pantalla Principal",
-                    router_connected = true,
-                    vpn_connected = false,
-                    drawerState = drawerState,
-                    onMenuClick = topBarOnClick
-                )
-            }
-        ) { paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues)) {
-                HomeScreen()
             }
         }
     }
