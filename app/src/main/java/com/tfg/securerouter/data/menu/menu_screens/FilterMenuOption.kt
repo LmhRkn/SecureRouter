@@ -1,16 +1,15 @@
 package com.tfg.securerouter.data.app.menu.menu_screens
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
-import com.tfg.securerouter.ui.app.main_menu.administrar.AdministrarDispositivosScreen
-import com.tfg.securerouter.ui.icons.ScreenIcon
+import com.tfg.securerouter.ui.icons.FilterIcon
+import com.tfg.securerouter.ui.icons.WifiIcon
 
 /**
- * Object representing the "Administrar Dispositivos" menu option.
+ * Object representing the "Filter" menu option.
  *
  * This screen is part of the main navigation drawer and allows the user to manage connected devices.
  * It implements the [MenuOption] interface, which defines the required properties for dynamic menu entries.
@@ -20,13 +19,13 @@ import com.tfg.securerouter.ui.icons.ScreenIcon
  * @see MenuOption for the base interface.
  */
 
-object AdministrarDispositivosMenuOption : MenuOption {
-    override val icon = ScreenIcon
-    override val route = "administrar"
-    override val titleResId = R.string.administrar_title
+object FilterMenuOption : MenuOption {
+    override val icon = FilterIcon
+    override val route = "filter"
+    override val titleResId = R.string.filter_title
 
     @Composable
     override fun Content() {
-        AdministrarDispositivosScreen()
+        Text("Filter Hola", color = Color.Black)
     }
 }

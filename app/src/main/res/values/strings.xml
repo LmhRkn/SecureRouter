@@ -1,20 +1,23 @@
 <resources>
     <string name="app_name">SecureRouter</string>
-    <string name="vpn_icon_string">VPN</string>
-    <string name="menu_ic_description">Menú</string>
-    <string name="home_screen_title">Inicio</string>
-    <string name="administrar_dispositivos_screen_title">Administrar Dispositivos</string>
-    <string name="administrar_title">Administrar</string>
-    <string name="filtros_title">Filtros</string>
-    <string name="wifi_title">Wifi</string>
-    <string name="configuracion_title">Configuracion</string>
 
+    <!-- MENU OPTIONS SCREENS -->
     <string name="home_title">Inicio</string>
-    <string name="home_vpm_icon_string">VPN</string>
-    <string name="home_connected_devices_list">Dispositivos conectados</string>
+    <string name="administrar_title">Administrar Dispositivos</string>
+    <string name="wifi_title">Wifi</string>
+    <string name="filter_title">Filtros</string>
 
-    <string name="home_menu_icon_description">Menú</string>
-    <string name="home_router_connected_icon_description">Estado router</string>
+
+    <!-- MAIN SCREEN -->
+    <string name="menu_ic_description">Menú</string>
     <string name="home_router_Info_section_description">Editar alias</string>
-    <string name="home_device_card_description">Editar dispositivo</string>
+
+    <!-- HOME SCREEN -->
+    <string name="home_connected_devices_list">Dispositivos conectados</string>
+    <string name="home_router_info_section_description">Editar alias</string>
+
+
+    <!-- ICONS -->
+    <string name="vpn_icon_string">VPN</string>
+
 </resources>

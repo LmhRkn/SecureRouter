@@ -34,7 +34,6 @@ class HomeViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(
         HomeUiState(
             routerAlias = null,
-            routerIp = "",
             macAddress = "",
             connectedDevices = emptyList(),
         )
@@ -80,7 +79,6 @@ class HomeViewModel : ViewModel() {
             _uiState.update {
                 it.copy(
                     routerAlias = routerState.routerAlias,
-                    routerIp = routerState.routerIp,
                     macAddress = routerState.macAddress,
                     connectedDevices = connectedDevices,
                     isLoading = false
@@ -104,12 +102,10 @@ class HomeViewModel : ViewModel() {
         var macAddress: String = ""
 
         val lines = output.lines()
+
         for (i in lines.indices) {
             val line = lines[i].trim()
-            if (line.startsWith("config wifi-device")) {
-                // Extract device identifier or IP if available
-                deviceIp = line.substringAfter("'").substringBefore("'")
-            } else if (line.startsWith("option ssid")) {
+            if (line.startsWith("option ssid")) {
                 // Extract SSID (router alias)
                 ssid = line.substringAfter("'").substringBefore("'")
             } else if (line.startsWith("list maclist")) {
@@ -120,7 +116,6 @@ class HomeViewModel : ViewModel() {
 
         return HomeUiState(
             routerAlias = ssid,
-            routerIp = deviceIp ?: "Unknown",
             macAddress = macAddress
         )
     }
@@ -135,7 +130,6 @@ class HomeViewModel : ViewModel() {
      *   - Hostname
      */
     fun parseLeasesDevices(output: String): List<DeviceModel> {
-        println(output) // Debug print, can be removed in production
         return output.lines()
             .filter { it.isNotBlank() } // Remove empty lines
             .mapNotNull { line ->

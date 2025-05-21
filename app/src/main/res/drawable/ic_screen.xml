@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <!-- Pantalla -->
+    <rect x="8" y="12" width="48" height="32" rx="3" ry="3" fill="#d0d0d0" stroke="#333" stroke-width="2"/>
+
+    <!-- Bisel inferior -->
+    <rect x="20" y="44" width="24" height="4" fill="#888"/>
+
+    <!-- Base de la pantalla -->
+    <rect x="26" y="48" width="12" height="3" fill="#666"/>
+    <rect x="22" y="51" width="20" height="4" rx="1" fill="#444"/>
+</svg>

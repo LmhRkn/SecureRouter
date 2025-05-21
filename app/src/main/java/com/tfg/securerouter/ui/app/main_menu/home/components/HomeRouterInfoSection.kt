@@ -22,7 +22,6 @@ import com.tfg.securerouter.data.menu.screens.home.state.HomeUiState
 
 @Composable
 fun HomeRouterInfoSection(state: HomeUiState, onEditAliasClick: () -> Unit) {
-    println("Composing HomeContent with state 2: $state")
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -30,7 +29,7 @@ fun HomeRouterInfoSection(state: HomeUiState, onEditAliasClick: () -> Unit) {
     ) {
 
         Text(
-            text = state.routerAlias ?: state.routerIp,
+            text = state.routerAlias ?: state.macAddress,
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -44,9 +43,8 @@ fun HomeRouterInfoSection(state: HomeUiState, onEditAliasClick: () -> Unit) {
     }
     Spacer(modifier = Modifier.height(4.dp))
     Text(
-        state.routerIp,
+        state.macAddress,
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onBackground
     )
-//    Text("${state.routerIp} : ${state.macAddress}")
 }

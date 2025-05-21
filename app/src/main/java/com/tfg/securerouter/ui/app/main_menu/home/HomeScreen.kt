@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.components.home_screen.ConnectedDevicesList
@@ -53,5 +55,18 @@ private fun HomeContent(state: HomeUiState, onEditAliasClick: () -> Unit) {
         RouterIcon()
         Spacer(modifier = Modifier.height(8.dp))
         ConnectedDevicesList(state.connectedDevices)
+    }
+}
+
+@Preview
+@Composable
+fun HomeContentPreview() {
+    val state = HomeUiState(
+        routerAlias = "Router Pepe",
+        macAddress = "00:00:00:00:00:00",
+        isLoading = false
+    )
+    Surface(color = Color.White) {
+        HomeContent(state, onEditAliasClick = {})
     }
 }
