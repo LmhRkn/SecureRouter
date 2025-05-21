@@ -38,7 +38,8 @@ fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_router),
                 contentDescription = "Router icon",
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(40.dp),
+                tint = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -46,7 +47,8 @@ fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = device.hostname ?: device.ip,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -54,12 +56,14 @@ fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
                 ) {
                     Text(
                         text = device.ip,
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Text(
                         text = device.mac,
                         style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(end = 16.dp)
+                        modifier = Modifier.padding(end = 16.dp),
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }

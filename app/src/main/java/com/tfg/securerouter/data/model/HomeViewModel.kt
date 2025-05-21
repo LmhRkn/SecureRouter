@@ -18,7 +18,7 @@ class HomeViewModel : ViewModel() {
             routerAlias = null,
             routerIp = "",
             macAddress = "",
-            connectedDevices = emptyList()
+            connectedDevices = emptyList(),
         )
     )
     val uiState: StateFlow<HomeUiState> = _uiState
@@ -29,17 +29,19 @@ class HomeViewModel : ViewModel() {
 
     fun loadConnectedDevices() {
         viewModelScope.launch(Dispatchers.IO) {
+            _uiState.update { it.copy(isLoading = true) }
+
             val wirelessDeferred = async {
                 val output = sendCommand(
                     command = "cat /etc/config/wireless"
                 )
                 parseWirelessConfig(output)
             }
-
             val devicesDeferred = async {
                 val output = sendCommand(
                     command = "cat /tmp/dhcp.leases"
                 )
+                println("cat /tmp/dhcp.leases: " + output)
                 parseLeasesDevices(output)
             }
 
