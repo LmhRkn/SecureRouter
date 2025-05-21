@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.state.HomeUiState
+import com.tfg.securerouter.data.menu.screens.home.state.HomeUiState
 
 @Composable
 fun HomeRouterInfoSection(state: HomeUiState, onEditAliasClick: () -> Unit) {
@@ -37,7 +37,7 @@ fun HomeRouterInfoSection(state: HomeUiState, onEditAliasClick: () -> Unit) {
         IconButton(onClick = onEditAliasClick) {
             Icon(
                 Icons.Default.Edit,
-                contentDescription = stringResource(id = R.string.home_router_Info_section_description),
+                contentDescription = stringResource(id = R.string.home_router_info_section_description),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }

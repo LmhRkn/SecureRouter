@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.screens
+package com.tfg.securerouter.ui.app.main_menu.administrar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -16,18 +16,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.ui.components.TopBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun WifiScreen() {
-    Text(text = "WIFI Screen",
+fun AdministrarDispositivosScreen() {
+    Text(text = "Administrar Dispositivos Screen",
             color = Color.Black)
 }
 
 @Preview
 @Composable
-fun WifiScreenPreview() {
-    WifiScreen()
+fun AdministrarDispositivosScreenPreview() {
+    AdministrarDispositivosScreen()
 }

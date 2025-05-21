@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import androidx.compose.foundation.layout.size
-import com.tfg.securerouter.data.model.DeviceModel
+import com.tfg.securerouter.data.menu.screens.home.model.DeviceModel
 
 @Composable
 fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {

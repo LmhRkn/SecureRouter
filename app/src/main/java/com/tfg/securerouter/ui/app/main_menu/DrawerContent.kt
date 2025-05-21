@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.components
+package com.tfg.securerouter.ui.app.main_menu
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,9 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.state.items
-
-data class DrawerItem(val route: String, val labelResId: Int, val icon: ImageVector)
+import com.tfg.securerouter.data.app.menu.MenuRegistry
 
 @Composable
 fun DrawerContent(
@@ -34,19 +32,19 @@ fun DrawerContent(
             modifier = Modifier
                 .fillMaxHeight()
         ) {
-            itemsIndexed(items) { index, item ->
-                val label = stringResource(id = item.labelResId)
-                DrawerItem(label = label, icon = item.icon) {
-                    onItemClick(item.route)
+            itemsIndexed(MenuRegistry.items) { index, menuOption ->
+                DrawerItem(label = stringResource(id=menuOption.titleResId), icon = menuOption.icon) {
+                    onItemClick(menuOption.route)
                 }
-                if (index < items.lastIndex) {
-                    Divider(
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                if (index < MenuRegistry.items.lastIndex) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                         thickness = 1.dp,
-                        modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
                     )
                 }
             }
+
         }
     }
 }

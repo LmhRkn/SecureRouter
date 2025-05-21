@@ -16,12 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.model.HomeViewModel
-import com.tfg.securerouter.data.state.HomeUiState
 import com.tfg.securerouter.ui.components.home_screen.ConnectedDevicesList
 import com.tfg.securerouter.ui.components.home_screen.HomeRouterInfoSection
 import com.tfg.securerouter.ui.icons.RouterIcon
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.menu.screens.home.model.HomeViewModel
+import com.tfg.securerouter.data.menu.screens.home.state.HomeUiState
 
 @Composable
 fun HomeScreen() {

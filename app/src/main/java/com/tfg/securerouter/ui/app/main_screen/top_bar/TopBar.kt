@@ -1,42 +1,51 @@
-package com.tfg.securerouter.ui.components
+package com.tfg.securerouter.ui.app.main_screen.top_bar
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.state.TopBarModel
+import com.tfg.securerouter.data.main_screen.state.TopBarModel
 import com.tfg.securerouter.ui.icons.StatusCircle
 import com.tfg.securerouter.ui.icons.VpnBadge
 import com.tfg.securerouter.ui.theme.SecureRouterTheme
-import kotlinx.coroutines.CoroutineScope
 
+/**
+ * Composable function representing the top bar of the application.
+ *
+ * Input:
+ * - modifier: Optional [Modifier] to apply to the TopBar layout.
+ * - topBarModel: [TopBarModel] containing UI state for the title, and connection status indicators.
+ * - onMenuClick: Lambda function triggered when the navigation menu button is clicked.
+ *
+ * Output:
+ * - Displays a center-aligned top app bar with:
+ *   - A title in the center.
+ *   - A menu icon on the left.
+ *   - VPN and router connection indicators on the right.
+ *
+ * Notes:
+ * - Uses Material 3 components and theming.
+ * - Uses `menuButton()` and `statusConnections()` for modular UI.
+*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     modifier: Modifier = Modifier,
-    scope: CoroutineScope,
-    drawerState: DrawerState,
     topBarModel: TopBarModel,
     onMenuClick: () -> Unit
 ) {
@@ -56,6 +65,15 @@ fun TopBar(
     )
 }
 
+/**
+ * Composable function representing the navigation menu button.
+ *
+ * Input:
+ * - onMenuClick: Lambda function triggered when the navigation menu button is clicked.
+ *
+ * Output:
+ * - An [IconButton] containing a menu icon with accessibility description.
+ */
 @Composable
 fun menuButton(onMenuClick: () -> Unit) {
     IconButton(onClick = onMenuClick) {
@@ -66,6 +84,21 @@ fun menuButton(onMenuClick: () -> Unit) {
     }
 }
 
+/**
+ * Composable function representing the connection status indicators.
+ *
+ * Input:
+ * - router_connected: Boolean indicating if the router is connected.
+ * - vpn_connected: Boolean indicating if the VPN is connected.
+ *
+ * Output:
+ * - A column with:
+ *   - A circular icon indicating router status (connected/disconnected).
+ *   - A VPN badge showing VPN connection status.
+ *
+ * Notes:
+ * - Aligned to the end (right) side of the top bar.
+ */
 @Composable
 fun statusConnecitons(router_connected: Boolean, vpn_connected: Boolean) {
     Column (
@@ -84,13 +117,15 @@ fun statusConnecitons(router_connected: Boolean, vpn_connected: Boolean) {
     }
 }
 
+/**
+ * Preview function for the TopBar composable.
+ * Displays a sample TopBar using mock data inside the SecureRouterTheme.
+ */
 @Composable
 @Preview
 fun TopBarPreview() {
     SecureRouterTheme {
         TopBar(
-            scope = CoroutineScope(kotlinx.coroutines.Dispatchers.Main),
-            drawerState = DrawerState(DrawerValue.Closed),
             topBarModel = TopBarModel(
                 title = "Home",
                 routerConnected = true,

@@ -4,24 +4,24 @@ import androidx.compose.ui.graphics.Color
 
 // EXTRAS
 // STATUS
-val ConnectedStatusLight = Color(0xFF00FF00)
-val OnConnectedStatusLight = Color(0xFF000000)
+val ConnectedStatusLight = Color(0xFFA5D6A7)
+val OnConnectedStatusLight = Color(0xFF4CAF50)
 
-val DisconnectedStatusLight = Color(0xFF9B9B9B)
-val OnDisconnectedStatusLight = Color(0xFFFFFFFF)
+val DisconnectedStatusLight = Color(0xFFB0BEC5)
+val OnDisconnectedStatusLight = Color(0xFF7C7C7C)
 
-val ErrorStatusLight = Color(0xFFFF0000)
-val OnErrorStatusLight = Color(0xFFFFFFFF)
+val ErrorStatusLight = Color(0xFFFFCDD2)
+val OnErrorStatusLight = Color(0xFFF44336)
 
 // BACKGROUND
 val BackgroundLight = Color(0XFFFFFFFF)
 val OnBackgroundLight = Color(0xFF000000)
 
 // PRIMARY
-val PrimaryLight = Color(0xFF0000FF)
+val PrimaryLight = Color(0xFF123456)
 val OnPrimaryLight = Color(0XFFFFFFFF)
 
-val PrimaryContainerLight = Color(0xFF0000FF)
+val PrimaryContainerLight = Color(0xFF123456)
 val OnPrimaryContainerLight = Color(0XFFFFFFFF)
 
 //val PrimaryFixedLight = Color(0XFFFFFFFF)
@@ -33,7 +33,7 @@ val OnPrimaryContainerLight = Color(0XFFFFFFFF)
 val InversePrimaryLight = Color(0XFFFFFFFF)
 
 // SECONDARY
-val SecondaryLight = Color(0XFFFFFFFF)
+val SecondaryLight = Color(0xFF000000)
 val OnSecondaryLight = Color(0XFFFFFFFF)
 
 val SecondaryContainerLight = Color(0XFFFFFFFF)
@@ -59,7 +59,7 @@ val OnTertiaryContainerLight = Color(0XFFFFFFFF)
 //val OnTertiaryFixedVariantLight = Color(0XFFFFFFFF)
 
 // SURFACE
-val SurfaceLight = Color(0xFFA4A4A4)
+val SurfaceLight = Color(0xFFAFAFAF)
 val OnSurfaceLight = Color(0xFF000000)
 
 val SurfaceBrightLight = Color(0XFFFFFFFF)
