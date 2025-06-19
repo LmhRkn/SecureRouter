@@ -12,11 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.menu.screens.home.model.DeviceModel
+import com.tfg.securerouter.data.menu.screens.home.state.ConnectedDeviceState
 
 @Composable
-fun ConnectedDevicesList(devices: List<DeviceModel>) {
-    Text("${stringResource(id = R.string.home_connected_devices_list)} (${devices.size})", style = MaterialTheme.typography.titleMedium)
+fun ConnectedDevicesList(devices_state: ConnectedDeviceState) {
+    val devices = devices_state.connectedDevices
+
+    Text("${stringResource(
+        id = R.string.home_connected_devices_list)} (${devices.size})",
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.primary
+    )
     Spacer(modifier = Modifier.height(8.dp))
 
     LazyVerticalGrid(columns = GridCells.Fixed(1)) {

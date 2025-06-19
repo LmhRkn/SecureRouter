@@ -14,12 +14,11 @@ import kotlinx.coroutines.launch
 
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuRegistry
 import com.tfg.securerouter.data.main_screen.model.TopBarViewModel
 import com.tfg.securerouter.data.main_screen.state.TopBarModel
 import com.tfg.securerouter.data.navegation.MainNavegation
-import com.tfg.securerouter.ui.app.main_menu.DrawerContent
+import com.tfg.securerouter.ui.app.screens.DrawerContent
 import com.tfg.securerouter.ui.app.main_screen.top_bar.TopBar
 
 @Composable

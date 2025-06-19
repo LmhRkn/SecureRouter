@@ -1,12 +1,12 @@
 package com.tfg.securerouter.data.app.menu.menu_screens
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
-import com.tfg.securerouter.ui.icons.FilterIcon
-import com.tfg.securerouter.ui.icons.WifiIcon
 
 /**
  * Object representing the "Filter" menu option.
@@ -20,7 +20,7 @@ import com.tfg.securerouter.ui.icons.WifiIcon
  */
 
 object FilterMenuOption : MenuOption {
-    override val icon = FilterIcon
+    override val icon = Icons.Filled.FilterAlt
     override val route = "filter"
     override val titleResId = R.string.filter_title
 

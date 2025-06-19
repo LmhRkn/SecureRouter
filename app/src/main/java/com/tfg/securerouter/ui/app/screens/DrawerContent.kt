@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.app.main_menu
+package com.tfg.securerouter.ui.app.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

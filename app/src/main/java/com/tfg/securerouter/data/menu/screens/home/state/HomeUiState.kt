@@ -1,7 +1,6 @@
 package com.tfg.securerouter.data.menu.screens.home.state
 
 import com.tfg.securerouter.data.menu.screens.home.model.DeviceModel
-import com.tfg.securerouter.data.menu.screens.home.model.HomeViewModel
 import kotlinx.coroutines.flow.StateFlow
 
 /**

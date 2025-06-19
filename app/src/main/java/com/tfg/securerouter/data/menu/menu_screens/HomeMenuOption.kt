@@ -4,12 +4,8 @@ import HomeScreen
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
-import com.tfg.securerouter.data.app.menu.menu_screens.AdministrarDispositivosMenuOption.icon
-import com.tfg.securerouter.data.app.menu.menu_screens.AdministrarDispositivosMenuOption.route
-import com.tfg.securerouter.data.app.menu.menu_screens.AdministrarDispositivosMenuOption.titleResId
 
 /**
  * Object representing the "Home" menu option.
@@ -29,6 +25,7 @@ object HomeMenuOption : MenuOption {
 
     @Composable
     override fun Content() {
-        HomeScreen()
+        val home = HomeScreen()
+        home.HomeScreenInit()
     }
 }

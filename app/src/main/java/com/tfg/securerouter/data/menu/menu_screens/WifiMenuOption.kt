@@ -1,11 +1,12 @@
 package com.tfg.securerouter.data.app.menu.menu_screens
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
-import com.tfg.securerouter.ui.icons.WifiIcon
 
 /**
  * Object representing the "Wifi" menu option.
@@ -19,7 +20,7 @@ import com.tfg.securerouter.ui.icons.WifiIcon
  */
 
 object WifiMenuOption : MenuOption {
-    override val icon = WifiIcon
+    override val icon = Icons.Filled.Wifi
     override val route = "wifi"
     override val titleResId = R.string.wifi_title
 
