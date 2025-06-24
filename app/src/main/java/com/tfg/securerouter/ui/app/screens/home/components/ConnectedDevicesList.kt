@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.components.home_screen
+package com.tfg.securerouter.ui.common.home_screen
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.menu.screens.home.state
 
 import com.tfg.securerouter.data.menu.screens.home.model.DeviceModel
-import com.tfg.securerouter.ui.components.home_screen.ConnectedDevicesList
+import com.tfg.securerouter.ui.common.home_screen.ConnectedDevicesList
 import kotlinx.coroutines.flow.StateFlow
 import com.tfg.securerouter.data.menu.screens.home.model.HomeRouterInfoModel
 
