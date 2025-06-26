@@ -14,6 +14,7 @@ import com.tfg.securerouter.data.menu.screens.home.HomeCoordinator
 import com.tfg.securerouter.data.menu.screens.home.model.ConnectedDeviceModel
 import com.tfg.securerouter.data.menu.screens.home.model.HomeRouterInfoModel
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
+import com.tfg.securerouter.ui.common.texts.TextWithToggleOption
 
 
 class HomeScreen: ScreenDefault() {
@@ -29,7 +30,6 @@ class HomeScreen: ScreenDefault() {
         } else {
             HomeContent(coordinator)
         }
-
     }
 
     @Composable
@@ -44,22 +44,9 @@ class HomeScreen: ScreenDefault() {
             { HomeRouterInfoSection(state = routerState, onEditAliasClick = { /* TODO */ }) },
             { RouterIcon() },
             { ConnectedDevicesList(devices_state = devicesState) },
+            { TextWithToggleOption(text = "Prueba:", initialChecked = true, onToggleChanged = { /* TODO */ }) }
         )
 
         RenderScreen()
     }
-
-
-//    @Preview
-//    @Composable
-//    fun HomeContentPreview() {
-//        val state = HomeUiState(
-//            routerAlias = "Router Pepe",
-//            macAddress = "00:00:00:00:00:00",
-//            isLoading = false
-//        )
-//        Surface(color = Color.White) {
-//            HomeContent(state, onEditAliasClick = {})
-//        }
-//    }
 }

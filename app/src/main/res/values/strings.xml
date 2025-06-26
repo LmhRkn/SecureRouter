@@ -17,6 +17,9 @@
     <string name="home_connected_devices_list">Dispositivos conectados</string>
     <string name="home_router_info_section_description">Editar alias</string>
 
+    <!-- Buttons -->
+    <string name="cancel_button">Cancelar</string>
+    <string name="save_button">Guardar</string>
 
     <!-- ICONS -->
     <string name="vpn_icon_string">VPN</string>

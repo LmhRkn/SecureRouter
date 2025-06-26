@@ -14,7 +14,22 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.res.stringResource
+import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.common.buttons.EditButton
+
+/**
+ * A reusable composable function for creating an editable text field.
+ *
+ * Usage:
+ * It displays a text field with an edit button, allowing users to edit the text.
+ *
+ * @property text a [String] representing the initial text in the text field.
+ * @property modifier a [Modifier] for customizing the layout of the composable.
+ * @property onTextSaved a lambda function that is triggered when the user saves the edited text.
+ *
+ * @see [EditButton] for the edit button.
+ */
 
 @Composable
 fun EditableTextField(
@@ -79,13 +94,13 @@ fun EditableTextField(
                     textValue = TextFieldValue(originalText)
                     isEditing = false
                 }) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel_button))
                 }
                 TextButton(onClick = {
                     onTextSaved(textValue.text)
                     isEditing = false
                 }) {
-                    Text("Guardar")
+                    Text(stringResource(R.string.save_button))
                 }
             }
         }
