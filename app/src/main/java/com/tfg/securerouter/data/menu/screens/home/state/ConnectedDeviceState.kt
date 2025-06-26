@@ -1,9 +1,9 @@
 package com.tfg.securerouter.data.menu.screens.home.state
 
-import com.tfg.securerouter.data.menu.screens.home.model.DeviceModel
+import com.tfg.securerouter.data.menu.screens.home.model.load.DeviceModel
 import com.tfg.securerouter.ui.common.home_screen.ConnectedDevicesList
 import kotlinx.coroutines.flow.StateFlow
-import com.tfg.securerouter.data.menu.screens.home.model.HomeRouterInfoModel
+import com.tfg.securerouter.data.menu.screens.home.model.load.HomeRouterInfoModel
 
 /**
  * Represents the UI state of the component [ConnectedDevicesList] of the [HomeScreen].

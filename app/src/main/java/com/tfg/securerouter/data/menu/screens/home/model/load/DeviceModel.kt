@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.menu.screens.home.model
+package com.tfg.securerouter.data.menu.screens.home.model.load
 
 /**
  * Data class representing a device connected to the router.

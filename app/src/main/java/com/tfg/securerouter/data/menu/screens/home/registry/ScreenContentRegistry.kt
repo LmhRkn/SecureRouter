@@ -1,13 +1,8 @@
-package com.tfg.securerouter.data.app.menu
+package com.tfg.securerouter.data.menu.screens.home.registry
 
-import com.tfg.securerouter.data.app.menu.menu_screens.AdministrarDispositivosMenuOption
-import com.tfg.securerouter.data.app.menu.menu_screens.FilterMenuOption
-import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
-import com.tfg.securerouter.data.app.menu.menu_screens.SettingsMenuOption
-import com.tfg.securerouter.data.app.menu.menu_screens.WifiMenuOption
 import com.tfg.securerouter.data.menu.screens.ScreenComponentModelDefault
-import com.tfg.securerouter.data.menu.screens.home.model.ConnectedDeviceModel
-import com.tfg.securerouter.data.menu.screens.home.model.HomeRouterInfoModel
+import com.tfg.securerouter.data.menu.screens.home.model.load.ConnectedDeviceModel
+import com.tfg.securerouter.data.menu.screens.home.model.load.HomeRouterInfoModel
 
 /**
  * Registry object that holds all available [HomeScreen]'s contents.
@@ -26,7 +21,7 @@ import com.tfg.securerouter.data.menu.screens.home.model.HomeRouterInfoModel
  * @see HomeScreen for the [HomeScreen]'s class.
  */
 
-class ScreenContentRegistry(sharedCache: MutableMap<String, Any>) {
+class HomeScreenContentRegistry(sharedCache: MutableMap<String, Any>) {
     val modules: List<ScreenComponentModelDefault> = listOf(
         HomeRouterInfoModel(sharedCache),
         ConnectedDeviceModel(sharedCache)

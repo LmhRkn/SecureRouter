@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.menu.screens.home.model
+package com.tfg.securerouter.data.menu.screens.home.model.load
 
 import com.tfg.securerouter.data.menu.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.menu.screens.home.state.HomeRouterInfoState
