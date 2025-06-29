@@ -1,11 +1,11 @@
-package com.tfg.securerouter.data.app.menu.menu_screens
+package com.tfg.securerouter.data.menu.menu_screens
 
-import HomeScreen
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
+import com.tfg.securerouter.ui.app.screens.home.HomeScreen
 
 /**
  * Object representing the "Home" menu option.

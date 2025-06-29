@@ -1,9 +1,7 @@
-package com.tfg.securerouter.data.app.menu.menu_screens
+package com.tfg.securerouter.data.menu.menu_screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DesktopWindows
-import androidx.compose.material.icons.filled.Wifi
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
@@ -27,6 +25,7 @@ object AdministrarDispositivosMenuOption : MenuOption {
 
     @Composable
     override fun Content() {
-        AdministrarDispositivosScreen()
+        val adminatrar = AdministrarDispositivosScreen()
+        adminatrar.AdministrarScreenInit()
     }
 }

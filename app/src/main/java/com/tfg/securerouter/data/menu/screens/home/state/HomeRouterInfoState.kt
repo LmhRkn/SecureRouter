@@ -1,9 +1,9 @@
 package com.tfg.securerouter.data.menu.screens.home.state
 
-import HomeScreen
 import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
 import com.tfg.securerouter.data.menu.screens.home.model.load.HomeRouterInfoModel
 import kotlinx.coroutines.flow.StateFlow
+import com.tfg.securerouter.ui.app.screens.home.HomeScreen
 
 /**
  * Represents the UI state of the component [HomeRouterInfoSection] of [HomeScreen].
