@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.menu.menu_screens
+package com.tfg.securerouter.data.menu.menu_screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
+import com.tfg.securerouter.ui.app.screens.settings.SettingsScreen
 
 /**
  * Object representing the "Configuration" menu option.
@@ -26,6 +27,8 @@ object SettingsMenuOption : MenuOption {
 
     @Composable
     override fun Content() {
-        Text("Setting Hola", color = Color.Black)
+        val settings = SettingsScreen()
+        settings.SetingsScreenInit()
+
     }
 }

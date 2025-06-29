@@ -14,7 +14,10 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.common.buttons.EditButton
 
@@ -27,6 +30,10 @@ import com.tfg.securerouter.ui.common.buttons.EditButton
  * @property text a [String] representing the initial text in the text field.
  * @property modifier a [Modifier] for customizing the layout of the composable.
  * @property onTextSaved a lambda function that is triggered when the user saves the edited text.
+ * @property textStyle a [TextStyle] for customizing the appearance of the text field.
+ * @property textColor a [Color] for customizing the text color.
+ * @property buttonSize a [Int] for customizing the size of the edit button.
+ * @property buttonColor a [Color] for customizing the color of the edit button.
  *
  * @see [EditButton] for the edit button.
  */
@@ -35,7 +42,11 @@ import com.tfg.securerouter.ui.common.buttons.EditButton
 fun EditableTextField(
     text: String,
     modifier: Modifier = Modifier,
-    onTextSaved: (String) -> Unit
+    onTextSaved: (String) -> Unit,
+    textStyle: TextStyle = MaterialTheme.typography.headlineMedium,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    buttonSize: Int? = null,
+    buttonColor: Color? = null
 ) {
     var isEditing by remember { mutableStateOf(false) }
     var originalText by remember { mutableStateOf(text) }
@@ -64,8 +75,8 @@ fun EditableTextField(
                     value = textValue,
                     onValueChange = { textValue = it },
                     singleLine = true,
-                    textStyle = MaterialTheme.typography.headlineMedium.copy(
-                        color = MaterialTheme.colorScheme.onBackground
+                    textStyle = textStyle.copy(
+                        color = textColor
                     ),
                     modifier = Modifier
                         .weight(1f)
@@ -74,17 +85,22 @@ fun EditableTextField(
             } else {
                 Text(
                     text = textValue.text,
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    style = textStyle,
+                    color = textColor,
                     modifier = Modifier.weight(1f)
                 )
             }
 
             if (!isEditing) {
-                EditButton(onClick = {
-                    isEditing = true
-                    originalText = textValue.text
-                })
+                EditButton(
+                    onClick = {
+                        isEditing = true
+                        originalText = textValue.text
+                    },
+                    color = buttonColor ?: textColor,
+                    iconSize = buttonSize?.dp?: (textStyle.fontSize.value.dp * 0.75f)
+
+                )
             }
         }
 

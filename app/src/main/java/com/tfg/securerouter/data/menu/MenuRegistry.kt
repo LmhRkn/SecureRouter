@@ -3,7 +3,7 @@ package com.tfg.securerouter.data.app.menu
 import com.tfg.securerouter.data.menu.menu_screens.AdministrarDispositivosMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.FilterMenuOption
 import com.tfg.securerouter.data.menu.menu_screens.HomeMenuOption
-import com.tfg.securerouter.data.app.menu.menu_screens.SettingsMenuOption
+import com.tfg.securerouter.data.menu.menu_screens.SettingsMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.WifiMenuOption
 
 /**

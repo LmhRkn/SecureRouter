@@ -2,11 +2,10 @@ package com.tfg.securerouter.data.app.menu.menu_screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterAlt
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
+import com.tfg.securerouter.ui.app.screens.filter.FilterScreen
 
 /**
  * Object representing the "Filter" menu option.
@@ -26,6 +25,7 @@ object FilterMenuOption : MenuOption {
 
     @Composable
     override fun Content() {
-        Text("Filter Hola", color = Color.Black)
+        val filter = FilterScreen()
+        filter.FilterScreenInit()
     }
 }

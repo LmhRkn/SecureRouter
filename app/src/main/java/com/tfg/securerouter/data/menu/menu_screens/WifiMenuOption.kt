@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
+import com.tfg.securerouter.ui.app.screens.wifi.WifiScreen
 
 /**
  * Object representing the "Wifi" menu option.
@@ -26,6 +27,7 @@ object WifiMenuOption : MenuOption {
 
     @Composable
     override fun Content() {
-        Text("Wifi Hola", color = Color.Black)
+        val wifi = WifiScreen()
+        wifi.WifiScreenInit()
     }
 }
