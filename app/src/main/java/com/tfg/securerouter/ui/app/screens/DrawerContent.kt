@@ -18,33 +18,36 @@ import com.tfg.securerouter.data.app.menu.MenuRegistry
 fun DrawerContent(
     visible: Boolean = false,
     onItemClick: (String) -> Unit,
-    topPadding: Dp = 0.dp // nuevo
+    topPadding: Dp = 0.dp
 ) {
     if (visible) Surface(
-        color = MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.primary,
         tonalElevation = 2.dp,
         modifier = Modifier
             .padding(top = topPadding)
             .fillMaxHeight()
-            .fillMaxWidth(0.85f)
+            .fillMaxWidth()
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
         ) {
             itemsIndexed(MenuRegistry.items) { index, menuOption ->
-                DrawerItem(label = stringResource(id=menuOption.titleResId), icon = menuOption.icon) {
-                    onItemClick(menuOption.route)
-                }
+                DrawerItem(
+                    label = stringResource(id = menuOption.titleResId),
+                    icon = menuOption.icon,
+                    onClick = { onItemClick(menuOption.route) }
+                )
+
                 if (index < MenuRegistry.items.lastIndex) {
                     HorizontalDivider(
-                        modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp),
+                        thickness = 0.5.dp,
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
                     )
                 }
             }
-
         }
     }
 }
@@ -53,34 +56,33 @@ fun DrawerContent(
 fun DrawerItem(
     label: String,
     icon: ImageVector,
-    onItemClick: (String) -> Unit
+    onClick: () -> Unit
 ) {
     Surface(
-        tonalElevation = 1.dp,
-        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 0.dp,
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onItemClick(label) }
+            .clickable { onClick() }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 32.dp)
                 .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 20.dp)
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.size(32.dp)
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.size(28.dp)
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(20.dp))
             Text(
                 text = label,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
     }
 }
-
