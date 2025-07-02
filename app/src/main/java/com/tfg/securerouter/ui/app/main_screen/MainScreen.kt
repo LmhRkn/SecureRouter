@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -59,7 +60,6 @@ fun MainScreen() {
         onDrawerItemClick = onDrawerItemClick,
         visible = visible,
         topBarHeightPx = topBarHeightPx,
-        topBarHeightDp = topBarHeightDp,
         navController = navController
     )
 }
@@ -87,7 +87,6 @@ fun NavigationDrawerContent(
     onDrawerItemClick: (String) -> Unit,
     visible: Boolean,
     topBarHeightPx: MutableState<Int>,
-    topBarHeightDp: Dp,
     navController: NavHostController,
 ) {
     val mainNavegation = remember { MainNavegation() }
@@ -101,8 +100,7 @@ fun NavigationDrawerContent(
                 DrawerHeader()
                 DrawerContent(
                     visible = visible,
-                    onItemClick = onDrawerItemClick,
-                    topPadding = topBarHeightDp
+                    onItemClick = onDrawerItemClick
                 )
             }
         }
@@ -113,7 +111,19 @@ fun NavigationDrawerContent(
                     modifier = Modifier.onGloballyPositioned {
                         topBarHeightPx.value = it.size.height
                     },
-                    title = { Text(topBarState.title) },
+                    title = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 56.dp)
+                        ) {
+                            Text(
+                                text = topBarState.title,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                    },
                     navigationIcon = {
                         IconButton(onClick = onMenuClick) {
                             Icon(Icons.Filled.Menu, contentDescription = "Menu")
@@ -124,6 +134,7 @@ fun NavigationDrawerContent(
                         titleContentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
+
             }
         ) { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {

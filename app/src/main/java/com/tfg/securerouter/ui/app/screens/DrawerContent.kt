@@ -17,14 +17,12 @@ import com.tfg.securerouter.data.app.menu.MenuRegistry
 @Composable
 fun DrawerContent(
     visible: Boolean = false,
-    onItemClick: (String) -> Unit,
-    topPadding: Dp = 0.dp
+    onItemClick: (String) -> Unit
 ) {
     if (visible) Surface(
         color = MaterialTheme.colorScheme.primary,
         tonalElevation = 2.dp,
         modifier = Modifier
-            .padding(top = topPadding)
             .fillMaxHeight()
             .fillMaxWidth()
     ) {
