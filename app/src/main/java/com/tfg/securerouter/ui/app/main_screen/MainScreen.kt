@@ -35,7 +35,6 @@ fun MainScreen() {
 
     var visible by remember { mutableStateOf(false) }
     val topBarHeightPx = remember { mutableStateOf(0) }
-    val topBarHeightDp = with(LocalDensity.current) { topBarHeightPx.value.toDp() }
 
     UpdateTopBarTitle(navController, topBarViewModel)
 

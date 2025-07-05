@@ -17,6 +17,10 @@
     <string name="home_connected_devices_list">Dispositivos conectados</string>
     <string name="home_router_info_section_description">Editar alias</string>
 
+    <!-- Divece Manager -->
+    <string name="dive_manger_historical_devices_list">Dispositivos Permitidos</string>
+    <string name="dive_manger_blocked_devices_list">Dispositivos Bloquados</string>
+
     <!-- Buttons -->
     <string name="cancel_button">Cancelar</string>
     <string name="save_button">Guardar</string>
@@ -24,4 +28,10 @@
     <!-- ICONS -->
     <string name="vpn_icon_string">VPN</string>
 
+    <!-- Device's Labels -->
+    <string name="device_label_phone">Teléfono</string>
+    <string name="device_label_laptop">Portátil</string>
+    <string name="device_label_online">Conectado</string>
+    <string name="device_label_offline">Desconectado</string>
+    <string name="device_label_blocked">Bloqueado</string>
 </resources>

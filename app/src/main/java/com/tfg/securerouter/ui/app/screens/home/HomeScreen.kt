@@ -2,7 +2,7 @@ package com.tfg.securerouter.ui.app.screens.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import com.tfg.securerouter.ui.common.home_screen.ConnectedDevicesList
+import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
 import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
 import com.tfg.securerouter.ui.icons.RouterIcon
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,16 +34,16 @@ class HomeScreen: ScreenDefault() {
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
         addComponents(
-            { HomeRouterInfoSection(
+            {HomeRouterInfoSection(
                 state = routerState,
                 onEditAliasClick = { newAlias ->
                     SendRouterName.updateRouterAlias(newAlias) { success ->
                         println("Alias actualizado: $success")
                     }
                 }
-            ) },
+            )},
             { RouterIcon() },
-            { ConnectedDevicesList(devices_state = devicesState) },
+            { ConnectedDevicesList(devices_state = devicesState, weight = 0.4f) },
             { TextWithToggleOption(text = "Prueba:", initialChecked = true, onToggleChanged = { /* TODO */ }) }
         )
 

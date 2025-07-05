@@ -19,36 +19,43 @@ fun DrawerContent(
     visible: Boolean = false,
     onItemClick: (String) -> Unit
 ) {
-    if (visible) Surface(
-        color = MaterialTheme.colorScheme.primary,
-        tonalElevation = 2.dp,
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-    ) {
-        LazyColumn(
+    if (visible) {
+        Surface(
+            color = MaterialTheme.colorScheme.primary,
+            tonalElevation = 2.dp,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth()
         ) {
-            itemsIndexed(MenuRegistry.items) { index, menuOption ->
-                DrawerItem(
-                    label = stringResource(id = menuOption.titleResId),
-                    icon = menuOption.icon,
-                    onClick = { onItemClick(menuOption.route) }
-                )
+            BoxWithConstraints {
+                val maxHeight = this.maxHeight
 
-                if (index < MenuRegistry.items.lastIndex) {
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .padding(horizontal = 12.dp),
-                        thickness = 0.5.dp,
-                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
-                    )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .heightIn(max = maxHeight) // máximo alto dinámico
+                ) {
+                    itemsIndexed(MenuRegistry.items) { index, menuOption ->
+                        DrawerItem(
+                            label = stringResource(id = menuOption.titleResId),
+                            icon = menuOption.icon,
+                            onClick = { onItemClick(menuOption.route) }
+                        )
+
+                        if (index < MenuRegistry.items.lastIndex) {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                thickness = 0.5.dp,
+                                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
+                            )
+                        }
+                    }
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun DrawerItem(

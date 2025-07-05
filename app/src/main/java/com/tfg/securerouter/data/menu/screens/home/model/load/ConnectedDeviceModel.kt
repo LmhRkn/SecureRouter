@@ -1,5 +1,6 @@
 package com.tfg.securerouter.data.menu.screens.home.model.load
 
+import com.tfg.securerouter.data.common.screen_components.DeviceModel
 import com.tfg.securerouter.data.menu.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.menu.screens.home.state.ConnectedDeviceState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,16 +23,6 @@ class ConnectedDeviceModel(
         )
     }
 
-
-    /**
-     * Parses the DHCP leases output to identify connected devices.
-     *
-     * @param output The raw string output from `cat /tmp/dhcp.leases`.
-     * @return A list of [DeviceModel], each representing a connected device with:
-     *   - MAC address
-     *   - IP address
-     *   - Hostname
-     */
     private fun parseDevices(output: String): List<DeviceModel> {
         return output.lines()
             .filter { it.isNotBlank() } // Remove empty lines

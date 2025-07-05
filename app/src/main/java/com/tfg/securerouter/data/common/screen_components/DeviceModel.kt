@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.menu.screens.home.model.load
+package com.tfg.securerouter.data.common.screen_components
 
 /**
  * Data class representing a device connected to the router.
@@ -12,10 +12,12 @@ package com.tfg.securerouter.data.menu.screens.home.model.load
  * @property mac The MAC address [String] ]of the connected device.
  * @property hostname The hostname [String] of the device, if available (can be Null)
  * @property ip The IP address [String] assigned to the device by the router.
+ * @property labels A set of [DeviceLabel]s associated with the device.
  */
 
 data class DeviceModel(
     val mac: String,
     val hostname: String?,
-    val ip: String
+    val ip: String,
+    val labels: Set<DeviceLabel> = emptySet()
 )

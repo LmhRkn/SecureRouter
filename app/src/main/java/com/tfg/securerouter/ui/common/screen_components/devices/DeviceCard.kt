@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import androidx.compose.foundation.layout.size
-import com.tfg.securerouter.data.menu.screens.home.model.load.DeviceModel
+import com.tfg.securerouter.data.common.screen_components.DeviceModel
 
 @Composable
 fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
@@ -36,7 +36,7 @@ fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_router),
+                painter = painterResource(id = get_icon(device.mac)),
                 contentDescription = "Router icon",
                 modifier = Modifier.size(40.dp),
                 tint = MaterialTheme.colorScheme.onBackground
@@ -69,6 +69,10 @@ fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
             }
         }
     }
+}
+
+fun get_icon(mac: String): Int {
+    return R.drawable.ic_router
 }
 
 

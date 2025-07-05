@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.DesktopWindows
 import androidx.compose.runtime.Composable
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuOption
-import com.tfg.securerouter.ui.app.screens.administrar.AdministrarDispositivosScreen
+import com.tfg.securerouter.ui.app.screens.device_manager.DeviceManagerScreen
 
 /**
  * Object representing the "Administrar Dispositivos" menu option.
@@ -25,7 +25,7 @@ object AdministrarDispositivosMenuOption : MenuOption {
 
     @Composable
     override fun Content() {
-        val adminatrar = AdministrarDispositivosScreen()
+        val adminatrar = DeviceManagerScreen()
         adminatrar.AdministrarScreenInit()
     }
 }

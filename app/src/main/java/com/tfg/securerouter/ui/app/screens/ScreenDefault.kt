@@ -1,17 +1,16 @@
 package com.tfg.securerouter.ui.app.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.menu.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.menu.screens.home.HomeCoordinator
 
 open class ScreenDefault {
     private val components = mutableStateListOf<@Composable () -> Unit>()
@@ -40,7 +39,14 @@ open class ScreenDefault {
 
     @Composable
     fun RenderScreen() {
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        val scrollState = rememberScrollState()
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(scrollState)
+        ) {
             components.forEachIndexed { index, component ->
                 if (index > 0) {
                     HorizontalDivider(
@@ -49,8 +55,11 @@ open class ScreenDefault {
                         color = Color.LightGray
                     )
                 }
+
+                // Simplemente llama al composable
                 component()
             }
         }
     }
+
 }
