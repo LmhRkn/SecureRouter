@@ -53,6 +53,7 @@ class HistoricalDeviceModel(
                     if (blockedFlag == "1") {
                         labels += DeviceLabel.Blocked
                     }
+
                     // Parse and return device info
                     DeviceModel(
                         mac = parts[1],

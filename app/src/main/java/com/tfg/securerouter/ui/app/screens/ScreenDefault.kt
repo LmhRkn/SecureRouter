@@ -11,9 +11,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.menu.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.menu.screens.device_manager.model.DeviceManagerScreenEvent
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 open class ScreenDefault {
     private val components = mutableStateListOf<@Composable () -> Unit>()
+
+    // 🎯 Bus de eventos centralizado
+    private val _eventBus = MutableSharedFlow<DeviceManagerScreenEvent>()
+    val eventBus = _eventBus.asSharedFlow()
+
+    suspend fun sendEvent(event: DeviceManagerScreenEvent) {
+        _eventBus.emit(event)
+    }
 
     fun addComponents(vararg newComponents: @Composable () -> Unit) {
         newComponents.forEach { component ->
@@ -35,7 +46,7 @@ open class ScreenDefault {
     }
 
     @Composable
-    open fun ScreenContent(coordinator: ScreenCoordinatorDefault ) {}
+    open fun ScreenContent(coordinator: ScreenCoordinatorDefault) {}
 
     @Composable
     fun RenderScreen() {
@@ -55,11 +66,9 @@ open class ScreenDefault {
                         color = Color.LightGray
                     )
                 }
-
-                // Simplemente llama al composable
                 component()
             }
         }
     }
-
 }
+
