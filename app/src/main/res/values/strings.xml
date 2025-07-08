@@ -21,6 +21,10 @@
     <string name="dive_manger_historical_devices_list">Dispositivos Permitidos</string>
     <string name="dive_manger_blocked_devices_list">Dispositivos Bloquados</string>
 
+    <!-- SETTINGS -->
+    <string name="setting_language">Idioma:</string>
+    <string name="setting_language_selected">Español</string>
+
     <!-- Buttons -->
     <string name="cancel_button">Cancelar</string>
     <string name="save_button">Guardar</string>

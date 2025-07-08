@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.common.screen_components.DeviceLabel
-import com.tfg.securerouter.data.menu.screens.device_manager.model.DeviceManagerScreenEvent
-import com.tfg.securerouter.data.menu.screens.device_manager.state.HistoricalDeviceState
+import com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent
+import com.tfg.securerouter.data.screens.device_manager.state.HistoricalDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.common.screen_components.devices.DeviceList
@@ -37,9 +37,9 @@ fun BlockedDevicesList(
 
     LaunchedEffect(Unit) {
         eventFlow.collect { event ->
-            if (event is DeviceManagerScreenEvent.SearchSomething) {
+            if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.SearchSomething) {
                 searchQuery = event.query
-            } else if (event is DeviceManagerScreenEvent.FilterSomething) {
+            } else if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.FilterSomething) {
                 labelFilters = event.filters
             }
         }
@@ -71,7 +71,7 @@ fun BlockedDevicesList(
         // Escuchar el evento Toggle
         LaunchedEffect(Unit) {
             eventFlow.collect { event ->
-                if (event is DeviceManagerScreenEvent.ToggleSomething) {
+                if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.ToggleSomething) {
                     showAllowedDevices = !showAllowedDevices
                 }
             }

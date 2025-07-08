@@ -21,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.tfg.securerouter.data.app.menu.MenuRegistry
 import com.tfg.securerouter.data.main_screen.model.TopBarViewModel
 import com.tfg.securerouter.data.main_screen.state.TopBarModel
+import com.tfg.securerouter.data.navegation.LocalNavController
 import com.tfg.securerouter.data.navegation.MainNavegation
 import com.tfg.securerouter.ui.app.screens.DrawerContent
 import kotlinx.coroutines.launch
@@ -93,7 +94,7 @@ fun NavigationDrawerContent(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet (
+            ModalDrawerSheet(
                 drawerContainerColor = MaterialTheme.colorScheme.primary
             ) {
                 DrawerHeader()
@@ -133,15 +134,17 @@ fun NavigationDrawerContent(
                         titleContentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
-
             }
         ) { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
-                mainNavegation.NavGraph(navController)
+                CompositionLocalProvider(LocalNavController provides navController) {
+                    mainNavegation.NavGraph(navController)
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun DrawerHeader() {

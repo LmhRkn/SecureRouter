@@ -15,7 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.tfg.securerouter.data.menu.screens.device_manager.model.DeviceManagerScreenEvent
+import com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent
 
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.theme.LocalExtraColors
@@ -35,7 +35,7 @@ fun ButtonToggleList(
 
     LaunchedEffect(Unit) {
         eventFlow.collect { event ->
-            if (event is DeviceManagerScreenEvent.ToggleSomething) {
+            if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.ToggleSomething) {
                 isToggled = !isToggled
             }
         }
@@ -48,7 +48,7 @@ fun ButtonToggleList(
         Button(
             onClick = {
                 CoroutineScope(Dispatchers.Main).launch {
-                    parent.sendEvent(DeviceManagerScreenEvent.ToggleSomething)
+                    parent.sendEvent(com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.ToggleSomething)
                 }
             },
             colors = ButtonDefaults.buttonColors(

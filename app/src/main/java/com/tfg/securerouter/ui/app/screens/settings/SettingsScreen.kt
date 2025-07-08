@@ -1,12 +1,14 @@
 package com.tfg.securerouter.ui.app.screens.settings
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tfg.securerouter.data.menu.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.menu.screens.settings.SettingsCoordinator
+import com.tfg.securerouter.R
+import com.tfg.securerouter.data.navegation.LocalNavController
+import com.tfg.securerouter.data.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.screens.settings.SettingsCoordinator
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
+import com.tfg.securerouter.ui.app.screens.settings.components.LanguageComponent
 
 class SettingsScreen: ScreenDefault() {
     @Composable
@@ -20,16 +22,13 @@ class SettingsScreen: ScreenDefault() {
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val settingsCoordinator = coordinator as? SettingsCoordinator
-            ?: throw IllegalArgumentException("Expected HomeCoordinator")
-
-//        val routerInfoModel = ScreenContent.modules.filterIsInstance<HomeRouterInfoModel>().first()
-//        val connectedDevicesModel = ScreenContent.modules.filterIsInstance<ConnectedDeviceModel>().first()
-
-//        val routerState = routerInfoModel.state.collectAsState().value
-//        val devicesState = connectedDevicesModel.state.collectAsState().value
+            ?: throw IllegalArgumentException("Expected SettingCoordinator")
 
         addComponents(
-            { Text("Settings", color=Color.Black) }
+            { LanguageComponent(
+                currentLanguage = stringResource(R.string.setting_language_selected),
+                navController = LocalNavController.current
+            ) }
         )
 
         RenderScreen()

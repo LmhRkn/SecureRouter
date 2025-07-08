@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.menu
+package com.tfg.securerouter.data.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector

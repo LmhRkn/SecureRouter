@@ -7,6 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.common.screen_components.DeviceLabel
@@ -15,7 +17,12 @@ import com.tfg.securerouter.data.common.screen_components.DeviceLabel
 fun FilterButton(
     modifier: Modifier = Modifier,
     selectedFilters: Set<DeviceLabel>,
-    onFiltersChanged: (Set<DeviceLabel>) -> Unit
+    onFiltersChanged: (Set<DeviceLabel>) -> Unit,
+    iconButton: ImageVector = Icons.Default.FilterList,
+    contentDescription: String = "Abrir filtros",
+    iconColor: Color = MaterialTheme.colorScheme.primary,
+    checkedColor: Color = MaterialTheme.colorScheme.primary,
+    uncheckedColor: Color = MaterialTheme.colorScheme.primary
 ) {
     var expanded by remember { mutableStateOf(false) }
     val allFilters = DeviceLabel.values().toList()
@@ -24,9 +31,9 @@ fun FilterButton(
     Box(modifier = modifier) {
         IconButton(onClick = { expanded = true }) {
             Icon(
-                imageVector = Icons.Default.FilterList,
-                contentDescription = "Abrir filtros",
-                tint = MaterialTheme.colorScheme.primary
+                imageVector = iconButton,
+                contentDescription = contentDescription,
+                tint = iconColor
             )
         }
 
@@ -43,8 +50,8 @@ fun FilterButton(
                                 checked = currentFilters.value.contains(label),
                                 onCheckedChange = null, // handled in onClick
                                 colors = CheckboxDefaults.colors(
-                                    checkedColor = MaterialTheme.colorScheme.primary,
-                                    uncheckedColor = MaterialTheme.colorScheme.primary
+                                    checkedColor = checkedColor,
+                                    uncheckedColor = uncheckedColor
                                 )
                             )
                             Spacer(modifier = Modifier.width(8.dp))

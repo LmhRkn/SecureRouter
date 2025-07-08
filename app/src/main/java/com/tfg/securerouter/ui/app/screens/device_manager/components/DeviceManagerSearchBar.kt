@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.menu.screens.device_manager.model.DeviceManagerScreenEvent
+import com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.common.searchbar.FilterButton
 import com.tfg.securerouter.ui.common.searchbar.SearchBar
@@ -29,7 +29,7 @@ fun DeviceManagerSearchBar(
             modifier = Modifier.weight(0.9f),
             onSearchChanged = {
                 CoroutineScope(Dispatchers.Main).launch {
-                    parent.sendEvent(DeviceManagerScreenEvent.SearchSomething(it))
+                    parent.sendEvent(com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.SearchSomething(it))
                 }
             },
             hint = "Buscar dispositivo..."
@@ -40,7 +40,7 @@ fun DeviceManagerSearchBar(
             selectedFilters = emptySet(),
             onFiltersChanged = {
                 CoroutineScope(Dispatchers.Main).launch {
-                    parent.sendEvent(DeviceManagerScreenEvent.FilterSomething(it))
+                    parent.sendEvent(com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.FilterSomething(it))
                 }
             }
         )

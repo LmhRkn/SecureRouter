@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tfg.securerouter.data.app.menu.MenuRegistry
+import com.tfg.securerouter.data.app.menu.OtherScreenRegistry
 
 /**
  * Class responsible for managing the app's main navigation graph.
@@ -34,6 +35,11 @@ class MainNavegation {
     fun NavGraph(navController: NavHostController) {
         NavHost(navController = navController, startDestination = "home") {
             MenuRegistry.items.forEach { menuOption ->
+                composable(menuOption.route) {
+                    menuOption.Content()
+                }
+            }
+            OtherScreenRegistry.items.forEach { menuOption ->
                 composable(menuOption.route) {
                     menuOption.Content()
                 }

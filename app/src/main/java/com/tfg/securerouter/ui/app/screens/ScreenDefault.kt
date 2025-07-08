@@ -10,8 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.menu.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.menu.screens.device_manager.model.DeviceManagerScreenEvent
+import com.tfg.securerouter.data.main_screen.model.ScreenEvent
+import com.tfg.securerouter.data.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
@@ -19,10 +20,10 @@ open class ScreenDefault {
     private val components = mutableStateListOf<@Composable () -> Unit>()
 
     // 🎯 Bus de eventos centralizado
-    private val _eventBus = MutableSharedFlow<DeviceManagerScreenEvent>()
+    private val _eventBus = MutableSharedFlow<ScreenEvent>()
     val eventBus = _eventBus.asSharedFlow()
 
-    suspend fun sendEvent(event: DeviceManagerScreenEvent) {
+    suspend fun sendEvent(event: ScreenEvent) {
         _eventBus.emit(event)
     }
 

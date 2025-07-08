@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.runtime.Composable
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.menu.MenuOption
+import com.tfg.securerouter.data.menu.MenuOption
 import com.tfg.securerouter.ui.app.screens.filter.FilterScreen
 
 /**

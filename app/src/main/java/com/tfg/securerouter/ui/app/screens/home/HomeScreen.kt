@@ -6,11 +6,11 @@ import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
 import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
 import com.tfg.securerouter.ui.icons.RouterIcon
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tfg.securerouter.data.menu.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.menu.screens.home.HomeCoordinator
-import com.tfg.securerouter.data.menu.screens.home.model.load.ConnectedDeviceModel
-import com.tfg.securerouter.data.menu.screens.home.model.load.HomeRouterInfoModel
-import com.tfg.securerouter.data.menu.screens.home.model.send.SendRouterName
+import com.tfg.securerouter.data.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.screens.home.HomeCoordinator
+import com.tfg.securerouter.data.screens.home.model.load.ConnectedDeviceModel
+import com.tfg.securerouter.data.screens.home.model.load.HomeRouterInfoModel
+import com.tfg.securerouter.data.screens.home.model.send.SendRouterName
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.common.texts.TextWithToggleOption
 
