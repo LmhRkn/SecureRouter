@@ -33,8 +33,9 @@
     <string name="vpn_icon_string">VPN</string>
 
     <!-- Device's Labels -->
-    <string name="device_label_phone">Teléfono</string>
-    <string name="device_label_laptop">Portátil</string>
+    <string name="device_label_phone">Móvil</string>
+    <string name="device_label_pc">PC</string>
+    <string name="device_label_console">Consola</string>
     <string name="device_label_online">Conectado</string>
     <string name="device_label_offline">Desconectado</string>
     <string name="device_label_blocked">Bloqueado</string>

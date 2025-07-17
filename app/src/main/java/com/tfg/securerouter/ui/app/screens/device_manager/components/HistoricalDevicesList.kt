@@ -97,6 +97,5 @@ fun HistoricalDevicesList(
                 DeviceList(devices = devices, max_size = heightDp)
             }
         }
-
     }
 }

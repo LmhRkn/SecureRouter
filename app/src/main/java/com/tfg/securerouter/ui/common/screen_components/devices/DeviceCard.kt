@@ -36,7 +36,7 @@ fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = get_icon(device.mac)),
+                imageVector = device.icon,
                 contentDescription = "Router icon",
                 modifier = Modifier.size(40.dp),
                 tint = MaterialTheme.colorScheme.onBackground

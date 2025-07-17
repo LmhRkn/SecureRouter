@@ -4,7 +4,8 @@ import com.tfg.securerouter.R
 
 enum class DeviceLabel(val displayName: String) {
     Phone(R.string.device_label_phone.toString()),
-    Labtop(R.string.device_label_laptop.toString()),
+    PC(R.string.device_label_pc.toString()),
+    Console(R.string.device_label_console.toString()),
     Online(R.string.device_label_online.toString()),
     Offline(R.string.device_label_offline.toString()),
     Blocked(R.string.device_label_blocked.toString());

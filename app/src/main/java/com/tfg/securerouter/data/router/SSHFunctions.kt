@@ -92,7 +92,7 @@ fun sendCommand(command: String): String {
     val output = connectSSH(
         username = "root",
         password = "SecureRouter",
-        host = "192.168.2.104",
+        host = "192.168.1.104",
         command = command
     )
     return output

@@ -1,5 +1,7 @@
 package com.tfg.securerouter.data.common.screen_components
 
+import androidx.compose.ui.graphics.vector.ImageVector
+
 /**
  * Data class representing a device connected to the router.
  *
@@ -19,5 +21,6 @@ data class DeviceModel(
     val mac: String,
     val hostname: String?,
     val ip: String,
+    val icon: ImageVector,
     val labels: Set<DeviceLabel> = emptySet()
 )
