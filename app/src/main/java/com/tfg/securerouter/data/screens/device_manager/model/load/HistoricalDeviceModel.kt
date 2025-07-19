@@ -1,5 +1,6 @@
 package com.tfg.securerouter.data.screens.device_manager.model.load
 
+import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.material.icons.filled.Laptop
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class HistoricalDeviceModel(
-    private val sharedCache: MutableMap<String, Any>
+    private val sharedCache: MutableMap<String, Any>,
 ) : ScreenComponentModelDefault {
 
     private val _state = MutableStateFlow(HistoricalDeviceState())

@@ -1,5 +1,6 @@
 package com.tfg.securerouter.data.screens
 
+import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.material.icons.filled.Laptop
@@ -7,6 +8,8 @@ import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.tfg.securerouter.data.common.screen_components.DeviceLabel
+import com.tfg.securerouter.data.json.device_manager.DeviceCache
+import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.router.sendCommand
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,9 +39,20 @@ interface ScreenComponentModelDefault {
     }
 
     fun getDeviceType(mac: String): String {
+        DeviceManagerCache.get(mac)?.let {
+            return it
+        }
+
         val macParts = mac.split(":")
         if (macParts.size != 6) return "Unknown"
 
+        val vendorName = fetchVendorFromApi(macParts)
+
+        DeviceManagerCache.put(mac, vendorName)
+        return vendorName
+    }
+
+    private fun fetchVendorFromApi(macParts: List<String>): String {
         val vendorMac = "${macParts[0]}:${macParts[1]}:${macParts[2]}:XX:XX:XX"
         val curlCommand = "curl -s https://api.macvendors.com/${vendorMac}"
 
@@ -65,12 +79,13 @@ interface ScreenComponentModelDefault {
             Thread.sleep(retryDelayMs)
         }
 
-        if (vendorName.isBlank() || vendorName.contains("errors", ignoreCase = true)) {
-            vendorName = "Unknown"
+        return if (vendorName.isBlank() || vendorName.contains("errors", ignoreCase = true)) {
+            "Unknown"
+        } else {
+            vendorName
         }
-
-        return vendorName
     }
+
 
     fun getDeviceIconAndType(vendorName: String): Pair<ImageVector, DeviceLabel?> {
         val vendor = vendorName.lowercase()
@@ -84,7 +99,8 @@ interface ScreenComponentModelDefault {
                     vendor.contains("oneplus") ||
                     vendor.contains("google") ||
                     vendor.contains("oppo") ||
-                    vendor.contains("vivo") -> Pair(Icons.Filled.PhoneAndroid, DeviceLabel.Phone)
+                    vendor.contains("vivo")
+                        -> Pair(Icons.Filled.PhoneAndroid, DeviceLabel.Phone)
 
             // 💻 PCs, portátiles y servidores
             vendor.contains("dell") ||
@@ -94,12 +110,14 @@ interface ScreenComponentModelDefault {
                     vendor.contains("msi") ||
                     vendor.contains("acer") ||
                     vendor.contains("gigabyte") ||
-                    vendor.contains("microsoft") -> Pair(Icons.Filled.Laptop, DeviceLabel.PC)
+                    vendor.contains("microsoft")
+                        -> Pair(Icons.Filled.Laptop, DeviceLabel.PC)
 
             // 🎮 Consolas de juegos
             vendor.contains("sony") ||
                     vendor.contains("nintendo") ||
-                    vendor.contains("microsoft") -> Pair(Icons.Filled.SportsEsports, DeviceLabel.Console)
+                    vendor.contains("microsoft")
+                        -> Pair(Icons.Filled.SportsEsports, DeviceLabel.Console)
 
             // 📺 Otros (TV, IoT, impresoras, cámaras…)
             vendor.contains("lg") ||
@@ -109,7 +127,8 @@ interface ScreenComponentModelDefault {
                     vendor.contains("tplink") ||
                     vendor.contains("raspberry") ||
                     vendor.contains("amazon") ||
-                    vendor.contains("roku") -> Pair(Icons.Filled.DevicesOther, null)
+                    vendor.contains("roku")
+                        -> Pair(Icons.Filled.DevicesOther, null)
 
             // 🌐 Default (sin coincidencia)
             else -> Pair(Icons.Filled.DevicesOther, null)

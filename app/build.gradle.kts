@@ -1,4 +1,6 @@
 plugins {
+    kotlin("plugin.serialization") version "1.9.23"
+
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -43,6 +45,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5") // o última versión estable
     implementation("com.github.mwiede:jsch:0.2.10")
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

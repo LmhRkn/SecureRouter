@@ -1,5 +1,6 @@
 package com.tfg.securerouter.data.screens.device_manager.registry
 
+import android.content.Context
 import com.tfg.securerouter.data.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.screens.device_manager.model.load.HistoricalDeviceModel
 import com.tfg.securerouter.ui.app.screens.device_manager.DeviceManagerScreen
@@ -21,7 +22,9 @@ import com.tfg.securerouter.ui.app.screens.device_manager.DeviceManagerScreen
  * @see DeviceManagerScreen for the [DeviceManagerScreen]'s class.
  */
 
-class AdministrarDispositivosScreenContentRegistry(sharedCache: MutableMap<String, Any>) {
+class AdministrarDispositivosScreenContentRegistry(
+    sharedCache: MutableMap<String, Any>,
+) {
     val modules: List<ScreenComponentModelDefault> = listOf(
         HistoricalDeviceModel(sharedCache)
     )

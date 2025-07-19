@@ -1,5 +1,6 @@
 package com.tfg.securerouter.data.screens.home.model.load
 
+import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.material.icons.filled.Laptop
@@ -13,10 +14,12 @@ import com.tfg.securerouter.data.router.sendCommand
 import com.tfg.securerouter.data.screens.ScreenComponentModelDefault
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
 
 class ConnectedDeviceModel(
-    private val sharedCache: MutableMap<String, Any>
+    private val sharedCache: MutableMap<String, Any>,
 ) : ScreenComponentModelDefault {
+
 
     private val _state = MutableStateFlow(ConnectedDeviceState())
     val state: StateFlow<ConnectedDeviceState> = _state

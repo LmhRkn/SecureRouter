@@ -71,9 +71,5 @@ fun DeviceCard(device: DeviceModel, onClick: () -> Unit) {
     }
 }
 
-fun get_icon(mac: String): Int {
-    return R.drawable.ic_router
-}
-
 
 
