@@ -59,7 +59,7 @@ class HistoricalDeviceModel(
                     }
 
                     val vendorName = getDeviceType(parts[1])
-                    val (iconRes, extraLabel) = getDeviceIconAndType(vendorName)
+                    val (iconRes, iconDesc, extraLabel) = getDeviceIconAndType(vendorName)
                     extraLabel?.let { labels += it }
 
                     DeviceModel(
@@ -67,6 +67,7 @@ class HistoricalDeviceModel(
                         ip = parts[2],
                         hostname = parts[3],
                         icon = iconRes,
+                        iconDescription = iconDesc,
                         labels = labels
                     )
                 } else {

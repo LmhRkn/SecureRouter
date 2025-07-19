@@ -1,17 +1,18 @@
 package com.tfg.securerouter
 
 import android.app.Application
+import com.tfg.securerouter.data.json.JsonInitializer
 import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
 
 class SecureRouterApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        DeviceManagerCache.init(this)
-//        DeviceCache.clearCache()
+        JsonInitializer.init(this)
+//        JsonInitializer.clearCache()
     }
 
     override fun onTerminate() {
-        DeviceManagerCache.flush()
+        JsonInitializer.flush()
         super.onTerminate()
     }
 }

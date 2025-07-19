@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,38 +16,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 
 /**
- * A function for creating an toggle buttons
+ * Composable function for a customizable toggle switch button.
  *
  * Usage:
- * It adds a reusable toggle button.
+ * This button provides a smooth animated toggle between "on" and "off" states.
+ * It supports customization of colors, size, and external state handling through [onCheckedChange].
+ * The visual style includes a rounded track and a circular thumb that slides when toggled.
  *
- * @property checked a [Boolean] representing the initial state of the toggle button.
- * @property onCheckedChange a lambda function that is triggered when the state of the toggle button changes.
- * @property activeColor a [Color] representing the color of the toggle button when it is checked.
- * @property inactiveColor a [Color] representing the color of the toggle button when it is not checked.
- * @property thumbColor a [Color] representing the color of the thumb of the toggle button.
- * @property modifier a [Modifier] for customizing the layout of the composable.
- * @property buttonSize a [Dp] representing the size of the toggle button.
- *
+ * @param checked The initial checked state of the toggle. Defaults to `false`.
+ * @param onCheckedChange Lambda to be invoked with the new state when the toggle is clicked.
+ * @param activeColor The background color of the switch when it is "on". Defaults to [primary].
+ * @param inactiveColor The background color of the switch when it is "off". Defaults to [onBackground].
+ * @param thumbColor The color of the thumb (circular slider). Defaults to [inversePrimary].
+ * @param modifier A [Modifier] for custom styling or layout adjustments. Defaults to an empty modifier.
+ * @param buttonSize The height of the toggle switch. The width is automatically scaled. Defaults to `50.dp`.
  */
-
 @Composable
 fun ToggleButton(
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit,
-    activeColor: Color = Color(0xFF2196F3),
-    inactiveColor: Color = Color.LightGray,
-    thumbColor: Color = Color.White,
+    activeColor: Color = MaterialTheme.colorScheme.primary,
+    inactiveColor: Color = MaterialTheme.colorScheme.onBackground,
+    thumbColor: Color = MaterialTheme.colorScheme.inversePrimary,
     modifier: Modifier = Modifier,
     buttonSize: Dp = 50.dp,
 ) {
     var isChecked by remember { mutableStateOf(checked) }
 
-
     val switchHeight: Dp = buttonSize
     val switchWidth: Dp = buttonSize * 1.6f
     val thumbSize: Dp = buttonSize * 0.87f
 
+    // Animates the thumb position smoothly when toggled
     val thumbOffset by animateDpAsState(
         targetValue = if (isChecked) (switchWidth - thumbSize) else 0.dp,
         label = "ThumbOffset"
@@ -74,4 +75,3 @@ fun ToggleButton(
         )
     }
 }
-

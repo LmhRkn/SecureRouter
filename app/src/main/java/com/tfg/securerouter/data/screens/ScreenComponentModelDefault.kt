@@ -6,7 +6,10 @@ import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.material.icons.filled.Laptop
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SportsEsports
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.common.screen_components.DeviceLabel
 import com.tfg.securerouter.data.json.device_manager.DeviceCache
 import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
@@ -87,7 +90,7 @@ interface ScreenComponentModelDefault {
     }
 
 
-    fun getDeviceIconAndType(vendorName: String): Pair<ImageVector, DeviceLabel?> {
+    fun getDeviceIconAndType(vendorName: String): Triple<ImageVector, Int, DeviceLabel?> {
         val vendor = vendorName.lowercase()
 
         return when {
@@ -100,7 +103,7 @@ interface ScreenComponentModelDefault {
                     vendor.contains("google") ||
                     vendor.contains("oppo") ||
                     vendor.contains("vivo")
-                        -> Pair(Icons.Filled.PhoneAndroid, DeviceLabel.Phone)
+                        -> Triple(Icons.Filled.PhoneAndroid, R.string.device_phone_icon, DeviceLabel.Phone)
 
             // 💻 PCs, portátiles y servidores
             vendor.contains("dell") ||
@@ -111,13 +114,13 @@ interface ScreenComponentModelDefault {
                     vendor.contains("acer") ||
                     vendor.contains("gigabyte") ||
                     vendor.contains("microsoft")
-                        -> Pair(Icons.Filled.Laptop, DeviceLabel.PC)
+                        -> Triple(Icons.Filled.Laptop, R.string.device_pc_icon, DeviceLabel.PC)
 
             // 🎮 Consolas de juegos
             vendor.contains("sony") ||
                     vendor.contains("nintendo") ||
                     vendor.contains("microsoft")
-                        -> Pair(Icons.Filled.SportsEsports, DeviceLabel.Console)
+                        -> Triple(Icons.Filled.SportsEsports, R.string.device_console_icon, DeviceLabel.Console)
 
             // 📺 Otros (TV, IoT, impresoras, cámaras…)
             vendor.contains("lg") ||
@@ -128,10 +131,10 @@ interface ScreenComponentModelDefault {
                     vendor.contains("raspberry") ||
                     vendor.contains("amazon") ||
                     vendor.contains("roku")
-                        -> Pair(Icons.Filled.DevicesOther, null)
+                        -> Triple(Icons.Filled.DevicesOther, R.string.device_other_device_icon, null)
 
             // 🌐 Default (sin coincidencia)
-            else -> Pair(Icons.Filled.DevicesOther, null)
+            else -> Triple(Icons.Filled.DevicesOther, R.string.device_other_device_icon, null)
         }
     }
 }

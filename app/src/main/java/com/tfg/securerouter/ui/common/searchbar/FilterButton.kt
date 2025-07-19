@@ -11,7 +11,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.common.screen_components.DeviceLabel
+
+/**
+ * Composable function for a filter button with a dropdown menu of selectable options.
+ *
+ * Usage:
+ * This component displays an [IconButton] with a filter icon. When clicked, it opens a dropdown menu
+ * containing checkboxes for all available [DeviceLabel] options. The user can toggle filters, and
+ * changes are propagated via [onFiltersChanged].
+  *
+ * @param modifier Modifier applied to the button container. Defaults to [Modifier].
+ * @param selectedFilters The current set of selected [DeviceLabel] filters.
+ * @param onFiltersChanged Lambda invoked with the updated set of filters whenever a change occurs.
+ * @param iconButton The icon displayed in the button. Defaults to [Icons.Default.FilterList].
+ * @param contentDescription Content description for accessibility of the filter icon.
+ * @param iconColor Color applied to the filter icon. Defaults to [MaterialTheme.colorScheme.primary].
+ * @param checkedColor Color of checkboxes when selected. Defaults to [MaterialTheme.colorScheme.primary].
+ * @param uncheckedColor Color of checkboxes when unselected. Defaults to [MaterialTheme.colorScheme.primary].
+ *
+ * @see DeviceLabel
+ */
 
 @Composable
 fun FilterButton(
@@ -19,7 +40,7 @@ fun FilterButton(
     selectedFilters: Set<DeviceLabel>,
     onFiltersChanged: (Set<DeviceLabel>) -> Unit,
     iconButton: ImageVector = Icons.Default.FilterList,
-    contentDescription: String = "Abrir filtros",
+    contentDescription: String = stringResource(R.string.filter_button_description),
     iconColor: Color = MaterialTheme.colorScheme.primary,
     checkedColor: Color = MaterialTheme.colorScheme.primary,
     uncheckedColor: Color = MaterialTheme.colorScheme.primary
@@ -48,7 +69,7 @@ fun FilterButton(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Checkbox(
                                 checked = currentFilters.value.contains(label),
-                                onCheckedChange = null, // handled in onClick
+                                onCheckedChange = null,
                                 colors = CheckboxDefaults.colors(
                                     checkedColor = checkedColor,
                                     uncheckedColor = uncheckedColor
@@ -59,12 +80,10 @@ fun FilterButton(
                         }
                     },
                     onClick = {
-                        // Toggle filter and create a new Set for recomposition
                         val updated = currentFilters.value.toMutableSet()
                         if (updated.contains(label)) updated.remove(label) else updated.add(label)
                         currentFilters.value = updated
 
-                        // Notify parent immediately
                         onFiltersChanged(updated.toSet())
                     }
                 )

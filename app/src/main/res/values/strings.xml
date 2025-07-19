@@ -39,4 +39,16 @@
     <string name="device_label_online">Conectado</string>
     <string name="device_label_offline">Desconectado</string>
     <string name="device_label_blocked">Bloqueado</string>
+
+    <string name="device_phone_icon">Icono Móvil</string>
+    <string name="device_pc_icon">Icono PC</string>
+    <string name="device_console_icon">Icono Consola</string>
+    <string name="device_other_device_icon">Icono Otros Dispositivos</string>
+    
+    <!-- COMMON COMPONENTS -->
+    <string name="search_bar_hint">Búscar...</string>
+    <string name="search_bar_search_icon_description">Icono Búscar</string>
+    <string name="search_bar_trailing_icon_description">Icono Limpiar</string>
+
+    <string name="filter_button_description">Abrir Filtros</string>
 </resources>

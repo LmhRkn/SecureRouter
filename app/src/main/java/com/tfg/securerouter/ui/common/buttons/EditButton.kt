@@ -14,6 +14,18 @@ import com.tfg.securerouter.R
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.size
 
+/**
+ * Composable function for rendering a reusable Edit button with a pencil icon.
+ *
+ * Usage:
+ * This button is used throughout the UI wherever an "edit" action is required,
+ * such as modifying router information or user settings.
+ * The button uses a Material Design icon and supports customization of color and size.
+ *
+ * @param onClick Lambda to be invoked when the button is pressed.
+ * @param color The color applied to the icon. Defaults to [onBackground].
+ * @param iconSize The size of the icon in dp. Defaults to 24.dp.
+ */
 @Composable
 fun EditButton(
     onClick: () -> Unit,
