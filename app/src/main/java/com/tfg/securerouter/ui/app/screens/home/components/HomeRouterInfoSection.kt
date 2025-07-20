@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.menu.screens.home.state.HomeRouterInfoState
-import com.tfg.securerouter.ui.common.texts.EditableTextField
+import com.tfg.securerouter.data.app.screens.home.state.HomeRouterInfoState
+import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 
 @Composable
 fun HomeRouterInfoSection(

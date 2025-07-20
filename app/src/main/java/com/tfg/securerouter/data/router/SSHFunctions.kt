@@ -4,20 +4,23 @@ import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 
 /**
- * Establishes an SSH connection to a remote host and executes a given command.
+ * Establishes an SSH connection to a remote host and executes a single command.
+ *
+ * Usage:
+ * This function creates an SSH session using the provided credentials, runs the given [command],
+ * and returns its output as a [String]. It disables strict host key checking for simplicity.
+ *
  * Notes:
- *  * - Host key checking is disabled for convenience (`StrictHostKeyChecking = no`).
- *  * - This method is blocking and should be called from a background thread (e.g., via Dispatchers.IO).
+ * - The function is private and intended for internal use.
+ * - Uses a 30-second timeout for session connection.
+ * - Automatically closes the session and channel after execution.
  *
- * @param username The SSH username [String] (e.g., "root").
- * @param password The SSH password [String] for authentication.
- * @param host The IP address or hostname [String] of the remote SSH server.
- * @param port The port number [Int] for the SSH connection (default is 22).
- * @param command The shell command [String] to be executed on the remote host.
- *
- * @return The output of the executed command as a [String], or an error message if the connection fails.
- *
- * @throws Exception Prints stack trace on failure and returns the exception message in the output.
+ * @param username The SSH username for authentication.
+ * @param password The SSH password for authentication.
+ * @param host The IP address or hostname of the SSH server.
+ * @param port The SSH port. Defaults to `22`.
+ * @param command The shell command to execute on the remote host.
+ * @return The standard output of the executed command, or an error message if execution fails.
  */
 
 private fun connectSSH(
@@ -79,20 +82,23 @@ private fun connectSSH(
 }
 
 /**
- * Sends a shell command to a predefined router via SSH and returns the result.
+ * Sends a shell command to the router via SSH using predefined credentials and host.
  *
- * Uses fixed credentials and host (root@192.168.2.104).
+ * Usage:
+ * This function is a convenience wrapper around [connectSSH] that executes the specified
+ * [command] on a router and returns its standard output as a [String].
  *
- * @param command The shell command [String] to send to the router.
- * @return The output from the SSH command execution [String].
+ * @param command The shell command to execute on the router.
+ * @return The standard output from the command execution, or an error message if the connection fails.
  *
- * @see connectSSH for internal connection logic.
+ * @see connectSSH
  */
+
 fun sendCommand(command: String): String {
     val output = connectSSH(
         username = "root",
         password = "SecureRouter",
-        host = "192.168.2.104",
+        host = "192.168.1.104",
         command = command
     )
     return output

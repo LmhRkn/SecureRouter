@@ -10,9 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.main_screen.model.ScreenEvent
-import com.tfg.securerouter.data.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent
+import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.app.screens.main_screen.model.ScreenEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 

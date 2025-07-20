@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.navegation.LocalNavController
-import com.tfg.securerouter.data.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.screens.settings.SettingsCoordinator
+import com.tfg.securerouter.data.app.navegation.LocalNavController
+import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.app.screens.settings.SettingsCoordinator
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.settings.components.LanguageComponent
 

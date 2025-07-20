@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.menu.screens.home.state.ConnectedDeviceState
+import com.tfg.securerouter.data.app.screens.home.state.load.ConnectedDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp
-import com.tfg.securerouter.ui.common.screen_components.devices.DeviceList
+import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
 
 @Composable
 fun ConnectedDevicesList(
@@ -45,7 +42,7 @@ fun ConnectedDevicesList(
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            DeviceList(devices = devices, max_size = heightDp)
+            DeviceList(devices = devices, maxSize = heightDp)
         }
     }
 }

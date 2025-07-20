@@ -3,7 +3,7 @@
 
     <!-- MENU OPTIONS SCREENS -->
     <string name="home_title">Inicio</string>
-    <string name="administrar_title">Administrar Dispositivos</string>
+    <string name="manage_devices_title">Administrar Dispositivos</string>
     <string name="wifi_title">Wifi</string>
     <string name="filter_title">Filtros</string>
     <string name="settings_title">Configuración</string>
@@ -20,6 +20,9 @@
     <!-- Divece Manager -->
     <string name="dive_manger_historical_devices_list">Dispositivos Permitidos</string>
     <string name="dive_manger_blocked_devices_list">Dispositivos Bloquados</string>
+    <string name="dive_manger_show_allowed_devices_button">Mostrar Dispositivos Permitidos</string>
+    <string name="dive_manger_show_blocked_devices_button">Mostrar Dispositivos Bloquados</string>
+    <string name="dive_manger_search_hint">Buscar dispositivo...</string>
 
     <!-- SETTINGS -->
     <string name="setting_language">Idioma:</string>

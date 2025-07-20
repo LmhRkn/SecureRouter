@@ -6,53 +6,60 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * Calculates the width in dp based on a given weight and maximum width constraint.
+ *
+ * Usage:
+ * Converts a proportional [weight] into an absolute width using the device's screen width
+ * and a specified [maxWidth] limit.
+ *
+ * @param maxWidth The maximum width constraint in dp.
+ * @param weight The proportion (0.0f to 1.0f) of the width to allocate.
+ * @return The computed width in dp.
+ */
 @Composable
 fun width_weight_to_dp(
     maxWidth: Dp,
     weight: Float
 ): Dp {
-    // Obtener tamaño de pantalla en dp
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
-
 
     return weight_to_dp(max_length = maxWidth, weight = weight, screenHeightDp = screenWidthDp)
 }
 
+/**
+ * Calculates the height in dp based on a given weight and maximum height constraint.
+ *
+ * Usage:
+ * Converts a proportional [weight] into an absolute height using the device's screen height
+ * and a specified [maxHeight] limit.
+ *
+ * @param maxHeight The maximum height constraint in dp.
+ * @param weight The proportion (0.0f to 1.0f) of the height to allocate.
+ * @return The computed height in dp.
+ */
 @Composable
 fun height_weight_to_dp(
     maxHeight: Dp,
     weight: Float
 ): Dp {
-    // Obtener tamaño de pantalla en dp
     val configuration = LocalConfiguration.current
     val screenHeightDp = configuration.screenHeightDp.dp
 
     return weight_to_dp(max_length = maxHeight, weight = weight, screenHeightDp = screenHeightDp)
 }
-@Composable
-fun height_weight_to_dp2(
-    maxHeight: Dp,
-    weight: Float
-): Dp {
-    // Obtener tamaño de pantalla en dp
-    val configuration = LocalConfiguration.current
-    val screenHeightDp = configuration.screenHeightDp.dp
 
-    val density = LocalDensity.current
-
-    // Tamaño disponible para este componente
-    val parentHeightDp = with(density) { maxHeight }
-
-    // Tomar el tamaño más pequeño entre pantalla y contenedor
-    val minHeightDp = minOf(screenHeightDp, parentHeightDp)
-
-    // Si hay un total de N weights, aquí asumimos solo el peso actual
-    val allocatedHeightDp = minHeightDp * weight
-
-    return allocatedHeightDp
-}
-
+/**
+ * Helper function that converts a weight into a dp value based on screen size and a maximum constraint.
+ *
+ * This function is used internally by [width_weight_to_dp] and [height_weight_to_dp].
+ *
+ * @param max_length The maximum size constraint (width or height) in dp.
+ * @param weight The proportion (0.0f to 1.0f) of the size to allocate.
+ * @param screenHeightDp The screen dimension (width or height) in dp.
+ * @return The computed size in dp.
+ */
 @Composable
 private fun weight_to_dp(
     max_length: Dp,
@@ -60,16 +67,11 @@ private fun weight_to_dp(
     screenHeightDp: Dp
 ): Dp {
     val screenDp = screenHeightDp
-
     val density = LocalDensity.current
 
-    // Tamaño disponible para este componente
     val parentDp = with(density) { max_length }
-
-    // Tomar el tamaño más pequeño entre pantalla y contenedor
     val minDp = minOf(screenDp, parentDp)
 
-    // Si hay un total de N weights, aquí asumimos solo el peso actual
     val allocatedHeightDp = minDp * weight
 
     return allocatedHeightDp

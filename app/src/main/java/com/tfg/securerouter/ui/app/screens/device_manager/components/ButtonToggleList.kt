@@ -15,7 +15,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent
+import androidx.compose.ui.res.stringResource
+import com.tfg.securerouter.R
+import com.tfg.securerouter.data.app.screens.device_manager.model.DeviceManagerScreenEvent
 
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.theme.LocalExtraColors
@@ -24,7 +26,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
+/**
+ * Composable button that toggles between displaying blocked and allowed device lists.
+ *
+ * Features:
+ * - Sends [DeviceManagerScreenEvent.ToggleSomething] to the parent screen’s event bus when clicked.
+ * - Dynamically updates its label and background color based on toggle state.
+ * - Listens for toggle events from the [ScreenDefault.eventBus] to stay in sync with other components.
+ *
+ * @param parent The parent [ScreenDefault] providing access to the event bus.
+ *
+ * @see DeviceManagerScreenEvent.ToggleSomething
+ */
 @Composable
 fun ButtonToggleList(
     parent: ScreenDefault
@@ -35,7 +48,7 @@ fun ButtonToggleList(
 
     LaunchedEffect(Unit) {
         eventFlow.collect { event ->
-            if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.ToggleSomething) {
+            if (event is DeviceManagerScreenEvent.ToggleSomething) {
                 isToggled = !isToggled
             }
         }
@@ -48,14 +61,15 @@ fun ButtonToggleList(
         Button(
             onClick = {
                 CoroutineScope(Dispatchers.Main).launch {
-                    parent.sendEvent(com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.ToggleSomething)
+                    parent.sendEvent(DeviceManagerScreenEvent.ToggleSomething)
                 }
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (isToggled) extraColors.errorStatus else MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Enviar evento")
+            val buttonText = if (isToggled) stringResource(R.string.dive_manger_show_allowed_devices_button) else stringResource(R.string.dive_manger_show_blocked_devices_button)
+            Text(buttonText)
         }
     }
 }

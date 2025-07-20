@@ -15,6 +15,7 @@ import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
  * Each cache in the list will be initialized and flushed automatically.
  *
  * @see BaseCache
+ * @see JsonRegistry
  */
 object JsonInitializer {
 
@@ -25,9 +26,7 @@ object JsonInitializer {
      * Any new cache class extending [BaseCache] must be added to this list.
      * Otherwise, it will not be loaded into memory or persisted to disk.
      */
-    private val caches = listOf(
-        DeviceManagerCache,
-    )
+    private val caches = JsonRegistry.caches
 
     /**
     * Initializes all caches by reading their data from disk into memory.

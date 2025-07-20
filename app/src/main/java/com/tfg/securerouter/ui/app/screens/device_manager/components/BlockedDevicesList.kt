@@ -18,13 +18,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.common.screen_components.DeviceLabel
-import com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent
-import com.tfg.securerouter.data.screens.device_manager.state.HistoricalDeviceState
+import com.tfg.securerouter.data.app.common.screen_components.DeviceLabel
+import com.tfg.securerouter.data.app.screens.device_manager.model.DeviceManagerScreenEvent
+import com.tfg.securerouter.data.app.screens.device_manager.state.HistoricalDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
-import com.tfg.securerouter.ui.common.screen_components.devices.DeviceList
+import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
 
+/**
+ * Composable for displaying a filtered and searchable list of blocked devices.
+ *
+ * Features:
+ * - Dynamically filters devices by search query and selected labels.
+ * - Reacts to events from the parent screen’s [ScreenDefault.eventBus], supporting:
+ *   - Search queries ([DeviceManagerScreenEvent.SearchSomething])
+ *   - Label filters ([DeviceManagerScreenEvent.FilterSomething])
+ *   - Toggling visibility ([DeviceManagerScreenEvent.ToggleSomething]).
+ * - Adjusts its height proportionally using [height_weight_to_dp].
+ *
+ * @param devices_state The [HistoricalDeviceState] holding all historical devices.
+ * @param weight Proportional height (0.0f to 1.0f) relative to available space. Defaults to `1f`.
+ * @param parent The parent [ScreenDefault] providing access to the event bus.
+ *
+ * @see DeviceList
+ * @see DeviceManagerScreenEvent
+ */
 @Composable
 fun BlockedDevicesList(
     devices_state: HistoricalDeviceState,
@@ -37,14 +55,13 @@ fun BlockedDevicesList(
 
     LaunchedEffect(Unit) {
         eventFlow.collect { event ->
-            if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.SearchSomething) {
+            if (event is DeviceManagerScreenEvent.SearchSomething) {
                 searchQuery = event.query
-            } else if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.FilterSomething) {
+            } else if (event is DeviceManagerScreenEvent.FilterSomething) {
                 labelFilters = event.filters
             }
         }
     }
-    // Filtrar dispositivos que NO tienen la etiqueta Blocked
     val total_devices = devices_state.historicalDevices.filter {
         DeviceLabel.Blocked in it.labels
     }
@@ -68,10 +85,9 @@ fun BlockedDevicesList(
 
         var showAllowedDevices by remember { mutableStateOf(true) }
 
-        // Escuchar el evento Toggle
         LaunchedEffect(Unit) {
             eventFlow.collect { event ->
-                if (event is com.tfg.securerouter.data.screens.device_manager.model.DeviceManagerScreenEvent.ToggleSomething) {
+                if (event is DeviceManagerScreenEvent.ToggleSomething) {
                     showAllowedDevices = !showAllowedDevices
                 }
             }
@@ -95,7 +111,7 @@ fun BlockedDevicesList(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            if(!showAllowedDevices) DeviceList(devices = devices, max_size = heightDp)
+            if(!showAllowedDevices) DeviceList(devices = devices, maxSize = heightDp)
         }
     }
 }
