@@ -16,12 +16,27 @@ import com.tfg.securerouter.data.app.screens.home.state.load.ConnectedDeviceStat
 import com.tfg.securerouter.data.utils.height_weight_to_dp
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
 
+/**
+ * Composable that displays a list of currently connected devices.
+ *
+ * This UI component shows:
+ * - A header with the total number of connected devices.
+ * - A scrollable list of devices rendered by [DeviceList].
+ *
+ * The height of the component is calculated proportionally based on [weight].
+ *
+ * @param devicesState The state containing the list of connected devices.
+ * @param weight The proportional height weight relative to the parent container (default is 1f).
+ *
+ * @see DeviceList
+ * @see height_weight_to_dp
+ */
 @Composable
 fun ConnectedDevicesList(
-    devices_state: ConnectedDeviceState,
+    devicesState: ConnectedDeviceState,
     weight: Float = 1f
 ) {
-    val devices = devices_state.connectedDevices
+    val devices = devicesState.connectedDevices
 
     BoxWithConstraints {
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = weight)

@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.screens.filter.registry
+   package com.tfg.securerouter.data.app.screens.filter.registry
 
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.ui.app.screens.filter.FilterScreen

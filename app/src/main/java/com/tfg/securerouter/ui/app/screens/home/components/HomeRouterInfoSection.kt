@@ -11,6 +11,19 @@ import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.home.state.HomeRouterInfoState
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 
+/**
+ * Composable that displays the router's information section on the Home screen.
+ *
+ * Features:
+ * - Shows the router alias (SSID) or falls back to the MAC address if alias is null.
+ * - Allows editing of the alias using [EditableTextField].
+ * - Displays the router’s MAC address below the editable field.
+ *
+ * @param state The [HomeRouterInfoState] containing the router alias and MAC address.
+ * @param onEditAliasClick Callback invoked when the user saves a new alias.
+ *
+ * @see EditableTextField
+ */
 @Composable
 fun HomeRouterInfoSection(
     state: HomeRouterInfoState,

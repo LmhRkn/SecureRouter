@@ -3,6 +3,7 @@ package com.tfg.securerouter.data.app.screens.home.registry
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
+import com.tfg.securerouter.ui.app.screens.home.HomeScreen
 
 /**
  * Registry object that holds all available [HomeScreen]'s contents.

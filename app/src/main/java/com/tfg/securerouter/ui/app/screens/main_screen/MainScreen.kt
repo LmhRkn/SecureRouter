@@ -17,11 +17,27 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.tfg.securerouter.data.app.menu.MenuRegistry
 import com.tfg.securerouter.data.app.navegation.LocalNavController
+import com.tfg.securerouter.data.app.navegation.MainNavigation
 import com.tfg.securerouter.data.app.screens.main_screen.model.TopBarViewModel
 import com.tfg.securerouter.data.app.screens.main_screen.state.TopBarModel
 import com.tfg.securerouter.ui.app.screens.DrawerContent
 import kotlinx.coroutines.launch
 
+/**
+ * Root composable for the SecureRouter app.
+ *
+ * This screen sets up:
+ * - The main navigation controller.
+ * - A [ModalNavigationDrawer] with a dynamic top bar.
+ * - A [Scaffold] to display content with consistent UI chrome.
+ *
+ * It manages state for the drawer and top bar title, and initializes navigation using
+ * [MainNavigation].
+ *
+ * @see TopBarViewModel
+ * @see MenuRegistry
+ * @see MainNavigation
+ */
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
@@ -60,6 +76,12 @@ fun MainScreen() {
     )
 }
 
+/**
+ * Observes navigation changes and updates the top bar title accordingly.
+ *
+ * @param navController The [NavHostController] managing app navigation.
+ * @param viewModel The [TopBarViewModel] responsible for top bar state.
+ */
 @Composable
 private fun UpdateTopBarTitle(navController: NavHostController, viewModel: TopBarViewModel) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -74,6 +96,17 @@ private fun UpdateTopBarTitle(navController: NavHostController, viewModel: TopBa
     }
 }
 
+/**
+ * Builds the layout with a [ModalNavigationDrawer], a dynamic top bar, and the main navigation graph.
+ *
+ * @param drawerState The [DrawerState] controlling open/close behavior.
+ * @param topBarState The [TopBarModel] providing the current title.
+ * @param onMenuClick Action to perform when the menu icon is tapped.
+ * @param onDrawerItemClick Action to perform when a drawer item is selected.
+ * @param visible Whether the drawer content should be visible.
+ * @param topBarHeightPx Mutable state holding the top bar’s pixel height.
+ * @param navController The [NavHostController] for app navigation.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawerContent(
@@ -141,7 +174,9 @@ fun NavigationDrawerContent(
     }
 }
 
-
+/**
+ * Header section displayed at the top of the navigation drawer.
+ */
 @Composable
 fun DrawerHeader() {
     Box(

@@ -25,7 +25,7 @@ fun width_weight_to_dp(
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
 
-    return weight_to_dp(max_length = maxWidth, weight = weight, screenHeightDp = screenWidthDp)
+    return weight_to_dp(maxLength = maxWidth, weight = weight, screenHeightDp = screenWidthDp)
 }
 
 /**
@@ -47,7 +47,7 @@ fun height_weight_to_dp(
     val configuration = LocalConfiguration.current
     val screenHeightDp = configuration.screenHeightDp.dp
 
-    return weight_to_dp(max_length = maxHeight, weight = weight, screenHeightDp = screenHeightDp)
+    return weight_to_dp(maxLength = maxHeight, weight = weight, screenHeightDp = screenHeightDp)
 }
 
 /**
@@ -55,21 +55,21 @@ fun height_weight_to_dp(
  *
  * This function is used internally by [width_weight_to_dp] and [height_weight_to_dp].
  *
- * @param max_length The maximum size constraint (width or height) in dp.
+ * @param maxLength The maximum size constraint (width or height) in dp.
  * @param weight The proportion (0.0f to 1.0f) of the size to allocate.
  * @param screenHeightDp The screen dimension (width or height) in dp.
  * @return The computed size in dp.
  */
 @Composable
 private fun weight_to_dp(
-    max_length: Dp,
+    maxLength: Dp,
     weight: Float,
     screenHeightDp: Dp
 ): Dp {
     val screenDp = screenHeightDp
     val density = LocalDensity.current
 
-    val parentDp = with(density) { max_length }
+    val parentDp = with(density) { maxLength }
     val minDp = minOf(screenDp, parentDp)
 
     val allocatedHeightDp = minDp * weight
