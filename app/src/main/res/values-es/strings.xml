@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SecureRouter</string>
 
@@ -47,7 +48,7 @@
     <string name="device_pc_icon">Icono PC</string>
     <string name="device_console_icon">Icono Consola</string>
     <string name="device_other_device_icon">Icono Otros Dispositivos</string>
-    
+
     <!-- COMMON COMPONENTS -->
     <string name="search_bar_hint">Búscar...</string>
     <string name="search_bar_search_icon_description">Icono Búscar</string>
@@ -59,11 +60,8 @@
     <string name="language_selected_language">Español</string>
 
     <string name="language_spanish">Español</string>
-    <string name="language_spanish_abbreviation" translatable="false">es</string>
     <string name="language_english">Inglés</string>
-    <string name="language_english_abbreviation" translatable="false">en</string>
 
     <string name="language_back_button">Volver</string>
     <string name="language_apply_button">Aplicar</string>
-
 </resources>

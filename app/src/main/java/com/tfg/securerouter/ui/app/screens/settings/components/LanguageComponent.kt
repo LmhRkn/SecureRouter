@@ -15,7 +15,6 @@ import com.tfg.securerouter.R
 
 @Composable
 fun LanguageComponent(
-    currentLanguage: String,
     navController: NavController
 ) {
     Row(
@@ -25,7 +24,7 @@ fun LanguageComponent(
             .padding(16.dp)
     ) {
         Text(
-            text = "${stringResource(R.string.setting_language)} $currentLanguage",
+            text = "${stringResource(R.string.setting_language)} ${stringResource(R.string.language_selected_language)}",
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleLarge
         )

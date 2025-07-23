@@ -69,7 +69,6 @@ class SettingsScreen: ScreenDefault() {
 
         addComponents(
             { LanguageComponent(
-                currentLanguage = stringResource(R.string.setting_language_selected),
                 navController = LocalNavController.current
             ) }
         )

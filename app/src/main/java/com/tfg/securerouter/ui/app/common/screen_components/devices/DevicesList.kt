@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.app.common.screen_components.DeviceModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
 import com.tfg.securerouter.ui.common.home_screen.DeviceCard
 
 /**

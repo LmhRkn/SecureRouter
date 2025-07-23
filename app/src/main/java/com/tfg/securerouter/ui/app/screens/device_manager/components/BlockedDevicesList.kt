@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.common.screen_components.DeviceLabel
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.screens.device_manager.model.DeviceManagerScreenEvent
 import com.tfg.securerouter.data.app.screens.device_manager.state.HistoricalDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp
@@ -36,7 +36,7 @@ import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
  *   - Toggling visibility ([DeviceManagerScreenEvent.ToggleSomething]).
  * - Adjusts its height proportionally using [height_weight_to_dp].
  *
- * @param devices_state The [HistoricalDeviceState] holding all historical devices.
+ * @param devicesState The [HistoricalDeviceState] holding all historical devices.
  * @param weight Proportional height (0.0f to 1.0f) relative to available space. Defaults to `1f`.
  * @param parent The parent [ScreenDefault] providing access to the event bus.
  *
@@ -45,7 +45,7 @@ import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
  */
 @Composable
 fun BlockedDevicesList(
-    devices_state: HistoricalDeviceState,
+    devicesState: HistoricalDeviceState,
     weight: Float = 1f,
     parent: ScreenDefault
 ) {
@@ -62,11 +62,11 @@ fun BlockedDevicesList(
             }
         }
     }
-    val total_devices = devices_state.historicalDevices.filter {
+    val totalDevices = devicesState.historicalDevices.filter {
         DeviceLabel.Blocked in it.labels
     }
 
-    val devices = total_devices.filter { device ->
+    val devices = totalDevices.filter { device ->
         val hostname = device.hostname?.lowercase() ?: ""
         val query = searchQuery.lowercase()
 
@@ -104,7 +104,7 @@ fun BlockedDevicesList(
             Text(
                 "${
                     stringResource(id = R.string.dive_manger_blocked_devices_list)
-                } (${total_devices.size})",
+                } (${totalDevices.size})",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )

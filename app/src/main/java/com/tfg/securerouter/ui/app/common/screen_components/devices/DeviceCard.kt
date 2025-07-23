@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import com.tfg.securerouter.data.app.common.screen_components.DeviceModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
 
 /**

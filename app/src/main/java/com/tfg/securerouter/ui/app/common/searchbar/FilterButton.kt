@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.app.common.screen_components.DeviceLabel
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 
 /**
  * Composable function for a filter button with a dropdown menu of selectable options.

@@ -52,23 +52,4 @@ class LanguageCoordinator : ViewModel(), ScreenCoordinatorDefault {
         }.awaitAll()
         _isReady.value = results.all { it }
     }
-
-    private val _sharedState = MutableStateFlow(false)
-    val sharedState: StateFlow<Boolean> = _sharedState.asStateFlow()
-
-    /**
-     * Toggles the current [sharedState] value between true and false.
-     */
-    fun toggleSharedState() {
-        _sharedState.value = !_sharedState.value
-    }
-
-    /**
-     * Sets the [sharedState] to a specific value.
-     *
-     * @param value The new state to set (true or false).
-     */
-    fun setSharedState(value: Boolean) {
-        _sharedState.value = value
-    }
 }

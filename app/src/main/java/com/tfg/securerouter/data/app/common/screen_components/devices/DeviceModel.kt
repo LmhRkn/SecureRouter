@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.common.screen_components
+package com.tfg.securerouter.data.app.common.screen_components.devices
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

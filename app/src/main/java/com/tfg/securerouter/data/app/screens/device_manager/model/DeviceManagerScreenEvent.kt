@@ -1,6 +1,6 @@
 package com.tfg.securerouter.data.app.screens.device_manager.model
 
-import com.tfg.securerouter.data.app.common.screen_components.DeviceLabel
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.screens.main_screen.model.ScreenEvent
 
 /**
@@ -15,7 +15,7 @@ import com.tfg.securerouter.data.app.screens.main_screen.model.ScreenEvent
  */
 
 sealed class DeviceManagerScreenEvent: ScreenEvent {
-    object ToggleSomething : DeviceManagerScreenEvent()
+    data object ToggleSomething : DeviceManagerScreenEvent()
     data class SearchSomething(val query: String) : DeviceManagerScreenEvent()
     data class FilterSomething(val filters: Set<DeviceLabel>) :DeviceManagerScreenEvent()
 

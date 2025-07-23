@@ -77,7 +77,7 @@ class DeviceManagerScreen: ScreenDefault() {
                 HistoricalDevicesList(devices_state = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)
                 ButtonToggleList(parent = this@DeviceManagerScreen)
                 Spacer(modifier = Modifier.height(8.dp))
-                BlockedDevicesList(devices_state = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)
+                BlockedDevicesList(devicesState = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)
             },
         )
 

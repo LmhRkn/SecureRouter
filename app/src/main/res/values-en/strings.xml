@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureRouter</string>
+
+    <!-- MENU OPTIONS SCREENS -->
+    <string name="home_title">Home</string>
+    <string name="manage_devices_title">Manage Devices</string>
+    <string name="wifi_title">Wi-Fi</string>
+    <string name="filter_title">Filters</string>
+    <string name="settings_title">Settings</string>
+
+    <!-- MAIN SCREEN -->
+    <string name="menu_ic_description">Menu</string>
+    <string name="home_router_Info_section_description">Edit alias</string>
+
+    <!-- HOME SCREEN -->
+    <string name="home_connected_devices_list">Connected Devices</string>
+    <string name="home_router_info_section_description">Edit alias</string>
+
+    <!-- DEVICE MANAGER -->
+    <string name="dive_manger_historical_devices_list">Allowed Devices</string>
+    <string name="dive_manger_blocked_devices_list">Blocked Devices</string>
+    <string name="dive_manger_show_allowed_devices_button">Show Allowed Devices</string>
+    <string name="dive_manger_show_blocked_devices_button">Show Blocked Devices</string>
+    <string name="dive_manger_search_hint">Search device…</string>
+
+    <!-- SETTINGS -->
+    <string name="setting_language">Language:</string>
+    <string name="setting_language_selected">English</string>
+
+    <!-- Buttons -->
+    <string name="cancel_button">Cancel</string>
+    <string name="save_button">Save</string>
+
+    <!-- ICONS -->
+    <string name="vpn_icon_string">VPN</string>
+
+    <!-- Device's Labels -->
+    <string name="device_label_phone">Phone</string>
+    <string name="device_label_pc">PC</string>
+    <string name="device_label_console">Console</string>
+    <string name="device_label_online">Online</string>
+    <string name="device_label_offline">Offline</string>
+    <string name="device_label_blocked">Blocked</string>
+
+    <string name="device_phone_icon">Phone Icon</string>
+    <string name="device_pc_icon">PC Icon</string>
+    <string name="device_console_icon">Console Icon</string>
+    <string name="device_other_device_icon">Other Devices Icon</string>
+
+    <!-- COMMON COMPONENTS -->
+    <string name="search_bar_hint">Search...</string>
+    <string name="search_bar_search_icon_description">Search Icon</string>
+    <string name="search_bar_trailing_icon_description">Clear Icon</string>
+
+    <string name="filter_button_description">Open Filters</string>
+
+    <!-- LANGUAGES -->
+    <string name="language_selected_language">English</string>
+
+    <string name="language_spanish">Spanish</string>
+    <string name="language_english">English</string>
+
+    <string name="language_back_button">Back</string>
+    <string name="language_apply_button">Apply</string>
+</resources>

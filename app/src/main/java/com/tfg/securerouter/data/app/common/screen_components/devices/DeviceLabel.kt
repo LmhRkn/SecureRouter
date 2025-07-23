@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.common.screen_components
+package com.tfg.securerouter.data.app.common.screen_components.devices
 
 import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.app.common.searchbar.FilterButton

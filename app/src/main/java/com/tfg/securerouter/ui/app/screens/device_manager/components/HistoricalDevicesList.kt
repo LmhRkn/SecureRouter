@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.common.screen_components.DeviceLabel
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.screens.device_manager.model.DeviceManagerScreenEvent
 import com.tfg.securerouter.data.app.screens.device_manager.state.HistoricalDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp

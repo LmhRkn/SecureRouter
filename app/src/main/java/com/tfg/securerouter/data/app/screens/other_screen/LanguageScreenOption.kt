@@ -30,6 +30,6 @@ object LanguageScreenOption : ScreenOptions {
     @Composable
     override fun Content() {
         val language = LanguageScreen()
-        language.AdministrarScreenInit()
+        language.LanguageScreenInit()
     }
 }

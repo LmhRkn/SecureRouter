@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.app.screens.home.model.load
 
-import com.tfg.securerouter.data.app.common.screen_components.DeviceModel
-import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
+import com.tfg.securerouter.data.app.screens.defaults.ScreenComponentModelDevicesDefault
 import com.tfg.securerouter.data.app.screens.home.state.load.ConnectedDeviceState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -9,19 +9,19 @@ import kotlinx.coroutines.flow.StateFlow
 /**
  * Model class responsible for loading and managing the state of connected devices.
  *
- * This implementation of [ScreenComponentModelDefault] fetches the list of currently
+ * This implementation of [ScreenComponentModelDevicesDefault] fetches the list of currently
  * connected devices from the router’s DHCP leases file, parses them into [DeviceModel] instances,
  * and exposes the resulting state via a [StateFlow].
  *
  * @property sharedCache In-memory cache shared with other modules to reuse raw command outputs.
  * @property state A [StateFlow] exposing the current [ConnectedDeviceState].
  *
- * @see ScreenComponentModelDefault
+ * @see ScreenComponentModelDevicesDefault
  * @see ConnectedDeviceState
  */
 class ConnectedDeviceModel(
     private val sharedCache: MutableMap<String, Any>,
-) : ScreenComponentModelDefault {
+) : ScreenComponentModelDevicesDefault {
 
 
     private val _state = MutableStateFlow(ConnectedDeviceState())

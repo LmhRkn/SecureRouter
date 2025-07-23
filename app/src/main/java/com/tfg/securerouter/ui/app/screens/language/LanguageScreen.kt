@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.language.LanguageCoordinator
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
+import com.tfg.securerouter.ui.app.screens.language.components.LanguageButtons
+import com.tfg.securerouter.ui.app.screens.language.components.LanguageList
 
 /**
  * Composable screen for managing language settings in the SecureRouter app.
@@ -32,7 +34,7 @@ class LanguageScreen: ScreenDefault() {
      */
     @Composable
     @Override
-    fun AdministrarScreenInit() {
+    fun LanguageScreenInit() {
         val coordinator: LanguageCoordinator = viewModel()
 
         ScreenInit(coordinator)
@@ -61,8 +63,8 @@ class LanguageScreen: ScreenDefault() {
 
         addComponents(
             {
-                Text("Language",
-                    color = Color.Black)
+                LanguageList(this)
+                LanguageButtons(this)
             },
         )
 

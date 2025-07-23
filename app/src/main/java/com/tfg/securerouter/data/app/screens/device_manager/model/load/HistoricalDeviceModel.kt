@@ -1,8 +1,8 @@
 package com.tfg.securerouter.data.app.screens.device_manager.model.load
 
-import com.tfg.securerouter.data.app.common.screen_components.DeviceLabel
-import com.tfg.securerouter.data.app.common.screen_components.DeviceModel
-import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
+import com.tfg.securerouter.data.app.screens.defaults.ScreenComponentModelDevicesDefault
 import com.tfg.securerouter.data.app.screens.device_manager.state.HistoricalDeviceState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
  * This model retrieves device data from the router (via the `dhcp.leases` file), parses it into
  * a list of [DeviceModel], and exposes it through a [StateFlow] for reactive UI updates.
  *
- * It extends [ScreenComponentModelDefault] to integrate with screen lifecycle management.
+ * It extends [ScreenComponentModelDevicesDefault] to integrate with screen lifecycle management.
  *
  * @property sharedCache A shared in-memory cache used to store raw command outputs.
  * @property state A [StateFlow] exposing the current [HistoricalDeviceState] for UI consumption.
@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
  */
 class HistoricalDeviceModel(
     private val sharedCache: MutableMap<String, Any>,
-) : ScreenComponentModelDefault {
+) : ScreenComponentModelDevicesDefault {
 
     private val _state = MutableStateFlow(HistoricalDeviceState())
     val state: StateFlow<HistoricalDeviceState> = _state

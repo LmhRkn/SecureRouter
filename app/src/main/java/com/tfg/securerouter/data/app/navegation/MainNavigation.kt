@@ -40,9 +40,9 @@ class MainNavigation {
                     menuOption.Content()
                 }
             }
-            OtherScreenRegistry.items.forEach { menuOption ->
-                composable(menuOption.route) {
-                    menuOption.Content()
+            OtherScreenRegistry.items.forEach { option ->
+                composable(option.route) {
+                    option.Content()
                 }
             }
         }
