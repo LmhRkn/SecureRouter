@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -60,7 +61,7 @@ fun SearchBar(
     focusedIndicatorColor: Color = MaterialTheme.colorScheme.primary,
     cursorColor: Color = MaterialTheme.colorScheme.primary
 ) {
-    var query by remember { mutableStateOf("") }
+    var query by rememberSaveable { mutableStateOf("") }
 
     OutlinedTextField(
         value = query,

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,8 +22,8 @@ import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabe
 import com.tfg.securerouter.data.app.screens.device_manager.model.DeviceManagerScreenEvent
 import com.tfg.securerouter.data.app.screens.device_manager.state.HistoricalDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp
-import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
+import com.tfg.securerouter.ui.app.screens.ScreenDefault
 
 /**
  * Composable for displaying a filtered and searchable list of historical (allowed) devices.
@@ -48,8 +48,8 @@ fun HistoricalDevicesList(
     parent: ScreenDefault
 ) {
     val eventFlow = parent.eventBus
-    var searchQuery by remember { mutableStateOf("") }
-    var labelFilters by remember { mutableStateOf(emptySet<DeviceLabel>()) }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+    var labelFilters by rememberSaveable { mutableStateOf(emptySet<DeviceLabel>()) }
 
     LaunchedEffect(Unit) {
         eventFlow.collect { event ->
@@ -83,7 +83,7 @@ fun HistoricalDevicesList(
 
     BoxWithConstraints {
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = weight)
-        var showAllowedDevices by remember { mutableStateOf(true) }
+        var showAllowedDevices by rememberSaveable { mutableStateOf(true) }
 
         // Escuchar el evento Toggle
         LaunchedEffect(Unit) {

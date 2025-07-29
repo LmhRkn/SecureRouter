@@ -9,11 +9,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.screens.device_manager.model.DeviceManagerScreenEvent
 import com.tfg.securerouter.data.app.screens.language.model.LanguageScreenEvent
 import com.tfg.securerouter.data.app.screens.language.registry.AvailableLanguages.availableLanguages
 import com.tfg.securerouter.data.utils.height_weight_to_dp
@@ -31,7 +30,7 @@ fun LanguageList(
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = 0.7f)
         var firstIteration: Boolean = true
 
-        val selectedStates = remember {
+        val selectedStates = rememberSaveable {
             mutableStateListOf<Boolean>().apply {
                 repeat(availableLanguages.size) { add(false) }
             }
@@ -71,7 +70,7 @@ fun LanguageList(
     }
 }
 
-fun getIndexPreviouslySelected (languagesStatus: List<Boolean>): Int {
+fun getIndexPreviouslySelected(languagesStatus: List<Boolean>): Int {
     for (i in languagesStatus.indices) {
         if (languagesStatus[i]) {
             return i

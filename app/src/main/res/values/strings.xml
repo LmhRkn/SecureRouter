@@ -19,7 +19,7 @@
 
     <!-- Divece Manager -->
     <string name="dive_manger_historical_devices_list">Dispositivos Permitidos</string>
-    <string name="dive_manger_blocked_devices_list">Dispositivos Bloquados</string>
+    <string name="dive_manger_blocked_devices_list">Dispositivos Bloqueados</string>
     <string name="dive_manger_show_allowed_devices_button">Mostrar Dispositivos Permitidos</string>
     <string name="dive_manger_show_blocked_devices_button">Mostrar Dispositivos Bloqueados</string>
     <string name="dive_manger_search_hint">Buscar dispositivo…</string>

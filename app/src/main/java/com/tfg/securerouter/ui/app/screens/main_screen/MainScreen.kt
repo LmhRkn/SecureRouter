@@ -1,20 +1,45 @@
 package com.tfg.securerouter.ui.app.screens.main_screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.tfg.securerouter.data.app.menu.MenuRegistry
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.navegation.MainNavigation
@@ -46,8 +71,8 @@ fun MainScreen() {
     val topBarViewModel: TopBarViewModel = viewModel()
     val topBarState by topBarViewModel.topBarState
 
-    var visible by remember { mutableStateOf(false) }
-    val topBarHeightPx = remember { mutableStateOf(0) }
+    var visible by rememberSaveable { mutableStateOf(false) }
+    val topBarHeightPx = rememberSaveable { mutableStateOf(0) }
 
     UpdateTopBarTitle(navController, topBarViewModel)
 
@@ -118,7 +143,7 @@ fun NavigationDrawerContent(
     topBarHeightPx: MutableState<Int>,
     navController: NavHostController,
 ) {
-    val mainNavegation = remember { com.tfg.securerouter.data.app.navegation.MainNavigation() }
+    val mainNavegation = remember { MainNavigation() }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -154,7 +179,13 @@ fun NavigationDrawerContent(
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = onMenuClick) {
+                        IconButton(
+                            onClick = onMenuClick,
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.tertiary,
+                                contentColor = MaterialTheme.colorScheme.onTertiary
+                            )
+                        ) {
                             Icon(Icons.Filled.Menu, contentDescription = "Menu")
                         }
                     },

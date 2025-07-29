@@ -1,10 +1,24 @@
 package com.tfg.securerouter.ui.app.common.searchbar
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,7 +34,7 @@ import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabe
  * This component displays an [IconButton] with a filter icon. When clicked, it opens a dropdown menu
  * containing checkboxes for all available [DeviceLabel] options. The user can toggle filters, and
  * changes are propagated via [onFiltersChanged].
-  *
+ *
  * @param modifier Modifier applied to the button container. Defaults to [Modifier].
  * @param selectedFilters The current set of selected [DeviceLabel] filters.
  * @param onFiltersChanged Lambda invoked with the updated set of filters whenever a change occurs.
@@ -44,9 +58,9 @@ fun FilterButton(
     checkedColor: Color = MaterialTheme.colorScheme.primary,
     uncheckedColor: Color = MaterialTheme.colorScheme.primary
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
     val allFilters = DeviceLabel.values().toList()
-    val currentFilters = remember { mutableStateOf(selectedFilters.toMutableSet()) }
+    val currentFilters = rememberSaveable { mutableStateOf(selectedFilters.toMutableSet()) }
 
     Box(modifier = modifier) {
         IconButton(onClick = { expanded = true }) {

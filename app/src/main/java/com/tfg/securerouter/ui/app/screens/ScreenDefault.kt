@@ -89,7 +89,8 @@ open class ScreenDefault {
      * @param coordinator The screen’s coordinator providing data and state.
      */
     @Composable
-    open fun ScreenContent(coordinator: ScreenCoordinatorDefault) {}
+    open fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
+    }
 
     /**
      * Renders all added components in a vertically scrollable column.

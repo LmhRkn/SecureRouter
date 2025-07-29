@@ -22,7 +22,10 @@ class SecureRouterApp : Application() {
     override fun onCreate() {
         super.onCreate()
         JsonInitializer.init(this)
-//        JsonInitializer.clearCache()
+
+        // Used to clear the cache during development or testing.
+        // It should be commented out or removed in production builds.
+//        JsonInitializer.clearCache() // Clears all cached data.
     }
 
     /**

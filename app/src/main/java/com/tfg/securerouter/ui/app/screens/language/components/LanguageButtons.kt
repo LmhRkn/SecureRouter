@@ -1,11 +1,8 @@
 package com.tfg.securerouter.ui.app.screens.language.components
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.LocaleManager
 import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
@@ -18,23 +15,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
+import androidx.core.os.LocaleListCompat
+import androidx.navigation.NavController
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.menu_screens.SettingsMenuOption
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.language.model.LanguageScreenEvent
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
-import java.util.Locale
-import androidx.core.content.edit
-import androidx.core.os.LocaleListCompat
-import androidx.navigation.NavController
 
 @SuppressLint("LocalContextConfigurationRead")
 @Composable
@@ -44,7 +40,7 @@ fun LanguageButtons(
     val navController = LocalNavController.current
     val context = LocalContext.current
 
-    var selectedLanguage by remember { mutableStateOf<String?>(null) }
+    var selectedLanguage by rememberSaveable { mutableStateOf<String?>(null) }
     val eventFlow = parent.eventBus
 
     LaunchedEffect(Unit) {
