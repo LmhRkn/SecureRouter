@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,7 +31,7 @@ fun LanguageList(
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = 0.7f)
         var firstIteration: Boolean = true
 
-        val selectedStates = rememberSaveable {
+        val selectedStates = remember {
             mutableStateListOf<Boolean>().apply {
                 repeat(availableLanguages.size) { add(false) }
             }

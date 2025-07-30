@@ -1,6 +1,7 @@
 package com.tfg.securerouter
 
 import android.app.Application
+import com.tfg.securerouter.data.app.screens.language.utils.setDeviceLanguage
 import com.tfg.securerouter.data.json.JsonInitializer
 
 /**
@@ -21,7 +22,9 @@ class SecureRouterApp : Application() {
      */
     override fun onCreate() {
         super.onCreate()
+
         JsonInitializer.init(this)
+        setDeviceLanguage(this)
 
         // Used to clear the cache during development or testing.
         // It should be commented out or removed in production builds.
