@@ -1,5 +1,5 @@
 plugins {
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("plugin.serialization") version "2.0.21"
 
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -42,11 +42,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.7.5") // o última versión estable
-    implementation("com.github.mwiede:jsch:0.2.10")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,4 +58,24 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Jetpack Compose integration
+    implementation(libs.androidx.navigation.compose)
+    // Views/Fragments integration
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+    // Compose Material & Animation
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.animation)
+    implementation(libs.androidx.material.icons.extended)
+
+    // WorkManager (background tasks)
+    implementation(libs.androidx.work.runtime.ktx)
+    // DataStore (for persistent storage)
+    implementation(libs.androidx.datastore.preferences)
+
+    // JSON serialization library, works with the Kotlin serialization plugin
+    implementation(libs.kotlinx.serialization.json)
+    // JSch (Java implementation of SSH2)
+    implementation(libs.jsch)
 }
