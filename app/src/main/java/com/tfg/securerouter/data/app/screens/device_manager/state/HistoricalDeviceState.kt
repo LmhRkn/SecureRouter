@@ -1,6 +1,6 @@
 package com.tfg.securerouter.data.app.screens.device_manager.state
 
-import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 
 /**
  * Represents the UI state for the historical devices screen.

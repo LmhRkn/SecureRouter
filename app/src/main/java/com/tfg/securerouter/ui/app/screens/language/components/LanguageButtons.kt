@@ -30,6 +30,7 @@ import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.menu_screens.SettingsMenuOption
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.language.model.LanguageScreenEvent
+import com.tfg.securerouter.data.app.screens.language.utils.setDeviceLanguage
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 
 @SuppressLint("LocalContextConfigurationRead")
@@ -68,14 +69,7 @@ fun LanguageButtons(
 
         Button(
             onClick = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    context.getSystemService(LocaleManager::class.java)
-                        .applicationLocales = LocaleList.forLanguageTags(selectedLanguage)
-                } else {
-                    AppCompatDelegate.setApplicationLocales(
-                        LocaleListCompat.forLanguageTags(selectedLanguage)
-                    )
-                }
+                setDeviceLanguage(context, selectedLanguage)
 
                 val sharedPreferences =
                     context.getSharedPreferences("language_prefs", Context.MODE_PRIVATE)

@@ -41,7 +41,10 @@ class MainNavigation {
                 }
             }
             OtherScreenRegistry.items.forEach { option ->
-                composable(option.route) {
+                composable(
+                    route = option.route,
+                    arguments = option.arguments
+                ) {
                     option.Content()
                 }
             }

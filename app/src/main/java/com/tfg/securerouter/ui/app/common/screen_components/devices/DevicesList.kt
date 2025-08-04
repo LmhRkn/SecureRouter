@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
+import androidx.navigation.NavController
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
+import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.ui.common.home_screen.DeviceCard
 
 /**
@@ -31,8 +33,9 @@ import com.tfg.securerouter.ui.common.home_screen.DeviceCard
 @Composable
 fun DeviceList(
     devices: List<DeviceModel>,
-    maxSize: Dp = 500.dp
+    maxSize: Dp = 500.dp,
 ) {
+    val navController: NavController = LocalNavController.current
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         modifier = Modifier
@@ -40,7 +43,9 @@ fun DeviceList(
             .height(maxSize)
     ) {
         items(devices) { device ->
-            DeviceCard(device, onClick = { /* TODO */ })
+            DeviceCard(device, onClick = {
+                navController.navigate("devices_options_selection/${device.mac}")
+            })
         }
     }
 }

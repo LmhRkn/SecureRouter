@@ -14,5 +14,5 @@ object LanguageManagerCache : BaseCache<LanguageCache>(
 ) {
     override fun createEmptyCache() = LanguageCache()
 
-    override fun getDataMap() = cacheData!!.data
+    override fun getDataMap(): MutableMap<String, String> = cacheData!!.data
 }

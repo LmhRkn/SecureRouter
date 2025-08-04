@@ -1,6 +1,7 @@
 package com.tfg.securerouter.data.app.menu
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 
 /**
@@ -23,6 +24,7 @@ import androidx.navigation.NavController
 
 interface ScreenOptions {
     val route: String
+    val arguments: List<NamedNavArgument> get() = emptyList()
 
     @Composable fun Content()
 }

@@ -1,5 +1,6 @@
 package com.tfg.securerouter.ui.app.screens.device_manager.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,16 +35,17 @@ import com.tfg.securerouter.ui.app.screens.ScreenDefault
  * - Reacts to toggle events from the parent screen to show or hide the list.
  * - Dynamically adjusts height proportionally using [height_weight_to_dp].
 
- * @param devices_state The [HistoricalDeviceState] containing all historical devices.
+ * @param devicesState The [HistoricalDeviceState] containing all historical devices.
  * @param weight Proportional height (0.0f to 1.0f) relative to available space. Defaults to `1f`.
  * @param parent The parent [ScreenDefault] providing access to the event bus.
  *
  * @see DeviceList
  * @see DeviceManagerScreenEvent
  */
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun HistoricalDevicesList(
-    devices_state: HistoricalDeviceState,
+    devicesState: HistoricalDeviceState,
     weight: Float = 1f,
     parent: ScreenDefault
 ) {
@@ -61,12 +63,11 @@ fun HistoricalDevicesList(
         }
     }
 
-    // Filtrar dispositivos que NO tienen la etiqueta Blocked
-    val total_devices = devices_state.historicalDevices.filter {
+    val totalDevices = devicesState.historicalDevices.filter {
         DeviceLabel.Blocked !in it.labels
     }
 
-    val devices = total_devices.filter { device ->
+    val devices = totalDevices.filter { device ->
         val hostname = device.hostname?.lowercase() ?: ""
         val query = searchQuery.lowercase()
 
@@ -85,7 +86,6 @@ fun HistoricalDevicesList(
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = weight)
         var showAllowedDevices by rememberSaveable { mutableStateOf(true) }
 
-        // Escuchar el evento Toggle
         LaunchedEffect(Unit) {
             eventFlow.collect { event ->
                 if (event is DeviceManagerScreenEvent.ToggleSomething) {
@@ -103,7 +103,7 @@ fun HistoricalDevicesList(
                 )
         ) {
             Text(
-                "${stringResource(id = R.string.dive_manger_historical_devices_list)} (${total_devices.size})",
+                "${stringResource(id = R.string.dive_manger_historical_devices_list)} (${totalDevices.size})",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )

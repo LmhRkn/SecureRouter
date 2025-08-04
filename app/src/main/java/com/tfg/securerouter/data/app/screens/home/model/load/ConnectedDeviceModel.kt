@@ -1,6 +1,7 @@
 package com.tfg.securerouter.data.app.screens.home.model.load
 
-import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
+import com.tfg.securerouter.data.app.screens.common.devices.DevicesListModel
 import com.tfg.securerouter.data.app.screens.defaults.ScreenComponentModelDevicesDefault
 import com.tfg.securerouter.data.app.screens.home.state.load.ConnectedDeviceState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +21,13 @@ import kotlinx.coroutines.flow.StateFlow
  * @see ConnectedDeviceState
  */
 class ConnectedDeviceModel(
-    private val sharedCache: MutableMap<String, Any>,
-) : ScreenComponentModelDevicesDefault {
-
-
+    override val sharedCache: MutableMap<String, Any>,
+) : DevicesListModel<ConnectedDeviceState>(
+    sharedCache = sharedCache,
+    createState = { ConnectedDeviceState(it) }
+) {
     private val _state = MutableStateFlow(ConnectedDeviceState())
-    val state: StateFlow<ConnectedDeviceState> = _state
+    override val state: StateFlow<ConnectedDeviceState> = _state
 
     /**
      * Loads the list of connected devices from the router and updates the state.
@@ -45,39 +47,5 @@ class ConnectedDeviceModel(
             parse = { parseDevices(it) },
             setState = { _state.value = ConnectedDeviceState(it) }
         )
-    }
-
-    /**
-     * Loads the list of connected devices from the router and updates the state.
-     *
-     * This method:
-     * - Executes the command `cat /tmp/dhcp.leases` to fetch raw device data.
-     * - Parses the output into a list of [DeviceModel]s.
-     * - Updates [_state] with the resulting [ConnectedDeviceState].
-     *
-     * @return `true` if the data was successfully loaded; `false` otherwise.
-     */
-    private fun parseDevices(output: String): List<DeviceModel> {
-        return output.lines()
-            .filter { it.isNotBlank() } // Remove empty lines
-            .mapNotNull { line ->
-                val parts = line.split(" ")
-
-                val vendorName = getDeviceType(parts[1])
-                val (iconRes, iconDesc, extraLabel) = getDeviceIconAndType(vendorName)
-
-                if (parts.size >= 4) {
-                    // Parse and return device info
-                    DeviceModel(
-                        mac = parts[1],
-                        ip = parts[2],
-                        hostname = parts[3],
-                        icon = iconRes,
-                        iconDescription = iconDesc
-                    )
-                } else {
-                    null // Skip malformed lines
-                }
-            }
     }
 }

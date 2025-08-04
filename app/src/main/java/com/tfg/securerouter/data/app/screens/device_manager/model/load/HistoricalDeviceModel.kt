@@ -1,9 +1,11 @@
 package com.tfg.securerouter.data.app.screens.device_manager.model.load
 
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
-import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
+import com.tfg.securerouter.data.app.screens.common.devices.DevicesListModel
 import com.tfg.securerouter.data.app.screens.defaults.ScreenComponentModelDevicesDefault
 import com.tfg.securerouter.data.app.screens.device_manager.state.HistoricalDeviceState
+import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -24,11 +26,14 @@ import kotlinx.coroutines.flow.StateFlow
  * @see safeLoad
  */
 class HistoricalDeviceModel(
-    private val sharedCache: MutableMap<String, Any>,
-) : ScreenComponentModelDevicesDefault {
+    sharedCache: MutableMap<String, Any>
+) : DevicesListModel<HistoricalDeviceState>(
+    sharedCache = sharedCache,
+    createState = { HistoricalDeviceState(it) }
+) {
 
     private val _state = MutableStateFlow(HistoricalDeviceState())
-    val state: StateFlow<HistoricalDeviceState> = _state
+    override val state: StateFlow<HistoricalDeviceState> = _state
 
     override suspend fun loadData(): Boolean {
         return safeLoad(
@@ -39,56 +44,5 @@ class HistoricalDeviceModel(
             setState = { _state.value = HistoricalDeviceState(it) }
         )
     }
-
-    /**
-     * Parses the raw output from the router's `dhcp.leases` file into a list of [DeviceModel] objects.
-     *
-     * Each non-empty line in the output is expected to follow this format:
-     * ```
-     * <timestamp> <MAC> <IP> <hostname> <unknown1>
-     * ```
-     *
-     * The parser assigns appropriate [DeviceLabel]s based on these flags and infers
-     * the device type and icon from the vendor information (via [getDeviceType] and [getDeviceIconAndType]).
-     *
-     * Devices failing to match the expected format (less than 7 fields) are skipped.
-     *
-     * @param output The raw string output from the router command.
-     * @return A list of [DeviceModel] instances representing parsed devices.
-     *
-     * @see DeviceModel
-     */
-    private fun parseDevices(output: String): List<DeviceModel> {
-        return output.lines()
-            .filter { it.isNotBlank() }
-            .mapNotNull { line ->
-                val parts = line.split(" ")
-                if (parts.size >= 7) {
-                    val statusFlag = parts[parts.size - 2]
-                    val blockedFlag = parts[parts.size - 1]
-
-                    val labels = mutableSetOf<DeviceLabel>()
-                    labels += if (statusFlag == "1") DeviceLabel.Online else DeviceLabel.Offline
-
-                    if (blockedFlag == "1") {
-                        labels += DeviceLabel.Blocked
-                    }
-
-                    val vendorName = getDeviceType(parts[1])
-                    val (iconRes, iconDesc, extraLabel) = getDeviceIconAndType(vendorName)
-                    extraLabel?.let { labels += it }
-
-                    DeviceModel(
-                        mac = parts[1],
-                        ip = parts[2],
-                        hostname = parts[3],
-                        icon = iconRes,
-                        iconDescription = iconDesc,
-                        labels = labels
-                    )
-                } else {
-                    null
-                }
-            }
-    }
 }
+

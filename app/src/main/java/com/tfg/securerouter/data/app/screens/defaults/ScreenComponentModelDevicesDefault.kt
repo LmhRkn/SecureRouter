@@ -8,6 +8,8 @@ import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.router.sendCommand
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.common.screen_components.devices.deviceTypes
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.toDeviceModel
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 
 
@@ -23,18 +25,25 @@ interface ScreenComponentModelDevicesDefault: ScreenComponentModelDefault {
      * @return Vendor name or `"Unknown"` if resolution fails.
      */
     fun getDeviceType(mac: String): String {
-        DeviceManagerCache.get(mac)?.let {
-            return it
-        }
-
         val macParts = mac.split(":")
         if (macParts.size != 6) return "Unknown"
 
         val vendorName = fetchVendorFromApi(macParts)
+        val (icon, descriptionRes, label) = getDeviceIconAndType(vendorName)
 
-        DeviceManagerCache.put(mac, vendorName)
+        val existingDevice = DeviceManagerCache.getDevice(mac)
+
+        if (existingDevice != null) {
+            val updatedDevice = existingDevice.copy(
+                icon = icon,
+                iconDescription = descriptionRes,
+                labels = existingDevice.labels + listOfNotNull(label)
+            )
+            DeviceManagerCache.put(updatedDevice)
+        }
         return vendorName
     }
+
 
     /**
      * Fetches the vendor name from the macvendors.com API.

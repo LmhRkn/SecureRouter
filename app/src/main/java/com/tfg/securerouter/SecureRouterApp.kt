@@ -3,6 +3,7 @@ package com.tfg.securerouter
 import android.app.Application
 import com.tfg.securerouter.data.app.screens.language.utils.setDeviceLanguage
 import com.tfg.securerouter.data.json.JsonInitializer
+import kotlin.system.exitProcess
 
 /**
  * Custom [Application] class for SecureRouter.
@@ -29,6 +30,7 @@ class SecureRouterApp : Application() {
         // Used to clear the cache during development or testing.
         // It should be commented out or removed in production builds.
 //        JsonInitializer.clearCache() // Clears all cached data.
+//        exitProcess(0)
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.tfg.securerouter.ui.app.screens.home.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +32,7 @@ import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
  * @see DeviceList
  * @see height_weight_to_dp
  */
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun ConnectedDevicesList(
     devicesState: ConnectedDeviceState,

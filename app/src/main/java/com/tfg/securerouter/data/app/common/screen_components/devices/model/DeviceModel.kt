@@ -1,6 +1,7 @@
-package com.tfg.securerouter.data.app.common.screen_components.devices
+package com.tfg.securerouter.data.app.common.screen_components.devices.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 
 /**
  * Data class representing a device connected to the router.
@@ -16,16 +17,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
  * @property ip The IP address [String] assigned to the device by the router.
  * @property icon The [ImageVector] representing the device's type.
  * @property iconDescription A human-readable description of the device's icon.
- * @property labels A set of [DeviceLabel]s associated with the device.
+ * @property labels A set of [com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel]s associated with the device.
  *
- * @see DeviceLabel
+ * @see com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
  */
 
 data class DeviceModel(
     val mac: String,
     val hostname: String?,
     val ip: String,
-    val icon: ImageVector,
-    val iconDescription: Int,
+    val icon: ImageVector? = null,
+    val iconDescription: Int? = null,
     val labels: Set<DeviceLabel> = emptySet()
 )

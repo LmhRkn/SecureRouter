@@ -74,7 +74,7 @@ class DeviceManagerScreen: ScreenDefault() {
         addComponents(
             {
                 DeviceManagerSearchBar(parent = this@DeviceManagerScreen)
-                HistoricalDevicesList(devices_state = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)
+                HistoricalDevicesList(devicesState = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)
                 ButtonToggleList(parent = this@DeviceManagerScreen)
                 Spacer(modifier = Modifier.height(8.dp))
                 BlockedDevicesList(devicesState = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)

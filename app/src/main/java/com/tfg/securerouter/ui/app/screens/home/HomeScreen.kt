@@ -87,7 +87,6 @@ class HomeScreen: ScreenDefault() {
             )},
             { RouterIcon() },
             { ConnectedDevicesList(devicesState = devicesState, weight = 0.4f) },
-            { TextWithToggleOption(text = "Prueba:", initialChecked = true, onToggleChanged = { /* TODO */ }) }
         )
 
         RenderScreen()

@@ -17,11 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
 
 /**
@@ -73,8 +75,8 @@ fun DeviceCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = device.icon,
-                contentDescription = stringResource(device.iconDescription),
+                imageVector = device.icon ?: Icons.Filled.DevicesOther,
+                contentDescription = device.iconDescription?.let { stringResource(it) } ?: "",
                 modifier = Modifier.size(iconSize),
                 tint = iconTint
             )
