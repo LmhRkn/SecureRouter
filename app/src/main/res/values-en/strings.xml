@@ -25,7 +25,7 @@
     <string name="dive_manger_search_hint">Search device…</string>
 
     <!-- SETTINGS -->
-    <string name="setting_language">Language:</string>
+    <string name="setting_language">Language</string>
     <string name="setting_language_selected">English</string>
 
     <!-- Buttons -->

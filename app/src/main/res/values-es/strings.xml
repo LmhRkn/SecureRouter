@@ -26,7 +26,7 @@
     <string name="dive_manger_search_hint">Buscar dispositivo…</string>
 
     <!-- SETTINGS -->
-    <string name="setting_language">Idioma:</string>
+    <string name="setting_language">Idioma</string>
     <string name="setting_language_selected">Español</string>
 
     <!-- Buttons -->

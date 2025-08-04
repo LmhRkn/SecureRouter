@@ -1,6 +1,7 @@
 package com.tfg.securerouter.ui.app.screens.device_manager.components
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -97,6 +98,7 @@ fun HistoricalDevicesList(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .animateContentSize()
                 .then(
                     if (showAllowedDevices) Modifier.height(heightDp)
                     else Modifier.wrapContentHeight()
