@@ -1,9 +1,7 @@
 package com.tfg.securerouter.ui.app.screens.settings
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.settings.SettingsCoordinator
@@ -23,7 +21,7 @@ import com.tfg.securerouter.ui.app.screens.settings.components.LanguageComponent
  * @see SettingsCoordinator
  * @see ScreenDefault
  */
-class SettingsScreen: ScreenDefault() {
+class SettingsScreen : ScreenDefault() {
 
     /**
      * Composable screen for managing application settings in the SecureRouter app.
@@ -39,7 +37,7 @@ class SettingsScreen: ScreenDefault() {
      */
     @Composable
     @Override
-    fun SetingsScreenInit() {
+    fun SettingsScreenInit() {
         val coordinator: SettingsCoordinator = viewModel()
 
         ScreenInit(coordinator)
@@ -68,9 +66,11 @@ class SettingsScreen: ScreenDefault() {
             ?: throw IllegalArgumentException("Expected SettingCoordinator")
 
         addComponents(
-            { LanguageComponent(
-                navController = LocalNavController.current
-            ) }
+            {
+                LanguageComponent(
+                    navController = LocalNavController.current
+                )
+            }
         )
 
         RenderScreen()

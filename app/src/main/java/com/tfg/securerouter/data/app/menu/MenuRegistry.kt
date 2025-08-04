@@ -2,6 +2,7 @@ package com.tfg.securerouter.data.app.menu
 
 import com.tfg.securerouter.data.app.menu.menu_screens.ManageDevicesMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.FilterMenuOption
+import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.SettingsMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.WifiMenuOption
 import com.tfg.securerouter.data.app.screens.other_screen.DeviceOptionsScreenOption
@@ -25,7 +26,7 @@ import com.tfg.securerouter.data.app.screens.other_screen.LanguageScreenOption
 
 object MenuRegistry {
     val items = listOf(
-        com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption,
+        HomeMenuOption,
         ManageDevicesMenuOption,
         WifiMenuOption,
         FilterMenuOption,

@@ -26,7 +26,7 @@ object SettingsMenuOption : MenuOption {
     @Composable
     override fun Content() {
         val settings = SettingsScreen()
-        settings.SetingsScreenInit()
+        settings.SettingsScreenInit()
 
     }
 }

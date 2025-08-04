@@ -2,8 +2,6 @@ package com.tfg.securerouter.ui.app.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.MenuRegistry
 
 /**
@@ -40,26 +39,51 @@ fun DrawerContent(
         ) {
             BoxWithConstraints {
                 val maxHeight = this.maxHeight
+                // For the top items in the drawer
+                val menuItemsTop = MenuRegistry.items.filter { it.titleResId != R.string.settings_title }
+                // For the bottom items in the drawer
+                val menuItemsBot = MenuRegistry.items.find { it.titleResId == R.string.settings_title }
 
-                LazyColumn(
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .heightIn(max = maxHeight) // máximo alto dinámico
                 ) {
-                    itemsIndexed(MenuRegistry.items) { index, menuOption ->
-                        DrawerItem(
-                            label = stringResource(id = menuOption.titleResId),
-                            icon = menuOption.icon,
-                            onClick = { onItemClick(menuOption.route) }
-                        )
-
-                        if (index < MenuRegistry.items.lastIndex) {
-                            HorizontalDivider(
-                                modifier = Modifier.padding(horizontal = 12.dp),
-                                thickness = 0.5.dp,
-                                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        menuItemsTop.forEachIndexed { index, menuOption ->
+                            DrawerItem(
+                                label = stringResource(id = menuOption.titleResId),
+                                icon = menuOption.icon,
+                                onClick = { onItemClick(menuOption.route) }
                             )
+
+                            if (index < menuItemsTop.lastIndex) {
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(horizontal = 12.dp),
+                                    thickness = 0.5.dp,
+                                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
+                                )
+                            }
                         }
+                    }
+
+                    // TODO: cuando añadamos la pantalla de cambiar de router, la pondremos aquí:
+//                    menuItemsBot?.let {
+//                        DrawerItem(
+//                            label = stringResource(id = it.titleResId),
+//                            icon = it.icon,
+//                            onClick = { onItemClick(it.route) }
+//                        )
+//                    }
+
+                    menuItemsBot?.let {
+                        DrawerItem(
+                            label = stringResource(id = it.titleResId),
+                            icon = it.icon,
+                            onClick = { onItemClick(it.route) }
+                        )
                     }
                 }
             }
