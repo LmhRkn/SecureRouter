@@ -1,5 +1,6 @@
 package com.tfg.securerouter.ui.common.home_screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,7 @@ import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
  * @see DeviceList
  */
 
+@SuppressLint("ResourceType")
 @Composable
 fun DeviceCard(
     device: DeviceModel,
