@@ -69,4 +69,20 @@
     <string name="language_back_button">Volver</string>
     <string name="language_apply_button">Aplicar</string>
 
+    <!-- WIFI -->
+    <string name="wifi_password">Contraseña:</string>
+    <string name="wifi_write_old_password">Introduzca la contraseña actual:</string>
+    <string name="wifi_old_password">Contraseña actual</string>
+
+    <string name="wifi_write_new_password">Introduzca la nueva contraseña:</string>
+    <string name="wifi_new_password">Nueva contraseña</string>
+
+    <string name="wifi_repeat_new_password">Repetir nueva contraseña</string>
+
+    <string name="wifi_not_enough_characters">"La contraseña debe tener al menos 8 caracteres"</string>
+    <string name="wifi_wrong_old_password">La contraseña actual no es correcta</string>
+    <string name="wifi_wrong_repeated_password">Las nuevas contraseñas no coinciden</string>
+
+    <string name="wifi_show_password">Mostrar contraseña</string>
+    <string name="wifi_hide_password">Ocultar contraseña</string>
 </resources>

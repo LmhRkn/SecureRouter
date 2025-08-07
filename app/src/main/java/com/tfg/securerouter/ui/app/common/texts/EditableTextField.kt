@@ -3,7 +3,9 @@ package com.tfg.securerouter.ui.app.common.texts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -23,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.app.common.buttons.EditButton
@@ -51,8 +55,10 @@ fun EditableTextField(
     onTextSaved: (String) -> Unit,
     textStyle: TextStyle = MaterialTheme.typography.headlineMedium,
     textColor: Color = MaterialTheme.colorScheme.onBackground,
-    buttonSize: Int? = null,
-    buttonColor: Color? = null
+    buttonSize: Dp? = null,
+    buttonColor: Color? = null,
+    middleButton: (@Composable () -> Unit)? = null,
+    onEditButtonPress: (() -> Unit)? = null
 ) {
     var isEditing by rememberSaveable { mutableStateOf(false) }
     var originalText by rememberSaveable { mutableStateOf(text) }
@@ -67,6 +73,15 @@ fun EditableTextField(
 
     val focusRequester = remember { FocusRequester() }
 
+    LaunchedEffect(text) {
+        if (!isEditing) {
+            textValue = TextFieldValue(
+                text = text,
+                selection = TextRange(text.length)
+            )
+        }
+    }
+
     LaunchedEffect(isEditing) {
         if (isEditing) {
             textValue = textValue.copy(selection = TextRange(0, textValue.text.length))
@@ -74,16 +89,17 @@ fun EditableTextField(
         }
     }
 
+
     Column(modifier = modifier) {
-        Row {
+        Row (
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             if (isEditing) {
                 BasicTextField(
                     value = textValue,
                     onValueChange = { textValue = it },
                     singleLine = true,
-                    textStyle = textStyle.copy(
-                        color = textColor
-                    ),
+                    textStyle = textStyle.copy(color = textColor),
                     modifier = Modifier
                         .weight(1f)
                         .focusRequester(focusRequester)
@@ -97,15 +113,23 @@ fun EditableTextField(
                 )
             }
 
+            middleButton?.let {
+                Spacer(modifier = Modifier.width(4.dp))
+                it()
+            }
+
             if (!isEditing) {
+                Spacer(modifier = Modifier.width(4.dp))
                 EditButton(
                     onClick = {
-                        isEditing = true
-                        originalText = textValue.text
+                        onEditButtonPress?.invoke()
+                            ?: run {
+                                isEditing = true
+                                originalText = textValue.text
+                            }
                     },
                     color = buttonColor ?: textColor,
-                    iconSize = buttonSize?.dp ?: (textStyle.fontSize.value.dp * 0.75f)
-
+                    iconSize = buttonSize ?: (textStyle.fontSize.value.dp * 0.75f)
                 )
             }
         }

@@ -65,4 +65,22 @@
     <string name="language_back_button">Back</string>
     <string name="language_apply_button">Apply</string>
     <string name="expandable_section_collapse">Collapse</string>
+
+    <!-- WIFI -->
+    <string name="wifi_password">Password:</string>
+    <string name="wifi_write_old_password">Enter the current password:</string>
+    <string name="wifi_old_password">Current password</string>
+
+    <string name="wifi_write_new_password">Enter the new password:</string>
+    <string name="wifi_new_password">New password</string>
+
+    <string name="wifi_repeat_new_password">Repeat new password</string>
+
+    <string name="wifi_not_enough_characters">The password must be at least 8 characters long</string>
+    <string name="wifi_wrong_old_password">The current password is incorrect</string>
+    <string name="wifi_wrong_repeated_password">The new passwords do not match</string>
+
+    <string name="wifi_show_password">Show password</string>
+    <string name="wifi_hide_password">Hide password</string>
+
 </resources>

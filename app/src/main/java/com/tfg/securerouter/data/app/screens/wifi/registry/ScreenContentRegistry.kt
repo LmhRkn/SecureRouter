@@ -1,6 +1,8 @@
 package com.tfg.securerouter.data.app.screens.wifi.registry
 
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
+import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 import com.tfg.securerouter.ui.app.screens.wifi.WifiScreen
 
 /**
@@ -22,5 +24,6 @@ import com.tfg.securerouter.ui.app.screens.wifi.WifiScreen
 
 class WifiContentRegistry(sharedCache: MutableMap<String, Any>) {
     val modules: List<ScreenComponentModelDefault> = listOf(
+        WifiRouterInfoModel(sharedCache)
     )
 }

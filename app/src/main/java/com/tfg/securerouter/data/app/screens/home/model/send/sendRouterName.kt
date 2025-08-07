@@ -31,7 +31,7 @@ object SendRouterName {
      *
      * @see launchCommand
      */
-    fun updateRouterAlias(wirelessName: String, newAlias: String, onResult: (Boolean) -> Unit) {
+    fun updateRouterAlias(wirelessName: String, newAlias: String) {
         val command = """
             rm -f /tmp/dhcp.leases
             uci set wireless.$wirelessName.ssid='$newAlias'
@@ -44,7 +44,7 @@ object SendRouterName {
         launchCommand(
             command = command,
             parse = { output -> output.isNotBlank() },
-            onResult = onResult
+            onResult = {}
         )
     }
 }

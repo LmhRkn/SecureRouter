@@ -89,9 +89,7 @@ class HomeScreen: ScreenDefault() {
             {HomeRouterInfoSection(
                 state = routerState,
                 onEditAliasClick = { newAlias ->
-                    SendRouterName.updateRouterAlias(routerState.wirelessName, newAlias) { success ->
-                        println("Alias actualizado: $success")
-                    }
+                    SendRouterName.updateRouterAlias(routerState.wirelessName, newAlias)
                 }
             )},
             { RouterIcon() },
