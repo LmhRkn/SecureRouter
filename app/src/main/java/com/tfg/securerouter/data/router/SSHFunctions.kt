@@ -2,6 +2,7 @@ package com.tfg.securerouter.data.router
 
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
+import com.tfg.securerouter.data.router.getRouterIpAddress
 
 /**
  * Establishes an SSH connection to a remote host and executes a single command.
@@ -95,11 +96,14 @@ private fun connectSSH(
  */
 
 fun sendCommand(command: String): String {
+    var ipHost: String = getRouterIpAddress()!!
+    ipHost = "192.168.1.104"
     val output = connectSSH(
         username = "root",
         password = "SecureRouter",
-        host = "192.168.1.104",
+        host = ipHost,
         command = command
     )
+    println("command: $command\noutput: $output")
     return output
 }

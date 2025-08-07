@@ -56,6 +56,7 @@
     <string name="filter_button_description">Open Filters</string>
 
     <!-- LANGUAGES -->
+    <string name="expandable_section_expand">Expand</string>
     <string name="language_selected_language">English</string>
 
     <string name="language_spanish">Spanish</string>
@@ -63,4 +64,5 @@
 
     <string name="language_back_button">Back</string>
     <string name="language_apply_button">Apply</string>
+    <string name="expandable_section_collapse">Collapse</string>
 </resources>

@@ -31,13 +31,16 @@ object SendRouterName {
      *
      * @see launchCommand
      */
-    fun updateRouterAlias(newAlias: String, onResult: (Boolean) -> Unit) {
+    fun updateRouterAlias(wirelessName: String, newAlias: String, onResult: (Boolean) -> Unit) {
         val command = """
-            uci set wireless.default_radio0.ssid='$newAlias'
+            rm -f /tmp/dhcp.leases
+            uci set wireless.$wirelessName.ssid='$newAlias'
             uci commit wireless
             /etc/init.d/network restart
         """.trimIndent()
 
+
+        println(command)
         launchCommand(
             command = command,
             parse = { output -> output.isNotBlank() },

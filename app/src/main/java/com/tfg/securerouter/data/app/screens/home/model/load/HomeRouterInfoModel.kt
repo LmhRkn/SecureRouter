@@ -39,49 +39,49 @@ class HomeRouterInfoModel(
     override suspend fun loadData(): Boolean {
         return safeLoad(
             cache = sharedCache,
-            command = "cat /etc/config/wireless",
+            command = """
+                cat /etc/config/wireless
+                cat /sys/class/net/br-lan/address
+                uci show wireless | grep '.ssid=' | cut -d'.' -f2 | head -n 1
+            """.trimIndent(),
             cacheKey = "wireless_output",
             parse = { parseWirelessConfig(it) },
             setState = {
                 sharedCache["router_mac"] = it.macAddress
                 sharedCache["router_alias"] = it.routerAlias ?: ""
-                _state.value = HomeRouterInfoState(it.routerAlias, it.macAddress)
+                sharedCache["router_wireless_name"] = it.wirelessName
+                _state.value = HomeRouterInfoState(it.routerAlias, it.macAddress, it.wirelessName)
             }
         )
     }
 
-
-    /**
-     * Parses the wireless configuration output from the router.
-     *
-     * This method scans the configuration lines to extract:
-     * - SSID (used as the router alias)
-     * - First MAC address found in the configuration
-     *
-     * @param output The raw string output from `cat /etc/config/wireless`.
-     * @return A [HomeRouterInfoState] containing the extracted data.
-     */
     private fun parseWirelessConfig(output: String): HomeRouterInfoState {
-        var deviceIp: String? = null
-        var ssid: String? = null
-        var macAddress: String = ""
+        val ssidRegex = Regex("""^\s*option\s+ssid\s+'([^']+)'""", setOf(RegexOption.IGNORE_CASE, RegexOption.MULTILINE))
+        val standaloneMacRegex = Regex("""^\s*([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})\s*$""", setOf(RegexOption.MULTILINE))
+        val optionMacRegex = Regex("""^\s*option\s+macaddr\s+'([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})'""",
+            setOf(RegexOption.IGNORE_CASE, RegexOption.MULTILINE)
+        )
 
-        val lines = output.lines()
+        val ssid = ssidRegex.findAll(output).lastOrNull()?.groupValues?.get(1)
 
-        for (i in lines.indices) {
-            val line = lines[i].trim()
-            if (line.startsWith("option ssid")) {
-                // Extract SSID (router alias)
-                ssid = line.substringAfter("'").substringBefore("'")
-            } else if (line.startsWith("list maclist")) {
-                // Extract the first MAC address listed
-                macAddress = line.substringAfter("'").substringBefore("'")
-            }
-        }
+        val mac = standaloneMacRegex.findAll(output).lastOrNull()?.groupValues?.get(1)
+            ?: optionMacRegex.findAll(output).lastOrNull()?.groupValues?.get(1)
+            ?: ""
+
+        val wirelessNameRegex = Regex(
+            """(@wifi-iface\[\d+\]|default_radio\d+)""",
+            RegexOption.IGNORE_CASE
+        )
+        val wirelessName = wirelessNameRegex.findAll(output)
+            .map { it.value }
+            .lastOrNull()
+            ?: ""
 
         return HomeRouterInfoState(
             routerAlias = ssid,
-            macAddress = macAddress
+            macAddress = mac.uppercase(),
+            wirelessName = wirelessName
         )
     }
+
 }

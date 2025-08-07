@@ -42,7 +42,7 @@ interface ScreenComponentModelDefault {
         setState: (T) -> Unit
     ): Boolean = withContext(Dispatchers.IO) {
         return@withContext try {
-            val output = sendCommand(command)
+            val output: String = sendCommand(command)
             val parsed = parse(output)
 
             cache[cacheKey] = output

@@ -29,6 +29,7 @@ fun HomeRouterInfoSection(
     state: HomeRouterInfoState,
     onEditAliasClick: (String) -> Unit
 ) {
+    println("Dentro dek riuter: $state")
     EditableTextField(
         text = state.routerAlias ?: state.macAddress,
         onTextSaved = { newAlias -> onEditAliasClick(newAlias) },

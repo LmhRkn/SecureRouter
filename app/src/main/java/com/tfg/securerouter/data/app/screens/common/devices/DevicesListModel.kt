@@ -31,26 +31,30 @@ open class DevicesListModel<T>(
             .filter { it.isNotBlank() }
             .mapNotNull { line ->
                 val parts = line.split(" ")
-                if (parts.size < 7) return@mapNotNull null
+                if (parts.size < 5) return@mapNotNull null
 
                 val mac = parts[1]
                 val ip = parts[2]
-                val hostname = parts[3]
-                val statusFlag = parts[parts.size - 2]
-                val blockedFlag = parts[parts.size - 1]
+                val hostName = parts[3]
+                val dhcpIdentifier = parts[parts.size - 1]
+                val statusFlag = "1"
+                val blockedFlag = "1"
+//                val statusFlag = parts[parts.size - 2]
+//                val blockedFlag = parts[parts.size - 1]
+
+                if (dhcpIdentifier == "*") return@mapNotNull null
 
                 var deviceData = DeviceManagerCache.getDevice(mac)
 
                 if (deviceData == null) {
-                    deviceData = saveDiveJson(mac = mac, ip = ip, hostName = hostname, statusFlag = statusFlag, blockedFlag = blockedFlag)
+                    deviceData = saveDiveJson(mac = mac, ip = ip, hostName = hostName, statusFlag = statusFlag, blockedFlag = blockedFlag)
                 } else {
-                    val deviceDataProv = updateLabels(mac = mac, statusFlag = statusFlag, blockedFlag = blockedFlag)
+                    val deviceDataProv = updateLabels(mac = mac, ip = ip, statusFlag = statusFlag, blockedFlag = blockedFlag)
                     if (deviceDataProv != null) deviceData = deviceDataProv
                 }
 
                 if (deviceData.icon == null) {
                     val vendorName = getDeviceType(mac)
-                    println(vendorName)
                     val (iconRes, iconDesc, extraLabel) = getDeviceIconAndType(vendorName)
 
                     val labels = deviceData.labels.toMutableSet()
@@ -58,7 +62,7 @@ open class DevicesListModel<T>(
 
                     val updatedDevice = deviceData.copy(
                         ip = ip,
-                        hostname = hostname,
+                        hostname = hostName,
                         icon = iconRes,
                         iconDescription = iconDesc,
                         labels = labels.toSet()
@@ -89,7 +93,7 @@ open class DevicesListModel<T>(
         return newDevice
     }
 
-    private fun updateLabels(mac: String, statusFlag: String, blockedFlag: String): DeviceModel? {
+    private fun updateLabels(mac: String, ip: String, statusFlag: String, blockedFlag: String): DeviceModel? {
         val existing = DeviceManagerCache.getDevice(mac) ?: return null
 
         val currentLabels = existing.labels.toMutableSet()
@@ -120,11 +124,8 @@ open class DevicesListModel<T>(
             changed = true
         }
 
-        if (changed) {
-            val updatedDevice = existing.copy(labels = currentLabels)
-            DeviceManagerCache.put(updatedDevice)
-            return updatedDevice
-        }
-        return null
+        val updatedDevice = existing.copy(ip=ip, labels = currentLabels)
+        DeviceManagerCache.put(updatedDevice)
+        return updatedDevice
     }
 }

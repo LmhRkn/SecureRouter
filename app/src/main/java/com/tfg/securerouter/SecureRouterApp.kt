@@ -23,7 +23,7 @@ class SecureRouterApp : Application() {
      */
     override fun onCreate() {
         super.onCreate()
-
+        ContextProvider.init(this)
         JsonInitializer.init(this)
         setDeviceLanguage(this)
 

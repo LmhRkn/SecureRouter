@@ -1,5 +1,7 @@
 package com.tfg.securerouter.ui.app.screens.home
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
@@ -11,6 +13,9 @@ import com.tfg.securerouter.data.app.screens.home.HomeCoordinator
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
+import com.tfg.securerouter.data.app.screens.router_selector.registry.resolveDomainFromIp
+import com.tfg.securerouter.data.router.getRouterIpAddress
+import com.tfg.securerouter.ui.app.common.texts.ExpandableSection
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.common.texts.TextWithToggleOption
 
@@ -76,17 +81,30 @@ class HomeScreen: ScreenDefault() {
         val routerState = routerInfoModel.state.collectAsState().value
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
+        val ip = getRouterIpAddress()
+        val domain = resolveDomainFromIp(ip)
+
+
         addComponents(
             {HomeRouterInfoSection(
                 state = routerState,
                 onEditAliasClick = { newAlias ->
-                    SendRouterName.updateRouterAlias(newAlias) { success ->
+                    SendRouterName.updateRouterAlias(routerState.wirelessName, newAlias) { success ->
                         println("Alias actualizado: $success")
                     }
                 }
             )},
             { RouterIcon() },
             { ConnectedDevicesList(devicesState = devicesState, weight = 0.4f) },
+            { ExpandableSection(
+                "HOLA",
+                content = {
+                    Column {
+                        Text("$ip")
+                        Text("$domain")
+                    }
+                })
+            }
         )
 
         RenderScreen()

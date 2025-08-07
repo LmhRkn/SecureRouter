@@ -39,7 +39,6 @@ fun ConnectedDevicesList(
     weight: Float = 1f
 ) {
     val devices = devicesState.connectedDevices
-
     BoxWithConstraints {
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = weight)
 

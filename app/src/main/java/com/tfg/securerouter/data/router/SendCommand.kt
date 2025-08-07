@@ -51,6 +51,8 @@ fun <T> launchCommand(
     parse: (String) -> T,
     onResult: (T) -> Unit
 ) {
+    println(command)
+
     CoroutineScope(Dispatchers.IO).launch {
         sendAndParse(command, parse, onResult)
     }

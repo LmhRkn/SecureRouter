@@ -7,6 +7,8 @@ import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.devices_options.DevicesOptionsCoordinator
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsData
+import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsFilters
+import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsTImes
 
 class DevicesOptionsScreen: ScreenDefault() {
     @Composable
@@ -25,7 +27,9 @@ class DevicesOptionsScreen: ScreenDefault() {
             ?: throw IllegalArgumentException("ExpectedDevicesOptionsCoordinator")
 
         addComponents(
-            { DeviceOptionsData(mac, {}) }
+            { DeviceOptionsData(mac!!, {}) },
+            { DeviceOptionsTImes() },
+            { DeviceOptionsFilters()},
         )
 
         RenderScreen()

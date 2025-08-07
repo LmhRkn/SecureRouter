@@ -21,5 +21,6 @@ import com.tfg.securerouter.ui.app.screens.home.HomeScreen
 
 data class HomeRouterInfoState (
     val routerAlias: String? = null,
-    val macAddress: String = ""
+    val macAddress: String = "",
+    val wirelessName: String = "a",
 )

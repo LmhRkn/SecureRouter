@@ -10,7 +10,6 @@ import java.util.Locale
 import com.tfg.securerouter.data.json.language.LanguageManagerCache
 
 fun saveDeviceLanguage(context: Context, languageCode: String? = null): String {
-    println("languageCode: $languageCode")
     val codeToSave = when {
         !languageCode.isNullOrBlank() -> languageCode
         LanguageManagerCache.get("DEVICE_LANGUAGE") != null -> LanguageManagerCache.get("DEVICE_LANGUAGE")!!
@@ -23,7 +22,6 @@ fun saveDeviceLanguage(context: Context, languageCode: String? = null): String {
             locale.language
         }
     }
-    println("codeToSave: $codeToSave")
 
     LanguageManagerCache.put("DEVICE_LANGUAGE", codeToSave)
     return codeToSave
