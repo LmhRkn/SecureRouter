@@ -34,6 +34,8 @@
     <string name="save_button">Guardar</string>
 
     <!-- ICONS -->
+    <string name="add_button">Añadir</string>
+    <string name="clear_button">Quitar</string>
     <string name="vpn_icon_string">VPN</string>
 
     <!-- Device's Labels -->
@@ -77,4 +79,9 @@
     <string name="wifi_hide_password">Ocultar contraseña</string>
     <string name="wifi_password">Contraseña:</string>
     <string name="wifi_write_old_password">Contraseña:</string>
+    <string name="wifi_block_device_text">Bloquear Dispositivo</string>
+    <string name="wifi_from_hour_text">De:</string>
+    <string name="wifi_to_hour_text">A:</string>
+    <string name="wifi_days_of_the_week_text">Días de la semana:</string>
+    <string name="wifi_add_rule_button">Añadir regla</string>
 </resources>

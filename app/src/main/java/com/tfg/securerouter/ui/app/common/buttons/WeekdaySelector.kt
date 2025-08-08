@@ -1,21 +1,20 @@
 package com.tfg.securerouter.ui.app.common.buttons
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.*
 
 @Composable
 fun WeekdaySelector(
@@ -23,27 +22,31 @@ fun WeekdaySelector(
     onDayToggle: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val days = listOf("L", "M", "X", "J", "V", "S", "D")
-    Row(modifier = modifier) {
-        days.forEach { day ->
-            val selected = day in selectedDays
-            Button(
-                onClick = { onDayToggle(day) },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (selected) MaterialTheme.colorScheme.primary else Color.LightGray
-                ),
-                shape = RoundedCornerShape(12.dp),
-                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 2.dp),
+    val daysOfWeek = listOf("L", "M", "X", "J", "V", "S", "D")
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        daysOfWeek.forEach { day ->
+            val isSelected = day in selectedDays
+            Box(
                 modifier = Modifier
-                    .height(32.dp)
-                    .defaultMinSize(minWidth = 32.dp)
+                    .size(36.dp)
+                    .background(
+                        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseOnSurface,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .clickable { onDayToggle(day) },
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = day,
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp)
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center
                 )
             }
         }
     }
 }
+

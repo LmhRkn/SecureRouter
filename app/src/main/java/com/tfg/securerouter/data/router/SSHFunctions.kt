@@ -97,7 +97,7 @@ private fun connectSSH(
 
 fun sendCommand(command: String): String {
     var ipHost: String = getRouterIpAddress()!!
-    ipHost = "192.168.1.104"
+//    ipHost = "192.168.1.104"
     val output = connectSSH(
         username = "root",
         password = "SecureRouter",
