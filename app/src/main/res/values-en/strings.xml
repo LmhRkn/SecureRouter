@@ -84,10 +84,13 @@
 
     <string name="wifi_show_password">Show password</string>
     <string name="wifi_hide_password">Hide password</string>
-    <string name="wifi_block_device_text">Block Devices</string>
-    <string name="wifi_from_hour_text">From:</string>
-    <string name="wifi_to_hour_text">To:</string>
-    <string name="wifi_days_of_the_week_text">Days of the week:</string>
-    <string name="wifi_add_rule_button">Add rule</string>
+    <string name="table_block_device_text">Block Devices</string>
+    <string name="table_from_hour_text">From:</string>
+    <string name="table_to_hour_text">To:</string>
+    <string name="table_days_of_the_week_text">Days of the week:</string>
+    <string name="table_no_rule_text">No rules yet</string>
+    <string name="table_add_rule_button">Add rule</string>
+    <string name="table_edit_rule_button">Edit rule</string>
+    <string name="table_save_rule_changes_button">Save changes</string>
 
 </resources>

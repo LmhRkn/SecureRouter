@@ -22,16 +22,24 @@ import com.tfg.securerouter.ui.app.common.texts.TimePickerField
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import com.tfg.securerouter.R
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceTimesRuleState
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.toReadableList
 import com.tfg.securerouter.data.app.common.screen_components.rule_table.RuleTableModel
+import com.tfg.securerouter.data.app.screens.devices_options.model.send.AddTimeRuleDevice
+import kotlin.text.format
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddDeviceTime(
     onSave: (RuleTableModel) -> Unit,
-    onCancel: () -> Unit
+    onBumpToEnd: (String) -> Unit,
+    onCancel: () -> Unit,
+    mac: String,
+    nextIndex: Int,
+    currentRules: List<RuleTableModel>
 ) {
-    var startTime by rememberSaveable  { mutableStateOf(LocalTime.of(8, 0)) }
-    var endTime by rememberSaveable  { mutableStateOf(LocalTime.of(20, 0)) }
+    var startTime by rememberSaveable { mutableStateOf(LocalTime.of(8, 0)) }
+    var endTime by rememberSaveable { mutableStateOf(LocalTime.of(20, 0)) }
     var selectedDays by remember { mutableStateOf(setOf<String>()) }
 
     Column(
@@ -41,25 +49,28 @@ fun AddDeviceTime(
             .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
             .padding(16.dp)
     ) {
-        Text(stringResource(R.string.wifi_block_device_text), style = MaterialTheme.typography.titleMedium)
+        Text(
+            stringResource(R.string.table_block_device_text),
+            style = MaterialTheme.typography.titleMedium
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.wifi_from_hour_text))
+            Text(stringResource(R.string.table_to_hour_text))
             Spacer(modifier = Modifier.width(8.dp))
             TimePickerField(time = startTime) { startTime = it }
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Text(stringResource(R.string.wifi_to_hour_text))
+            Text(stringResource(R.string.table_from_hour_text))
             Spacer(modifier = Modifier.width(8.dp))
             TimePickerField(time = endTime) { endTime = it }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(stringResource(R.string.wifi_days_of_the_week_text))
+        Text(stringResource(R.string.table_days_of_the_week_text))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -84,14 +95,35 @@ fun AddDeviceTime(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Button(onClick = {
-                val days = selectedDays.joinToString(",")
-                val ruleText = "Bloquear los $days de ${startTime.format(DateTimeFormatter.ofPattern("HH:mm"))} a ${endTime.format(DateTimeFormatter.ofPattern("HH:mm"))}h"
-                onSave(RuleTableModel(ruleText))
+                val orderedDays = listOf("L","M","X","J","V","S","D").filter { it in selectedDays }
+                val startStr = startTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+                val finishStr = endTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+                val crossesMidnight = endTime.isBefore(startTime)
+
+                val newRule = DeviceTimesRuleState(
+                    index = nextIndex,
+                    index2 = if (crossesMidnight) nextIndex + 1 else null,
+                    start = startStr,
+                    finish = finishStr,
+                    days = orderedDays.joinToString(","),
+                    mac = mac
+                )
+                val newTitle = newRule.toReadableList()
+
+                val exists = currentRules.any { it.title.trim() == newTitle.trim() }
+
+                if (exists) {
+                    onBumpToEnd(newTitle)
+                } else {
+                    onSave(RuleTableModel(newTitle, nextIndex, newRule.index2))
+                    AddTimeRuleDevice.addTimeRuleDevice(newRule)
+                }
             }) {
                 Text(stringResource(R.string.add_button))
             }
 
-            OutlinedButton(onClick = {  onCancel() }) {
+
+            OutlinedButton(onClick = { onCancel() }) {
                 Text(stringResource(R.string.cancel_button))
             }
         }

@@ -26,7 +26,8 @@ import com.tfg.securerouter.data.app.common.screen_components.rule_table.RuleTab
 fun RuleTable(
     rules: List<RuleTableModel>,
     onAddRule: () -> Unit,
-    onRemoveRule: (RuleTableModel) -> Unit
+    onRemoveRule: (RuleTableModel) -> Unit,
+    onCardClick: (RuleTableModel) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -40,16 +41,32 @@ fun RuleTable(
                 .weight(1f, fill = true)
                 .verticalScroll(rememberScrollState())
         ) {
-            FlowRow(
-                maxItemsInEachRow = Int.MAX_VALUE,
-                horizontalArrangement = Arrangement.spacedBy(1.dp),
-                verticalArrangement = Arrangement.spacedBy(1.dp)
-            ) {
-                rules.forEach { rule ->
-                    RuleTableCard(
-                        text = rule.title,
-                        onButtonClicked = { onRemoveRule(rule) }
+            if (rules.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(R.string.table_no_rule_text),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                }
+            } else {
+                FlowRow(
+                    maxItemsInEachRow = Int.MAX_VALUE,
+                    horizontalArrangement = Arrangement.spacedBy(1.dp),
+                    verticalArrangement = Arrangement.spacedBy(1.dp)
+                ) {
+                    rules.forEach { rule ->
+                        RuleTableCard(
+                            text = rule.title,
+                            onButtonClicked = { onRemoveRule(rule) },
+                            onCardClick = { onCardClick(rule) }
+                        )
+                    }
                 }
             }
         }
@@ -60,7 +77,7 @@ fun RuleTable(
             onClick = onAddRule,
             modifier = Modifier.align(Alignment.End)
         ) {
-            Text(stringResource(R.string.wifi_add_rule_button))
+            Text(stringResource(R.string.table_add_rule_button))
         }
     }
 }

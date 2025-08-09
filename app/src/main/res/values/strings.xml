@@ -88,10 +88,14 @@
     <string name="wifi_show_password">Mostrar contraseña</string>
     <string name="wifi_hide_password">Ocultar contraseña</string>
 
-    <string name="wifi_block_device_text">Bloquear Dispositivo</string>
-    <string name="wifi_from_hour_text">De:</string>
-    <string name="wifi_to_hour_text">A:</string>
-    <string name="wifi_days_of_the_week_text">Días de la semana:</string>
+    <!-- TABLES -->
+    <string name="table_block_device_text">Bloquear Dispositivo</string>
+    <string name="table_from_hour_text">De:</string>
+    <string name="table_to_hour_text">A:</string>
+    <string name="table_days_of_the_week_text">Días de la semana:</string>
+    <string name="table_no_rule_text">Ninguna regla</string>
 
-    <string name="wifi_add_rule_button">Añadir regla</string>
+    <string name="table_add_rule_button">Añadir regla</string>
+    <string name="table_edit_rule_button">Editar regla</string>
+    <string name="table_save_rule_changes_button">Guardar Cambios</string>
 </resources>

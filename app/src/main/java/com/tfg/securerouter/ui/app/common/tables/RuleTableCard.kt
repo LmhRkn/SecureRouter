@@ -1,6 +1,7 @@
 package com.tfg.securerouter.ui.app.common.tables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,6 +28,7 @@ import com.tfg.securerouter.R
 fun RuleTableCard(
     text: String,
     onButtonClicked: () -> Unit,
+    onCardClick: () -> Unit,
     textStyle: TextStyle = MaterialTheme.typography.bodySmall,
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     buttonIcon: ImageVector = Icons.Filled.Close,
@@ -42,6 +44,7 @@ fun RuleTableCard(
                 color = backgroundColor,
                 shape = RoundedCornerShape(percent = borderPercentage)
             )
+            .clickable { onCardClick() }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

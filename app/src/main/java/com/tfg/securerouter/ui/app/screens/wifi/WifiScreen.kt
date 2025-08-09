@@ -67,7 +67,6 @@ class WifiScreen: ScreenDefault() {
             ?: throw IllegalArgumentException("Expected WifiCoordinator")
 
         val routerInfoModel = wifiCoordinator.modules.filterIsInstance<WifiRouterInfoModel>().first()
-
         val routerState = routerInfoModel.state.collectAsState().value
 
         addComponents(
