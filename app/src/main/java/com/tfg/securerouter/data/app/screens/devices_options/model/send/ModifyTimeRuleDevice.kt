@@ -25,7 +25,6 @@ object ModifyTimeRuleDevice {
     }
 
     private fun buildDeleteCommand(rule: DeviceTimesRuleState): String {
-        // Borrar primero el índice MAYOR para no desplazar el menor
         return if (rule.index2 != null) {
             val (a, b) = listOfNotNull(rule.index, rule.index2).sortedDescending()
             """

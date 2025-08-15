@@ -1,5 +1,7 @@
 package com.tfg.securerouter.ui.app.common.tables
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,14 +22,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.common.screen_components.rule_table.RuleTableModel
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceTimesRuleState
+import com.tfg.securerouter.data.app.common.screen_components.devices.model.toReadableList
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RuleTable(
-    rules: List<RuleTableModel>,
+    rules: List<DeviceTimesRuleState>,
     onAddRule: () -> Unit,
-    onRemoveRule: (RuleTableModel) -> Unit,
-    onCardClick: (RuleTableModel) -> Unit
+    onRemoveRule: (DeviceTimesRuleState) -> Unit,
+    onCardClick: (DeviceTimesRuleState) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -62,7 +66,7 @@ fun RuleTable(
                 ) {
                     rules.forEach { rule ->
                         RuleTableCard(
-                            text = rule.title,
+                            text = rule.toReadableList(),
                             onButtonClicked = { onRemoveRule(rule) },
                             onCardClick = { onCardClick(rule) }
                         )
@@ -83,8 +87,8 @@ fun RuleTable(
 }
 
 fun removeItemRuleTable(
-    rules: List<RuleTableModel>,
-    ruleToRemove : RuleTableModel
-): List<RuleTableModel> {
+    rules: List<DeviceTimesRuleState>,
+    ruleToRemove : DeviceTimesRuleState
+): List<DeviceTimesRuleState> {
     return rules.filterNot { it == ruleToRemove }
 }

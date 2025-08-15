@@ -27,7 +27,8 @@ fun DeviceTimesRuleState.toReadableList(): String {
 }
 
 data class DeviceTimesRulesState(
-    val rules: List<DeviceTimesRuleState> = emptyList<DeviceTimesRuleState>()
+    val rules: List<DeviceTimesRuleState> = emptyList<DeviceTimesRuleState>(),
+    val nextIndex: Int = -1
 )
 
 fun DeviceTimesRulesState.toReadableList(): List<String>{

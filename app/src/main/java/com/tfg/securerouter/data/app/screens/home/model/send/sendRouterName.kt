@@ -39,8 +39,6 @@ object SendRouterName {
             /etc/init.d/network restart
         """.trimIndent()
 
-
-        println(command)
         launchCommand(
             command = command,
             parse = { output -> output.isNotBlank() },
