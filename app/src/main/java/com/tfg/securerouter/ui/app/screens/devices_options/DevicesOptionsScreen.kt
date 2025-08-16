@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.devices_options.DevicesOptionsCoordinator
+import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
@@ -39,10 +40,16 @@ class DevicesOptionsScreen: ScreenDefault() {
 
         val deviceTimesRule = deviceTimesRuleModel.state.collectAsState().value
 
+        val deviceFilterWebRuleModel = devicesOptionsCoordinator.modules
+            .filterIsInstance<DeviceFilterWebRuleModel>()
+            .first()
+
+        val deviceFilterWebRule = deviceFilterWebRuleModel.state.collectAsState().value
+
         addComponents(
             { DeviceOptionsData(mac!!, {}) },
             { DeviceOptionsTimes(deviceTimesRule, mac!!) },
-            { DeviceOptionsFilters()},
+            { DeviceOptionsFilters(deviceFilterWebRule, mac!!)},
         )
 
         RenderScreen()

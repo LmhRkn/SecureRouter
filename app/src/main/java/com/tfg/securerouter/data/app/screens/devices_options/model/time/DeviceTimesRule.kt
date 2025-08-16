@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.common.screen_components.devices.model
+package com.tfg.securerouter.data.app.screens.devices_options.model.time
 
 import android.os.Build
 import androidx.annotation.RequiresApi

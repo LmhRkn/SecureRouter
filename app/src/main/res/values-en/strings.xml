@@ -34,6 +34,7 @@
 
     <!-- ICONS -->
     <string name="add_button">Add</string>
+    <string name="edit_button">Edit</string>
     <string name="clear_button">Clear</string>
     <string name="vpn_icon_string">VPN</string>
 
@@ -84,7 +85,7 @@
 
     <string name="wifi_show_password">Show password</string>
     <string name="wifi_hide_password">Hide password</string>
-    <string name="table_block_device_text">Block Devices</string>
+    <string name="table_block_device_text">Block Devices:</string>
     <string name="table_from_hour_text">From:</string>
     <string name="table_to_hour_text">To:</string>
     <string name="table_days_of_the_week_text">Days of the week:</string>

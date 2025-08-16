@@ -1,17 +1,24 @@
 package com.tfg.securerouter.ui.app.screens.wifi
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
+import com.tfg.securerouter.ui.app.screens.wifi.components.WifiOptionsFilterWeb
+import com.tfg.securerouter.ui.app.screens.wifi.components.WifiOptionsTimes
 import com.tfg.securerouter.ui.app.screens.wifi.components.WifiRouterInfoSection
 import com.tfg.securerouter.ui.app.screens.wifi.components.WifiRouterPassword
 
@@ -61,6 +68,7 @@ class WifiScreen: ScreenDefault() {
      *
      * @see WifiCoordinator
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val wifiCoordinator = coordinator as? WifiCoordinator
@@ -68,6 +76,18 @@ class WifiScreen: ScreenDefault() {
 
         val routerInfoModel = wifiCoordinator.modules.filterIsInstance<WifiRouterInfoModel>().first()
         val routerState = routerInfoModel.state.collectAsState().value
+
+        val wifiTimesRuleModel = wifiCoordinator.modules
+            .filterIsInstance<WifiTimesRuleModel>()
+            .first()
+
+        val wifiTimesRule = wifiTimesRuleModel.state.collectAsState().value
+
+        val wifiFilterWebRuleModel = wifiCoordinator.modules
+            .filterIsInstance<WifiFilterWebRuleModel>()
+            .first()
+
+        val wifiFilterWebRule = wifiFilterWebRuleModel.state.collectAsState().value
 
         addComponents(
             { WifiRouterInfoSection(
@@ -77,6 +97,9 @@ class WifiScreen: ScreenDefault() {
                 }
             )},
             { WifiRouterPassword(routerState) },
+            { WifiOptionsTimes(wifiTimesRule) },
+            { WifiOptionsFilterWeb(wifiFilterWebRule) },
+
         )
 
         RenderScreen()

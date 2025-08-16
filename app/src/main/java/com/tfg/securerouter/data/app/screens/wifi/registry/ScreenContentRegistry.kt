@@ -2,8 +2,11 @@ package com.tfg.securerouter.data.app.screens.wifi.registry
 
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
 import com.tfg.securerouter.ui.app.screens.wifi.WifiScreen
+import com.tfg.securerouter.ui.app.screens.wifi.components.WifiOptionsTimes
 
 /**
  * Registry object that holds all available [WifiScreen]'s contents.
@@ -24,6 +27,8 @@ import com.tfg.securerouter.ui.app.screens.wifi.WifiScreen
 
 class WifiContentRegistry(sharedCache: MutableMap<String, Any>) {
     val modules: List<ScreenComponentModelDefault> = listOf(
-        WifiRouterInfoModel(sharedCache)
+        WifiRouterInfoModel(sharedCache),
+        WifiTimesRuleModel(sharedCache),
+        WifiFilterWebRuleModel(sharedCache)
     )
 }

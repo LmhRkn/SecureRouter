@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.app.screens.devices_options.components.extras
+package com.tfg.securerouter.ui.app.screens.wifi.components.extras.time
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,26 +19,29 @@ import com.tfg.securerouter.ui.app.common.texts.TimePickerField
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceTimesRuleState
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.toReadableList
-import com.tfg.securerouter.data.app.screens.devices_options.model.send.AddTimeRuleDevice
+import com.tfg.securerouter.data.app.screens.wifi.model.send.AddTimeRuleWifi
+import com.tfg.securerouter.data.app.screens.wifi.model.time.WifiTimesRuleState
+import com.tfg.securerouter.data.app.screens.wifi.model.time.toReadableList
+import com.tfg.securerouter.ui.app.common.tables.saveRuleGeneric
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddDeviceTime(
-    oldRule: DeviceTimesRuleState? = null,
-    onSave: (DeviceTimesRuleState) -> Unit,
-    onBumpToEnd: (String) -> Unit,
+fun AddWifiTime(
+    oldRule: WifiTimesRuleState? = null,
+    onSave: (WifiTimesRuleState) -> Unit,
+    onBumpToEnd: (String) -> Int,
     onCancel: () -> Unit,
-    onRemoveRule: (DeviceTimesRuleState) -> Unit = {},
-    mac: String,
+    onRemoveRule: (WifiTimesRuleState) -> Unit = {},
     nextIndex: Int = -1,
-    currentRules: List<DeviceTimesRuleState>
+    currentRules: List<WifiTimesRuleState>,
+    saveTextButton: String = stringResource(R.string.add_button),
+    cancelTextButton: String = stringResource(R.string.cancel_button),
+    explanationText: String
 ) {
     val timeFmt = remember { DateTimeFormatter.ofPattern("HH:mm:ss") }
 
     val localTimeSaver = remember {
-        androidx.compose.runtime.saveable.Saver<LocalTime, String>(
+        Saver<LocalTime, String>(
             save = { it.format(timeFmt) },
             restore = { LocalTime.parse(it, timeFmt) }
         )
@@ -72,12 +76,11 @@ fun AddDeviceTime(
             .padding(16.dp)
     ) {
         Text(
-            stringResource(R.string.table_block_device_text),
+            explanationText,
             style = MaterialTheme.typography.titleMedium
         )
 
         Spacer(modifier = Modifier.height(12.dp))
-
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.table_to_hour_text))
             Spacer(modifier = Modifier.width(8.dp))
@@ -125,36 +128,45 @@ fun AddDeviceTime(
                     val startStr = startTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
                     val finishStr = endTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
                     val crossesMidnight = endTime.isBefore(startTime)
-                    val newRule = DeviceTimesRuleState(
-                        index = nextIndex - indexSubtraction        ,
-                        index2 = if (crossesMidnight) nextIndex + 1 - indexSubtraction else null,
-                        start = startStr,
-                        finish = finishStr,
-                        days = orderedDays.joinToString(","),
-                        mac = mac
+
+                    val previewLabel = WifiTimesRuleState(
+                        index = -1, index2 = null,
+                        start = startStr, finish = finishStr,
+                        days = orderedDays.joinToString(",")
+                    ).toReadableList()
+
+                    saveRuleGeneric(
+                        previewLabel = previewLabel,
+                        crossesMidnight = crossesMidnight,
+                        oldRule = oldRule,
+                        currentRules = currentRules,
+                        nextIndex = nextIndex,
+                        onBumpToEnd = onBumpToEnd,
+                        onRemoveRule = onRemoveRule,
+                        indexOf = { it.index },
+                        index2Of = { it.index2 },
+                        labelOf = { it.toReadableList() },
+                        buildRule = { idx, idx2 ->
+                            WifiTimesRuleState(
+                                index = idx,
+                                index2 = idx2,
+                                start = startStr,
+                                finish = finishStr,
+                                days = orderedDays.joinToString(",")
+                            )
+                        },
+                        onAddRemote = { r ->
+                            AddTimeRuleWifi.addTimeRuleWifi(r)
+                        },
+                        onSaveLocal = onSave
                     )
-                    val newTitle = newRule.toReadableList()
-
-                    val exists = currentRules.any { it.toReadableList().trim() == newTitle.trim() }
-
-                    if (exists) {
-                        onBumpToEnd(newTitle)
-                    } else {
-                        onSave(newRule)
-                        if (oldRule != null) {
-                            onRemoveRule(oldRule)
-                        }
-                        AddTimeRuleDevice.addTimeRuleDevice(newRule)
-                    }
-            }) {
-                Text(stringResource(R.string.add_button))
-            }
+                }
+            ) { Text(saveTextButton) }
 
 
             OutlinedButton(onClick = { onCancel() }) {
-                Text(stringResource(R.string.cancel_button))
+                Text(cancelTextButton)
             }
         }
     }
 }
-

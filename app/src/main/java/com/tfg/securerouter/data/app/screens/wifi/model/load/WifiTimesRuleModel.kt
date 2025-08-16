@@ -1,20 +1,20 @@
-package com.tfg.securerouter.data.app.screens.devices_options.model.load
+package com.tfg.securerouter.data.app.screens.wifi.model.load
 
-import com.tfg.securerouter.data.app.screens.devices_options.model.time.DeviceTimesRuleState
-import com.tfg.securerouter.data.app.screens.devices_options.model.time.DeviceTimesRulesState
 import com.tfg.securerouter.data.app.screens.devices_options.model.time.nextDays
 import com.tfg.securerouter.data.app.screens.devices_options.model.time.parseDaysToString
 import com.tfg.securerouter.data.app.screens.devices_options.model.time.parseStringToDays
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
+import com.tfg.securerouter.data.app.screens.wifi.model.time.WifiTimesRuleState
+import com.tfg.securerouter.data.app.screens.wifi.model.time.WifiTimesRulesState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class DeviceTimesRuleModel(
+class WifiTimesRuleModel(
     private val sharedCache: MutableMap<String, Any>
 ) : ScreenComponentModelDefault {
 
-    private val _state = MutableStateFlow(DeviceTimesRulesState())
-    val state: StateFlow<DeviceTimesRulesState> = _state
+    private val _state = MutableStateFlow(WifiTimesRulesState())
+    val state: StateFlow<WifiTimesRulesState> = _state
 
     override suspend fun loadData(): Boolean {
         return safeLoad(
@@ -23,14 +23,14 @@ class DeviceTimesRuleModel(
             cacheKey = "firewall_rules_raw",
             parse = { output -> parseTimesDevicesRules(output) },
             setState = { rulesState ->
-                sharedCache["device_time_rule_list"] = rulesState
+                sharedCache["wifi_time_rule_list"] = rulesState
                 _state.value = rulesState
             }
         )
     }
 
 
-    private fun parseTimesDevicesRules(output: String): DeviceTimesRulesState {
+    private fun parseTimesDevicesRules(output: String): WifiTimesRulesState {
         val rulesByIdx: MutableMap<Int, MutableMap<String, String>> = mutableMapOf()
         val lineRe = Regex(
             pattern = """firewall\.@rule\[(\d+)]\.(\w+)=['"]?([^'"\n]*)['"]?""",
@@ -47,23 +47,20 @@ class DeviceTimesRuleModel(
         val raw = rulesByIdx.entries
             .filter { (_, m) ->
                 (m.containsKey("start_time") || m.containsKey("stop_time")) &&
-                        m["name"]?.startsWith("time_mac_") == true
+                        m["name"]?.startsWith("time_wifi_") == true
             }
             .map { (idx, m) ->
-                DeviceTimesRuleState(
+                WifiTimesRuleState(
                     index = idx,
                     start = m["start_time"].orEmpty(),
                     finish = m["stop_time"].orEmpty(),
                     days = parseDaysToString(m["weekdays"].orEmpty()),
-                    mac = m["src_mac"].orEmpty().ifBlank {
-                        m["name"]?.split("_")?.getOrNull(2).orEmpty()
-                    }
                 )
             }
             .sortedBy { it.index }
 
         val usedAsTail = mutableSetOf<Int>()
-        val merged = mutableListOf<DeviceTimesRuleState>()
+        val merged = mutableListOf<WifiTimesRuleState>()
 
         fun expectedTailDays(headDaysLetters: String): String {
             val routerDays = parseStringToDays(headDaysLetters)
@@ -82,8 +79,7 @@ class DeviceTimesRuleModel(
             if (isHead) {
                 val expectDaysTail = expectedTailDays(r.days)
                 val tail = raw.firstOrNull { t ->
-                    t.mac.equals(r.mac, ignoreCase = true) &&
-                            t.start == "00:00:00" &&
+                    t.start == "00:00:00" &&
                             t.finish != "23:59:59" &&
                             t.days == expectDaysTail &&
                             t.index > r.index &&
@@ -91,13 +87,12 @@ class DeviceTimesRuleModel(
                 }
 
                 if (tail != null) {
-                    merged += DeviceTimesRuleState(
+                    merged += WifiTimesRuleState(
                         index = r.index,
                         index2 = tail.index,
                         start = r.start,
                         finish = tail.finish,
                         days = r.days,
-                        mac = r.mac
                     )
                     usedAsTail += tail.index
                     continue
@@ -109,7 +104,7 @@ class DeviceTimesRuleModel(
         }
 
         val nextIdx = nextFirewallIndexFromOutput(output)
-        return DeviceTimesRulesState(
+        return WifiTimesRulesState(
             rules = merged.sortedBy { it.index },
             nextIndex = nextIdx
         )

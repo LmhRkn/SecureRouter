@@ -22,16 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceTimesRuleState
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.toReadableList
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun RuleTable(
-    rules: List<DeviceTimesRuleState>,
+fun <T> RuleTable(
+    rules: List<T>,
+    labelOf: (T) -> String,
     onAddRule: () -> Unit,
-    onRemoveRule: (DeviceTimesRuleState) -> Unit,
-    onCardClick: (DeviceTimesRuleState) -> Unit
+    onRemoveRule: (T) -> Unit,
+    onCardClick: (T) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -66,9 +64,9 @@ fun RuleTable(
                 ) {
                     rules.forEach { rule ->
                         RuleTableCard(
-                            text = rule.toReadableList(),
+                            text = labelOf(rule),
                             onButtonClicked = { onRemoveRule(rule) },
-                            onCardClick = { onCardClick(rule) }
+                            onCardClick   = { onCardClick(rule) }
                         )
                     }
                 }
@@ -84,11 +82,4 @@ fun RuleTable(
             Text(stringResource(R.string.table_add_rule_button))
         }
     }
-}
-
-fun removeItemRuleTable(
-    rules: List<DeviceTimesRuleState>,
-    ruleToRemove : DeviceTimesRuleState
-): List<DeviceTimesRuleState> {
-    return rules.filterNot { it == ruleToRemove }
 }
