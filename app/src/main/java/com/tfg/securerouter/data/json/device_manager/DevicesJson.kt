@@ -42,4 +42,12 @@ object DeviceManagerCache : BaseCache<DeviceCache>(
             put(update(current))
         }
     }
+
+    fun getAllDevices(): List<DeviceModel> {
+        return getDataMap().values.mapNotNull { json ->
+            try {
+                Json.decodeFromString<SerializableDeviceModel>(json).toDeviceModel()
+            } catch (_: Exception) { null }
+        }
+    }
 }

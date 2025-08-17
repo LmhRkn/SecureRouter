@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.screens.home.state.load.ConnectedDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
@@ -38,7 +39,9 @@ fun ConnectedDevicesList(
     devicesState: ConnectedDeviceState,
     weight: Float = 1f
 ) {
-    val devices = devicesState.connectedDevices
+    val devices = devicesState.connectedDevices.filter {
+        DeviceLabel.Blocked !in it.labels
+    }
     BoxWithConstraints {
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = weight)
 

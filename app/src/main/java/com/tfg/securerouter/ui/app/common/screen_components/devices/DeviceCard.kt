@@ -26,6 +26,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.material.icons.filled.NewReleases
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import com.tfg.securerouter.R
+import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
 
 /**
  * Composable function for displaying a card representing a network device.
@@ -64,53 +81,96 @@ fun DeviceCard(
     textMacStyle: TextStyle = MaterialTheme.typography.bodySmall,
     textMacColor: Color = MaterialTheme.colorScheme.onBackground
 ) {
-    Card(
+    val isOnline = DeviceLabel.Online in device.labels
+    var isNew by remember(device.mac, device.labels) {
+        mutableStateOf(DeviceLabel.New in device.labels)
+    }
+
+    Box(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable { onClick() }
     ) {
-        Row(
+        Card(
             modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth()
+                .clickable {
+                    if (isNew) {
+                        DeviceManagerCache.update(device.mac) { current ->
+                            current.copy(labels = current.labels - DeviceLabel.New)
+                        }
+                        isNew = false
+                    }
+                    onClick()
+                }
         ) {
-            Icon(
-                imageVector = device.icon ?: Icons.Filled.DevicesOther,
-                contentDescription = device.iconDescription?.let { stringResource(it) } ?: "",
-                modifier = Modifier.size(iconSize),
-                tint = iconTint
-            )
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = device.hostname ?: device.ip,
-                    style = textNameStyle,
-                    color = textNameColor
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = device.icon ?: Icons.Filled.DevicesOther,
+                    contentDescription = device.iconDescription?.let { stringResource(it) },
+                    modifier = Modifier.size(iconSize),
+                    tint = iconTint
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = device.ip,
-                        style = textIpStyle,
-                        color = textIpColor
+                        text = device.hostname ?: device.ip,
+                        style = textNameStyle,
+                        color = textNameColor
                     )
-                    Text(
-                        text = device.mac,
-                        style = textMacStyle,
-                        modifier = Modifier.padding(end = 16.dp),
-                        color = textMacColor
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = device.ip,
+                            style = textIpStyle,
+                            color = textIpColor
+                        )
+                        Text(
+                            text = device.mac,
+                            style = textMacStyle,
+                            modifier = Modifier.padding(end = 16.dp),
+                            color = textMacColor
+                        )
+                    }
+                }
+            }
+        }
+
+        if (isOnline || isNew) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(6.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (isNew) {
+                    Icon(
+                        imageVector = Icons.Filled.NewReleases,
+                        contentDescription = stringResource(R.string.device_label_new),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+                if (isOnline) {
+                    Box(
+                        modifier = Modifier
+                            .size(12.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFF4CAF50)) // verde online
+                            .border(2.dp, MaterialTheme.colorScheme.surface, CircleShape)
                     )
                 }
             }
         }
     }
 }
-
-
-

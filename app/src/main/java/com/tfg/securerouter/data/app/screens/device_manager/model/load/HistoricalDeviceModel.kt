@@ -1,12 +1,9 @@
 package com.tfg.securerouter.data.app.screens.device_manager.model.load
 
-import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 import com.tfg.securerouter.data.app.screens.common.devices.DevicesListModel
 import com.tfg.securerouter.data.app.screens.defaults.ScreenComponentModelDevicesDefault
 import com.tfg.securerouter.data.app.screens.device_manager.state.HistoricalDeviceState
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -25,24 +22,11 @@ import kotlinx.coroutines.flow.StateFlow
  * @see DeviceModel
  * @see safeLoad
  */
+
 class HistoricalDeviceModel(
     sharedCache: MutableMap<String, Any>
 ) : DevicesListModel<HistoricalDeviceState>(
     sharedCache = sharedCache,
-    createState = { HistoricalDeviceState(it) }
-) {
-
-    private val _state = MutableStateFlow(HistoricalDeviceState())
-    override val state: StateFlow<HistoricalDeviceState> = _state
-
-    override suspend fun loadData(): Boolean {
-        return safeLoad(
-            cache = sharedCache,
-            command = "cat /tmp/dhcp.leases",
-            cacheKey = "devices_output",
-            parse = { parseDevices(it) },
-            setState = { _state.value = HistoricalDeviceState(it) }
-        )
-    }
-}
+    createState = { list -> HistoricalDeviceState(list) }
+)
 

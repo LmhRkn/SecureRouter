@@ -13,11 +13,17 @@ import com.tfg.securerouter.data.app.screens.home.HomeCoordinator
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
+import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.screens.router_selector.registry.resolveDomainFromIp
+import com.tfg.securerouter.data.automatization.ExecuteAutomatizations
+import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryBeforeOpening
+import com.tfg.securerouter.data.json.router_selector.RouterSelctorCache
 import com.tfg.securerouter.data.router.getRouterIpAddress
+import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.common.texts.ExpandableSection
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.common.texts.TextWithToggleOption
+import com.tfg.securerouter.data.router.shUsingLaunch
 
 /**
  * Composable screen for displaying the home dashboard of the SecureRouter app.
@@ -72,6 +78,13 @@ class HomeScreen: ScreenDefault() {
      */
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
+        AppSession.routerId = 1
+        ExecuteAutomatizations(
+            factories = AutomatizationRegistryBeforeOpening.factories,
+            sh = ::shUsingLaunch,
+            key = AppSession.routerId
+        )
+
         val homeCoordinator = coordinator as? HomeCoordinator
             ?: throw IllegalArgumentException("Expected HomeCoordinator")
 
@@ -84,7 +97,6 @@ class HomeScreen: ScreenDefault() {
         val ip = getRouterIpAddress()
         val domain = resolveDomainFromIp(ip)
 
-
         addComponents(
             {HomeRouterInfoSection(
                 state = routerState,
@@ -94,15 +106,6 @@ class HomeScreen: ScreenDefault() {
             )},
             { RouterIcon() },
             { ConnectedDevicesList(devicesState = devicesState, weight = 0.4f) },
-            { ExpandableSection(
-                "HOLA",
-                content = {
-                    Column {
-                        Text("$ip")
-                        Text("$domain")
-                    }
-                })
-            }
         )
 
         RenderScreen()

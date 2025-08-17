@@ -45,6 +45,7 @@
     <string name="device_label_online">Conectado</string>
     <string name="device_label_offline">Desconectado</string>
     <string name="device_label_blocked">Bloqueado</string>
+    <string name="device_label_new">Nuevo</string>
 
     <string name="device_phone_icon">Icono Móvil</string>
     <string name="device_pc_icon">Icono PC</string>

@@ -28,5 +28,6 @@ data class DeviceModel(
     val ip: String,
     val icon: ImageVector? = null,
     val iconDescription: Int? = null,
-    val labels: Set<DeviceLabel> = emptySet()
+    val labels: Set<DeviceLabel> = emptySet(),
+    val blockedAt: String? = null
 )

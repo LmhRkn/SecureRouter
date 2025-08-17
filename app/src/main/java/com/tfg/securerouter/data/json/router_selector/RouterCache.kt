@@ -1,22 +1,18 @@
 package com.tfg.securerouter.data.json.router_selector
 
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 import com.tfg.securerouter.data.json.BaseCache
 import kotlinx.serialization.*
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.SerializableDeviceModel
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.toDeviceModel
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.toSerializable
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import kotlinx.serialization.json.Json
 
 @Serializable
 data class RouterCache(
-    val data: MutableMap<String, String> = mutableMapOf()  // JSON strings por MAC
+    val data: MutableMap<String, String> = mutableMapOf()
 )
 
 object RouterSelctorCache : BaseCache<RouterCache>(
     RouterCache.serializer(),
-    "device_cache.json"
+    "router_cache.json"
 ) {
     override fun createEmptyCache() = RouterCache()
 

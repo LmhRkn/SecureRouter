@@ -1,5 +1,7 @@
 package com.tfg.securerouter.data.app.common.screen_components.devices.model
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.material.icons.filled.Laptop
@@ -7,6 +9,8 @@ import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 fun DeviceModel.toSerializable(): SerializableDeviceModel {
     return SerializableDeviceModel(
@@ -15,7 +19,8 @@ fun DeviceModel.toSerializable(): SerializableDeviceModel {
         ip = ip,
         iconId = iconToId(icon),
         iconDescription = iconDescription,
-        labelIds = labels.map { it.name }
+        labelIds = labels.map { it.name },
+        blockedAt = blockedAt
     )
 }
 
@@ -26,7 +31,8 @@ fun SerializableDeviceModel.toDeviceModel(): DeviceModel {
         ip = ip,
         icon = idToIcon(iconId),
         iconDescription = iconDescription,
-        labels = labelIds.mapNotNull { id -> DeviceLabel.entries.find { it.name == id } }.toSet()
+        labels = labelIds.mapNotNull { id -> DeviceLabel.entries.find { it.name == id } }.toSet(),
+        blockedAt = blockedAt
     )
 }
 

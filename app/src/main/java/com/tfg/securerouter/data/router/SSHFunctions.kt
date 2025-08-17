@@ -3,6 +3,11 @@ package com.tfg.securerouter.data.router
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 import com.tfg.securerouter.data.router.getRouterIpAddress
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.Job
 
 /**
  * Establishes an SSH connection to a remote host and executes a single command.
@@ -96,8 +101,7 @@ private fun connectSSH(
  */
 
 fun sendCommand(command: String): String {
-    var ipHost: String = getRouterIpAddress()!!
-//    ipHost = "192.168.1.104"
+    val ipHost: String = getRouterIpAddress()!!
     val output = connectSSH(
         username = "root",
         password = "SecureRouter",
@@ -106,4 +110,20 @@ fun sendCommand(command: String): String {
     )
     println("command: $command\noutput: $output")
     return output
+}
+
+suspend fun shUsingLaunch(
+    command: String,
+    timeoutMs: Long = 10_000L
+): String = withTimeout(timeoutMs) {
+    suspendCancellableCoroutine { cont ->
+        // Versión recomendada de launchCommand (ver más abajo) que devuelve Job:
+        val job: Job = launchCommand(
+            command = command,
+            parse   = { it },              // String -> String (identidad)
+            onResult = { out -> if (cont.isActive) cont.resume(out) },
+            onError  = { e   -> if (cont.isActive) cont.resumeWithException(e) }
+        )
+        cont.invokeOnCancellation { job.cancel() }
+    }
 }

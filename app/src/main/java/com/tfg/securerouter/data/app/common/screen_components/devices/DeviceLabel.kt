@@ -30,7 +30,8 @@ enum class DeviceLabel(val displayName: String) {
     Console(R.string.device_label_console.toString()),
     Online(R.string.device_label_online.toString()),
     Offline(R.string.device_label_offline.toString()),
-    Blocked(R.string.device_label_blocked.toString());
+    Blocked(R.string.device_label_blocked.toString()),
+    New(R.string.device_label_new.toString());
 
     override fun toString(): String = displayName
 }

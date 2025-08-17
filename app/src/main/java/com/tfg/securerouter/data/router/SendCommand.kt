@@ -2,7 +2,9 @@ package com.tfg.securerouter.data.router
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Executes a router command, parses its output, and optionally caches the result.
@@ -49,9 +51,16 @@ fun <T> sendAndParse(
 fun <T> launchCommand(
     command: String,
     parse: (String) -> T,
-    onResult: (T) -> Unit
-) {
-    CoroutineScope(Dispatchers.IO).launch {
-        sendAndParse(command, parse, onResult)
+    onResult: (T) -> Unit,
+    onError: (Throwable) -> Unit = {}
+): Job {
+    return CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val raw = sendCommand(command)
+            val parsed = parse(raw)
+            withContext(Dispatchers.Main) { onResult(parsed) }
+        } catch (e: Throwable) {
+            withContext(Dispatchers.Main) { onError(e) }
+        }
     }
 }

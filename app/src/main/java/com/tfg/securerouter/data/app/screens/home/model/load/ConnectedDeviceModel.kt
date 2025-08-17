@@ -4,7 +4,6 @@ import com.tfg.securerouter.data.app.common.screen_components.devices.model.Devi
 import com.tfg.securerouter.data.app.screens.common.devices.DevicesListModel
 import com.tfg.securerouter.data.app.screens.defaults.ScreenComponentModelDevicesDefault
 import com.tfg.securerouter.data.app.screens.home.state.load.ConnectedDeviceState
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -25,27 +24,4 @@ class ConnectedDeviceModel(
 ) : DevicesListModel<ConnectedDeviceState>(
     sharedCache = sharedCache,
     createState = { ConnectedDeviceState(it) }
-) {
-    private val _state = MutableStateFlow(ConnectedDeviceState())
-    override val state: StateFlow<ConnectedDeviceState> = _state
-
-    /**
-     * Loads the list of connected devices from the router and updates the state.
-     *
-     * This method:
-     * - Executes the command `cat /tmp/dhcp.leases` to fetch raw device data.
-     * - Parses the output into a list of [DeviceModel]s.
-     * - Updates [_state] with the resulting [ConnectedDeviceState].
-     *
-     * @return `true` if the data was successfully loaded; `false` otherwise.
-     */
-    override suspend fun loadData(): Boolean {
-        return safeLoad(
-            cache = sharedCache,
-            command = "cat /tmp/dhcp.leases",
-            cacheKey = "devices_output",
-            parse = { parseDevices(it) },
-            setState = { _state.value = ConnectedDeviceState(it) }
-        )
-    }
-}
+)

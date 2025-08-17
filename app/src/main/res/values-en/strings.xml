@@ -46,6 +46,7 @@
     <string name="device_label_offline">Offline</string>
     <string name="device_label_blocked">Blocked</string>
 
+    <string name="device_label_new">New</string>
     <string name="device_phone_icon">Phone Icon</string>
     <string name="device_pc_icon">PC Icon</string>
     <string name="device_console_icon">Console Icon</string>

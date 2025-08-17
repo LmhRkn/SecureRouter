@@ -9,5 +9,6 @@ data class SerializableDeviceModel(
     val ip: String,
     val iconId: String,
     val iconDescription: Int? = null,
-    val labelIds: List<String> = emptyList()
+    val labelIds: List<String> = emptyList(),
+    val blockedAt: String? = null
 )
