@@ -10,7 +10,7 @@ data class RouterCache(
     val data: MutableMap<String, String> = mutableMapOf()
 )
 
-object RouterSelctorCache : BaseCache<RouterCache>(
+object RouterSelectorCache : BaseCache<RouterCache>(
     RouterCache.serializer(),
     "router_cache.json"
 ) {
@@ -50,4 +50,6 @@ object RouterSelctorCache : BaseCache<RouterCache>(
             put(update(current))
         }
     }
+
+    fun nextId(): Int = (getRouters().maxOfOrNull { it.id } ?: 0) + 1
 }

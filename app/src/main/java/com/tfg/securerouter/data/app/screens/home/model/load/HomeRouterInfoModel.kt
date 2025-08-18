@@ -2,6 +2,9 @@ package com.tfg.securerouter.data.app.screens.home.model.load
 
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.app.screens.home.state.HomeRouterInfoState
+import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.utils.AppSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -62,6 +65,8 @@ class HomeRouterInfoModel(
             setOf(RegexOption.IGNORE_CASE, RegexOption.MULTILINE)
         )
 
+        val router: RouterInfo? = RouterSelectorCache.getRouter(AppSession.routerId.toString())
+
         val ssid = ssidRegex.findAll(output).lastOrNull()?.groupValues?.get(1)
 
         val mac = standaloneMacRegex.findAll(output).lastOrNull()?.groupValues?.get(1)
@@ -77,11 +82,14 @@ class HomeRouterInfoModel(
             .lastOrNull()
             ?: ""
 
+        if (router != null && !ssid.isNullOrBlank() && router.id >= 0 && ssid != router.name) {
+            RouterSelectorCache.update(router.id.toString()) { it.copy(name = ssid) }
+        }
+
         return HomeRouterInfoState(
             routerAlias = ssid,
             macAddress = mac.uppercase(),
             wirelessName = wirelessName
         )
     }
-
 }

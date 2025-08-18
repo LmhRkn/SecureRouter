@@ -1,7 +1,5 @@
 package com.tfg.securerouter.ui.app.screens.home
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
@@ -13,14 +11,13 @@ import com.tfg.securerouter.data.app.screens.home.HomeCoordinator
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
+import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
-import com.tfg.securerouter.data.app.screens.router_selector.registry.resolveDomainFromIp
 import com.tfg.securerouter.data.automatization.ExecuteAutomatizations
 import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryBeforeOpening
-import com.tfg.securerouter.data.json.router_selector.RouterSelctorCache
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.router.getRouterIpAddress
 import com.tfg.securerouter.data.utils.AppSession
-import com.tfg.securerouter.ui.app.common.texts.ExpandableSection
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.common.texts.TextWithToggleOption
 import com.tfg.securerouter.data.router.shUsingLaunch
@@ -78,12 +75,28 @@ class HomeScreen: ScreenDefault() {
      */
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
-        AppSession.routerId = 1
         ExecuteAutomatizations(
             factories = AutomatizationRegistryBeforeOpening.factories,
             sh = ::shUsingLaunch,
             key = AppSession.routerId
         )
+
+//        RouterSelctorCache.put(
+//            RouterInfo(
+//                name = "Segundo Router",
+//                mac = "de:12:32:85:d4:b9",
+//                localIp = "192.168.0.5",
+//                isVpn = false,
+//                id = 1,
+//            )
+//        )
+//
+//        RouterSelectorCache.update(AppSession.routerId.toString()) { r -> r.copy(
+//            labels = r.labels - RouterLabel.Online + RouterLabel.Offline
+//        ) }
+//
+//        println("JSON: ${RouterSelctorCache.dumpPretty()}")
+
 
         val homeCoordinator = coordinator as? HomeCoordinator
             ?: throw IllegalArgumentException("Expected HomeCoordinator")
@@ -95,7 +108,6 @@ class HomeScreen: ScreenDefault() {
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
         val ip = getRouterIpAddress()
-        val domain = resolveDomainFromIp(ip)
 
         addComponents(
             {HomeRouterInfoSection(

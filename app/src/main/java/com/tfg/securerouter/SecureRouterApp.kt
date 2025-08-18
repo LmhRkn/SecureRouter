@@ -2,9 +2,9 @@ package com.tfg.securerouter
 
 import android.app.Application
 import com.tfg.securerouter.data.app.screens.language.utils.setDeviceLanguage
-import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.json.JsonInitializer
-import com.tfg.securerouter.data.json.router_selector.RouterSelctorCache
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.utils.encryptPassword
 import kotlin.system.exitProcess
 
 /**
@@ -28,6 +28,19 @@ class SecureRouterApp : Application() {
         ContextProvider.init(this)
         JsonInitializer.init(this)
         setDeviceLanguage(this)
+
+
+        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = encryptPassword("12345678")) }
+
+//        RouterSelectorCache.put(
+//            RouterInfo(
+//                name = "Segundo Router",
+//                mac = "de:12:32:85:d4:b9",
+//                localIp = "192.168.0.5",
+//                isVpn = false,
+//                id = 1,
+//            )
+//        )
 
         // Used to clear the cache during development or testing.
         // It should be commented out or removed in production builds.

@@ -97,7 +97,6 @@ fun <T, C> GenericRuleTable(
                 /* onSave       */ { rule ->
                     rules = rules + rule
                     isAdding = false
-                    println("New rules: $rules")
                 },
                 /* onCancel     */ { isAdding = false },
                 /* onBumpToEnd  */ removeThenCreateByTitle,
@@ -114,7 +113,6 @@ fun <T, C> GenericRuleTable(
                     rules = rules + rule
                     isEditing = false
                     ruleToEdit = null
-                    println("New rules: $rules")
                 },
                 /* onCancel     */ {
                     isEditing = false
@@ -159,7 +157,6 @@ fun <T> calcNextIndexPreferLocalGeneric(
     index2Of: (T) -> Int? = { null }
 ): Int {
     val localMax = localRules.maxOfOrNull { maxOf(indexOf(it), index2Of(it) ?: -1) } ?: -1
-    println("NEXT INDEX: ${if (localMax >= 0) localMax + 1 else baseFromRouter}")
     return if (localMax >= 0) localMax + 1 else baseFromRouter
 }
 

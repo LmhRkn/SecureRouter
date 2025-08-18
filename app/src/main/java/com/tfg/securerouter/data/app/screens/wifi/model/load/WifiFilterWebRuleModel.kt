@@ -52,7 +52,6 @@ class WifiFilterWebRuleModel(
             .sortedBy { it.index }
 
         val nextIdx = nextFirewallIndexFromOutput(output)
-        println("REGLAS: $rules")
         return WifiFilterWebsRulesState(rules = rules, nextIndex = nextIdx)
     }
 

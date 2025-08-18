@@ -23,12 +23,14 @@ import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceFi
 import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsBlockButton
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsBlocked
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsData
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsFilters
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsTimes
+import androidx.compose.material3.Text as M3Text
 
 class DevicesOptionsScreen: ScreenDefault() {
     @Composable
@@ -43,29 +45,51 @@ class DevicesOptionsScreen: ScreenDefault() {
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val navController = LocalNavController.current
-        val mac = navController.currentBackStackEntry?.arguments?.getString("mac")!!
 
-        val devicesOptionsCoordinator = coordinator as DevicesOptionsCoordinator
-        val deviceTimesRule     = devicesOptionsCoordinator.modules.filterIsInstance<DeviceTimesRuleModel>().first().state.collectAsState().value
-        val deviceFilterWebRule = devicesOptionsCoordinator.modules.filterIsInstance<DeviceFilterWebRuleModel>().first().state.collectAsState().value
+        val macArg = navController.currentBackStackEntry
+            ?.arguments?.getString("mac")?.uppercase()
 
-        // ← estado elevado a la pantalla
-        var device by remember(mac) { mutableStateOf(DeviceManagerCache.getDevice(mac)!!) }
+        if (macArg.isNullOrBlank()) {
+            addComponents({ M3Text("Dispositivo no especificado.") })
+            RenderScreen()
+            return
+        }
 
-        // (opcional) si quieres evitar duplicar componentes en recomposiciones,
-        // añade en ScreenDefault una función clearComponents() y llámala aquí:
-        // clearComponents()
+        val routerId = AppSession.routerId
+        if (routerId == null) {
+            addComponents({ M3Text("No hay router seleccionado.") })
+            RenderScreen()
+            return
+        }
+
+        var deviceModel = DeviceManagerCache.getDevice(macArg)
+        if (deviceModel == null) {
+            addComponents({ M3Text("Dispositivo $macArg no encontrado en el router $routerId.") })
+            RenderScreen()
+            return
+        }
+
+        val devicesOptionsCoordinator = coordinator as? DevicesOptionsCoordinator
+            ?: throw IllegalArgumentException("ExpectedDevicesOptionsCoordinator")
+
+        val deviceTimesRuleModel = devicesOptionsCoordinator.modules
+            .filterIsInstance<DeviceTimesRuleModel>().first()
+        val deviceTimesRule = deviceTimesRuleModel.state.collectAsState().value
+
+        val deviceFilterWebRuleModel = devicesOptionsCoordinator.modules
+            .filterIsInstance<DeviceFilterWebRuleModel>().first()
+        val deviceFilterWebRule = deviceFilterWebRuleModel.state.collectAsState().value
 
         addComponents(
-            { DeviceOptionsData(mac, {}) },
-            { DeviceOptionsTimes(deviceTimesRule = deviceTimesRule, mac = mac) },
-            { DeviceOptionsFilters(deviceFilterWebRule = deviceFilterWebRule, mac = mac) },
+            { DeviceOptionsData(macArg, {}) },
+            { DeviceOptionsTimes(deviceTimesRule, macArg) },
+            { DeviceOptionsFilters(deviceFilterWebRule, macArg) },
             {
-                DeviceOptionsBlocked(device)
+                DeviceOptionsBlocked(deviceModel!!)
                 Spacer(Modifier.height(8.dp))
                 DeviceOptionsBlockButton(
-                    deviceModel = device,
-                    onChanged = { updated -> device = updated}
+                    deviceModel = deviceModel!!,
+                    onChanged = { updated -> deviceModel = updated }
                 )
             }
         )

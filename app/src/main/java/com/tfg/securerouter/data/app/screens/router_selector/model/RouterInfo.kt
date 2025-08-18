@@ -1,5 +1,6 @@
 package com.tfg.securerouter.data.app.screens.router_selector.model
 
+import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,4 +12,10 @@ data class RouterInfo(
     val isVpn: Boolean,
     val id: Int,
     val installerPackage: String? = null,
+    val labels: Set<RouterLabel> = emptySet(),
+    val sshPassword: String? = null,
+
+    val vpnHost: String? = null,   // p.ej. 10.6.0.1 (WireGuard) o router.midominio.local
+    val vpnPort: Int? = 22,
+    val sshHostKeyFingerprint: String? = null
 )

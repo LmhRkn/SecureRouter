@@ -27,14 +27,14 @@ class MainNavigation {
      * @param navController The [NavHostController] that handles navigation actions and back stack.
      *
      * It uses the [MenuRegistry] to register all available destinations dynamically.
-     * The start destination is set to "home".
+     * The start destination is set to "router_selection".
      *
      * @see MenuRegistry
      * @see androidx.navigation.compose.NavHost
      */
     @Composable
     fun NavGraph(navController: NavHostController) {
-        NavHost(navController = navController, startDestination = "home") {
+        NavHost(navController = navController, startDestination = "router_selection") {
             MenuRegistry.items.forEach { menuOption ->
                 composable(menuOption.route) {
                     menuOption.Content()

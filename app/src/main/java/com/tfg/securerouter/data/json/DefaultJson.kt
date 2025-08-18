@@ -1,6 +1,7 @@
 package com.tfg.securerouter.data.json
 
 import android.content.Context
+import android.util.Log
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -32,11 +33,11 @@ abstract class BaseCache<T : Any>(
     /** Must return a map<String, String> from the current cacheData */
     protected abstract fun getDataMap(): MutableMap<String, String>
 
-    fun get(key: String): String? {
+    open fun get(key: String): String? {
         return getDataMap()[key.uppercase()]
     }
 
-    fun put(key: String, value: String) {
+    open fun put(key: String, value: String) {
         getDataMap()[key.uppercase()] = value
         saveToDisk()
     }
@@ -61,5 +62,15 @@ abstract class BaseCache<T : Any>(
         cacheData?.let {
             cacheFile.writeText(Json.encodeToString(serializer, it))
         }
+    }
+
+    fun dumpRaw(): String =
+        cacheData?.let { Json.encodeToString(serializer, it) } ?: "{}"
+
+    fun dumpPretty(): String =
+        cacheData?.let { Json { prettyPrint = true }.encodeToString(serializer, it) } ?: "{}"
+
+    fun logDump(tag: String = "CacheDump") {
+        Log.d(tag, dumpPretty())
     }
 }

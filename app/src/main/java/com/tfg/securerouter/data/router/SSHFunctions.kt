@@ -1,13 +1,21 @@
 package com.tfg.securerouter.data.router
 
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
+import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
+import com.jcraft.jsch.JSchException
 import com.jcraft.jsch.Session
-import com.tfg.securerouter.data.router.getRouterIpAddress
+import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.utils.AppSession
+import com.tfg.securerouter.data.utils.decryptPassword
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.Job
+import java.util.Properties
+import com.jcraft.jsch.SocketFactory as JschSocketFactory
 
 /**
  * Establishes an SSH connection to a remote host and executes a single command.
@@ -34,58 +42,67 @@ private fun connectSSH(
     password: String,
     host: String,
     port: Int = 22,
-    command: String
+    command: String,
+    jschSocketFactory: JschSocketFactory? = null
 ): String {
     var session: Session? = null
-    var output = ""
+    var channel: ChannelExec? = null
+    val errBuf = ByteArrayOutputStream()
 
-    try {
-        // Initialize JSch instance to handle SSH connection
-        val jsch = JSch()
+    return try {
+        val jsch = JSch().apply {
+            // Asegura que NO haya identidades cargadas → no intente "publickey"
+            removeAllIdentity()
+        }
 
-        // Create an SSH session with the given credentials and host
-        session = jsch.getSession(username, host, port)
-        session.setPassword(password)
+        session = jsch.getSession(username, host, port).apply {
+            setPassword(password)
 
-        // Disable strict host key checking to avoid trust prompt
-        val config = java.util.Properties()
-        config["StrictHostKeyChecking"] = "no"
-        session.setConfig(config)
+            val config = Properties().apply {
+                put("StrictHostKeyChecking", "no")
+                // Fuerza orden de métodos: primero contraseña; no ofrecemos publickey
+                put("PreferredAuthentications", "password,keyboard-interactive")
+            }
+            setConfig(config)
 
-        // Connect to the SSH session with a 30-second timeout
-        session.connect(30000)
+            if (jschSocketFactory != null) setSocketFactory(jschSocketFactory)
 
-        // Open a new "exec" channel to execute a single command
-        val channel = session.openChannel("exec") as com.jcraft.jsch.ChannelExec
+            // Opcional: keepalive por si hay NATs quisquillosos
+            setServerAliveInterval(10_000)
 
-        // Set the command to be executed remotely
-        channel.setCommand(command)
+            connect(30_000)
+        }
 
-        // Disable the input stream (not sending data to the remote process)
-        channel.inputStream = null
+        channel = (session.openChannel("exec") as ChannelExec).apply {
+            setCommand(command)
+            setInputStream(null)           // no input interactivo
+            setErrStream(errBuf)           // captura STDERR
+            connect(10_000)
+        }
 
-        // Get the output stream of the remote process
-        val input = channel.inputStream
+        val out = channel.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
 
-        // Start the channel (command execution begins)
-        channel.connect()
+        // Espera a que el comando cierre para vaciar buffers
+        while (!channel.isClosed) Thread.sleep(30)
+        val exit = channel.exitStatus
+        val err  = errBuf.toString(Charsets.UTF_8)
 
-        // Read the command output into a String
-        output = input.bufferedReader().use { it.readText() }
-
-        // Disconnect the channel after command execution is complete
-        channel.disconnect()
+        if (exit == 0) out
+        else "Exit $exit\nSTDERR:\n$err\nSTDOUT:\n$out"
+    } catch (e: JSchException) {
+        // Caso clásico: el servidor SOLO permite 'publickey'
+        if (e.message?.contains("Auth fail", ignoreCase = true) == true)
+            "Error: autenticación fallida. El servidor puede tener PasswordAuth desactivado o la contraseña es incorrecta. " +
+                    "En OpenWrt: uci set dropbear.@dropbear[0].PasswordAuth='on'; uci set dropbear.@dropbear[0].RootPasswordAuth='on'; uci commit; /etc/init.d/dropbear reload"
+        else "Error: ${e.message}"
     } catch (e: Exception) {
-        // Print the error to the console and return it as part of the output
-        e.printStackTrace()
-        output = "Error: ${e.message}"
+        "Error: ${e.message}"
     } finally {
-        // Always disconnect the session to free resources
-        session?.disconnect()
+        try { channel?.disconnect() } catch (_: Exception) {}
+        try { session?.disconnect() } catch (_: Exception) {}
     }
-
-    return output
 }
+
 
 /**
  * Sends a shell command to the router via SSH using predefined credentials and host.
@@ -101,26 +118,71 @@ private fun connectSSH(
  */
 
 fun sendCommand(command: String): String {
-    val ipHost: String = getRouterIpAddress()!!
+    val router: RouterInfo? = RouterSelectorCache.getRouter(AppSession.routerId.toString())
+    if (router == null) return "ERROR"
+
+
+    val host: String = when {
+        router.isVpn && !router.vpnHost.isNullOrBlank() -> router.vpnHost
+        !router.localIp.isNullOrBlank() -> router.localIp
+        !router.publicIpOrDomain.isNullOrBlank() -> router.publicIpOrDomain
+        else -> AppSession.routerIp ?: ""
+    } ?: ""
+
+    val jschSF = if (router.isVpn) {
+        val net = VpnUtils.getActiveVpnNetwork() ?: VpnUtils.findAnyVpnNetwork()
+        net?.let { AndroidNetworkSocketFactory(it) }
+    } else null
+
+    val port = router.vpnPort ?: 22
+
     val output = connectSSH(
         username = "root",
-        password = "SecureRouter",
-        host = ipHost,
-        command = command
+        password = if (router.sshPassword != null) decryptPassword(router.sshPassword) else "",
+        host = host,
+        port = port,
+        command = command,
+        jschSocketFactory = jschSF
     )
-    println("command: $command\noutput: $output")
+    println("host=$host viaVPN=${jschSF!=null} cmd=$command\n$output")
     return output
 }
+
+fun sendCommandEphemeral(router: RouterInfo, command: String): String {
+    val host: String = when {
+        router.isVpn && !router.vpnHost.isNullOrBlank() -> router.vpnHost
+        !router.localIp.isNullOrBlank()                 -> router.localIp
+        !router.publicIpOrDomain.isNullOrBlank()        -> router.publicIpOrDomain
+        else -> return "Error: no host"
+    }
+
+    val jschSF: JschSocketFactory? = if (router.isVpn) {
+        val net = VpnUtils.getActiveVpnNetwork() ?: VpnUtils.findAnyVpnNetwork()
+        net?.let { AndroidNetworkSocketFactory(it) }
+    } else null
+
+    val port = router.vpnPort ?: 22
+
+    return connectSSH(
+        username = "root",
+        password = "12345678",
+        host = host,
+        port = port,
+        command = command,
+        jschSocketFactory = jschSF
+    )
+}
+
+
 
 suspend fun shUsingLaunch(
     command: String,
     timeoutMs: Long = 10_000L
 ): String = withTimeout(timeoutMs) {
     suspendCancellableCoroutine { cont ->
-        // Versión recomendada de launchCommand (ver más abajo) que devuelve Job:
         val job: Job = launchCommand(
             command = command,
-            parse   = { it },              // String -> String (identidad)
+            parse   = { it },
             onResult = { out -> if (cont.isActive) cont.resume(out) },
             onError  = { e   -> if (cont.isActive) cont.resumeWithException(e) }
         )

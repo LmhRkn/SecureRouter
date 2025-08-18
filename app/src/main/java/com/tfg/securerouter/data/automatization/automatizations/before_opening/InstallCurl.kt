@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.automatization.automatizations.before_opening
 
 import com.tfg.securerouter.data.automatization.AutomatizationDefault
-import com.tfg.securerouter.data.json.router_selector.RouterSelctorCache
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 
 class InstallCurl(
@@ -19,7 +19,7 @@ class InstallCurl(
         val id = AppSession.routerId?.toString() ?: return false
 
         val pm: String? = AppSession.packageInstaller
-            ?: RouterSelctorCache.getRouter(id)?.installerPackage
+            ?: RouterSelectorCache.getRouter(id)?.installerPackage
 
         when (pm) {
             "opkg" -> {

@@ -43,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.ui.app.common.card.StatusIndicators
 
 /**
  * Composable function for displaying a card representing a network device.
@@ -145,32 +146,13 @@ fun DeviceCard(
             }
         }
 
-        if (isOnline || isNew) {
-            Row(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(6.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (isNew) {
-                    Icon(
-                        imageVector = Icons.Filled.NewReleases,
-                        contentDescription = stringResource(R.string.device_label_new),
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(16.dp)
-                    )
-                }
-                if (isOnline) {
-                    Box(
-                        modifier = Modifier
-                            .size(12.dp)
-                            .clip(CircleShape)
-                            .background(Color(0xFF4CAF50)) // verde online
-                            .border(2.dp, MaterialTheme.colorScheme.surface, CircleShape)
-                    )
-                }
-            }
-        }
+        StatusIndicators(
+            isNew = isNew,
+            isOnline = isOnline,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(6.dp),
+            newContentDescription = stringResource(R.string.device_label_new)
+        )
     }
 }

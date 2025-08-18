@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.automatization.automatizations.before_opening
 
 import com.tfg.securerouter.data.automatization.AutomatizationDefault
-import com.tfg.securerouter.data.json.router_selector.RouterSelctorCache
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 
 class DetectPackageManagerTask(
@@ -10,7 +10,7 @@ class DetectPackageManagerTask(
 
     override suspend fun shouldRun(): Boolean {
         val id = AppSession.routerId?.toString() ?: return false
-        val saved = RouterSelctorCache.getRouter(id)?.installerPackage
+        val saved = RouterSelectorCache.getRouter(id)?.installerPackage
         return saved.isNullOrBlank()
     }
 
@@ -24,7 +24,7 @@ class DetectPackageManagerTask(
         ).trim()
 
         return if (pm == "opkg" || pm == "apk") {
-            RouterSelctorCache.update(id) { r -> r.copy(installerPackage = pm) }
+            RouterSelectorCache.update(id) { r -> r.copy(installerPackage = pm) }
             AppSession.packageInstaller = pm
             true
         } else {

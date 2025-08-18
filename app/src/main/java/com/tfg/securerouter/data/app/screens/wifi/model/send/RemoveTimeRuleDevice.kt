@@ -4,7 +4,6 @@ import com.tfg.securerouter.data.router.launchCommand
 
 object RemoveTimeRuleWifi {
     fun removeTimeRuleWifi(index: Int, index2: Int?) {
-        println("INDEX: $ , INDEX2: $index2")
         val commandSameDay = """
             uci delete firewall.@rule[$index]
             uci commit firewall

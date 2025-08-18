@@ -2,7 +2,7 @@
 package com.tfg.securerouter.data.automatization.automatizations.before_opening
 
 import com.tfg.securerouter.data.automatization.AutomatizationDefault
-import com.tfg.securerouter.data.json.router_selector.RouterSelctorCache
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 import java.util.TimeZone
 
@@ -108,7 +108,7 @@ class ChooseDateTimeZone(
 
         val rid = AppSession.routerId?.toString()
         val pm = AppSession.packageInstaller
-            ?: (rid?.let { RouterSelctorCache.getRouter(it)?.installerPackage })
+            ?: (rid?.let { RouterSelectorCache.getRouter(it)?.installerPackage })
 
         when (pm) {
             "opkg" -> {

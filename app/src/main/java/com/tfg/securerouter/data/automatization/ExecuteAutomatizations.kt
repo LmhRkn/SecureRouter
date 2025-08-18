@@ -15,7 +15,12 @@ fun ExecuteAutomatizations(
 ) {
     LaunchedEffect(key) {
         val tasks = AutomatizationBuilder.createAll(factories, sh)
-        tasks.forEach { it.runIfNeeded() }
+        println("aaaaaaaaaaaaaaaaaaaaaaa: $tasks")
+
+        tasks.forEach {
+            println("aaaaaaaaaaaaaaaaaaaaaaa")
+            it.runIfNeeded()
+        }
     }
 }
 

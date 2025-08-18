@@ -1,31 +1,31 @@
 package com.tfg.securerouter.ui.app.screens.router_selector
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
-import com.tfg.securerouter.data.app.screens.router_selector.registry.getRouterList
-import com.tfg.securerouter.ui.app.screens.router_selector.components.RouterCard
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.app.navegation.LocalNavController
+import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.app.screens.router_selector.RouterSelectorCoordinator
+import com.tfg.securerouter.ui.app.screens.ScreenDefault
+import com.tfg.securerouter.ui.app.screens.router_selector.components.RoutersList
 
-@Composable
-fun RouterSelectionScreen(
-    onRouterSelected: (RouterInfo) -> Unit
-) {
-    val routers: List<RouterInfo> = getRouterList()
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text("Selecciona un Router", style = MaterialTheme.typography.titleMedium)
 
-        Spacer(modifier = Modifier.height(16.dp))
+class RouterSelectionScreen : ScreenDefault() {
 
-        routers.forEach { router ->
-            RouterCard(router, onRouterSelected)
-        }
+    @Composable
+    @Override
+    fun RouterSelectionScreenInit() {
+        val coordinator: RouterSelectorCoordinator = viewModel()
+        ScreenInit(coordinator)
+    }
+
+    @Composable
+    override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
+        val routerCoordinator = coordinator as RouterSelectorCoordinator
+
+        val navController = LocalNavController.current
+        addComponents(
+            { RoutersList(navController) }
+        )
+        RenderScreen()
     }
 }
