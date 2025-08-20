@@ -66,18 +66,26 @@ class DeviceManagerScreen: ScreenDefault() {
         val deviceManagerCoordinator = coordinator as? DeviceManagerCoordinator
             ?: throw IllegalArgumentException("Expected DeviceManagerCoordinator")
 
-        val connectedDevicesModel = deviceManagerCoordinator.modules.filterIsInstance<HistoricalDeviceModel>().first()
+        val connectedDevicesModel =
+            deviceManagerCoordinator.modules.filterIsInstance<HistoricalDeviceModel>().first()
 
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
-
-        addComponents(
+        setComponents(
             {
                 DeviceManagerSearchBar(parent = this@DeviceManagerScreen)
-                HistoricalDevicesList(devicesState = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)
+                HistoricalDevicesList(
+                    devicesState = devicesState,
+                    weight = 0.5f,
+                    parent = this@DeviceManagerScreen
+                )
                 ButtonToggleList(parent = this@DeviceManagerScreen)
                 Spacer(modifier = Modifier.height(8.dp))
-                BlockedDevicesList(devicesState = devicesState, weight = 0.5f, parent = this@DeviceManagerScreen)
+                BlockedDevicesList(
+                    devicesState = devicesState,
+                    weight = 0.5f,
+                    parent = this@DeviceManagerScreen
+                )
             },
         )
 

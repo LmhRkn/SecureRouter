@@ -8,10 +8,10 @@ import com.tfg.securerouter.data.automatization.automatizations.before_opening.S
 
 object AutomatizationRegistryBeforeOpening {
     val factories: List<TaskFactory> = listOf(
+        ::SshPasswdDetector,
         ::DetectPackageManagerTask,
         ::InstallCurl,
         ::ChooseDateTimeZone,
-        ::SshPasswdDetector,
         // ::EnsureCurlTask, ...
     )
 }

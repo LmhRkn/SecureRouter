@@ -45,6 +45,7 @@ import com.tfg.securerouter.ui.app.screens.ScreenDefault
  * @see DeviceList
  * @see DeviceManagerScreenEvent
  */
+
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun BlockedDevicesList(
@@ -55,16 +56,19 @@ fun BlockedDevicesList(
     val eventFlow = parent.eventBus
     var searchQuery by rememberSaveable { mutableStateOf("") }
     var labelFilters by rememberSaveable { mutableStateOf(emptySet<DeviceLabel>()) }
+    var showAllowedDevices by rememberSaveable { mutableStateOf(true) } // Cuando es true, se muestra la lista de permitidos y esta se oculta
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(eventFlow) {
         eventFlow.collect { event ->
-            if (event is DeviceManagerScreenEvent.SearchSomething) {
-                searchQuery = event.query
-            } else if (event is DeviceManagerScreenEvent.FilterSomething) {
-                labelFilters = event.filters
+            when (event) {
+                is DeviceManagerScreenEvent.SearchSomething -> searchQuery = event.query
+                is DeviceManagerScreenEvent.FilterSomething -> labelFilters = event.filters
+                is DeviceManagerScreenEvent.ToggleSomething -> showAllowedDevices = !showAllowedDevices
+                else -> Unit
             }
         }
     }
+
     val totalDevices = devicesState.historicalDevices.filter {
         DeviceLabel.Blocked in it.labels
     }
@@ -72,29 +76,14 @@ fun BlockedDevicesList(
     val devices = totalDevices.filter { device ->
         val hostname = device.hostname?.lowercase() ?: ""
         val query = searchQuery.lowercase()
-
         val matchesQuery = hostname.contains(query)
-        val matchesLabels = if (labelFilters.isEmpty()) {
-            true
-        } else {
-            labelFilters.all { it in device.labels }
-        }
-
+        val matchesLabels = if (labelFilters.isEmpty()) true
+        else labelFilters.all { it in device.labels }
         matchesQuery && matchesLabels
     }
 
     BoxWithConstraints {
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = weight)
-
-        var showAllowedDevices by rememberSaveable { mutableStateOf(true) }
-
-        LaunchedEffect(Unit) {
-            eventFlow.collect { event ->
-                if (event is DeviceManagerScreenEvent.ToggleSomething) {
-                    showAllowedDevices = !showAllowedDevices
-                }
-            }
-        }
 
         Column(
             modifier = Modifier
@@ -106,16 +95,16 @@ fun BlockedDevicesList(
                 )
         ) {
             Text(
-                "${
-                    stringResource(id = R.string.dive_manger_blocked_devices_list)
-                } (${totalDevices.size})",
+                "${stringResource(id = R.string.dive_manger_blocked_devices_list)} (${totalDevices.size})",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            if (!showAllowedDevices) DeviceList(devices = devices, maxSize = heightDp)
+            if (!showAllowedDevices) {
+                DeviceList(devices = devices, maxSize = heightDp)
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.tfg.securerouter.data.app.screens.common.devices
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
@@ -57,7 +58,6 @@ open class DevicesListModel<T>(
         )
     }
 
-    // ---------- ORDENACIÓN ----------
     private fun sortDevices(list: List<DeviceModel>): List<DeviceModel> {
         fun rank(d: DeviceModel): Int = when {
             DeviceLabel.New in d.labels    -> 0
@@ -70,7 +70,6 @@ open class DevicesListModel<T>(
         )
     }
 
-    // ---------- PRESENCIA (solo FDB) ----------
     private data class PresenceSnapshot(val fdbMacs: Set<String>) {
         fun isOnline(mac: String) = mac.lowercase() in fdbMacs
     }
@@ -209,8 +208,9 @@ open class DevicesListModel<T>(
 
                 val enriched: DeviceModel =
                     if (device.icon == null) {
-                        val vendorName = getDeviceType(mac) // tu impl
-                        val (iconRes, iconDesc, extraLabel) = getDeviceIconAndType(vendorName) // tu impl
+                        val vendorName = getDeviceType(mac)
+                        val (iconRes, iconDesc, extraLabel) = getDeviceIconAndType(vendorName)
+                        Log.d("DevicesListModel", "iconRes: $iconRes, iconDesc: $iconDesc, extraLabel: $extraLabel")
                         val labels = device.labels.toMutableSet().apply { extraLabel?.let { add(it) } }.toSet()
 
                         device.copy(

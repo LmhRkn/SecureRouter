@@ -65,7 +65,7 @@ class SettingsScreen : ScreenDefault() {
         val settingsCoordinator = coordinator as? SettingsCoordinator
             ?: throw IllegalArgumentException("Expected SettingCoordinator")
 
-        addComponents(
+        setComponents(
             {
                 LanguageComponent(
                     navController = LocalNavController.current

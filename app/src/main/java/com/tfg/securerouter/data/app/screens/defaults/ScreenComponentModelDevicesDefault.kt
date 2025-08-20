@@ -1,5 +1,7 @@
 package com.tfg.securerouter.data.app.screens.defaults
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -53,6 +55,7 @@ interface ScreenComponentModelDevicesDefault: ScreenComponentModelDefault {
      * @param macParts Split components of the MAC address.
      * @return Vendor name or `"Unknown"` if API resolution fails.
      */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun fetchVendorFromApi(macParts: List<String>): String {
         val vendorMac = "${macParts[0]}:${macParts[1]}:${macParts[2]}:XX:XX:XX"
         val curlCommand = "curl -s https://api.macvendors.com/${vendorMac}"
@@ -98,7 +101,7 @@ interface ScreenComponentModelDevicesDefault: ScreenComponentModelDefault {
             }
         }
 
-        return Triple(Icons.Filled.DevicesOther, R.string.device_other_device_icon, null)
+        return Triple(deviceTypes.last().icon, deviceTypes.last().descriptionRes, deviceTypes.last().label)
     }
 }
 

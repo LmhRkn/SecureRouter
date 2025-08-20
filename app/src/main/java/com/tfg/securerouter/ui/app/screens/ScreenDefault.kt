@@ -12,8 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.main_screen.model.ScreenEvent
+import com.tfg.securerouter.data.notice.model.NoticeEvent
 import com.tfg.securerouter.ui.app.screens.device_manager.DeviceManagerScreen
 import com.tfg.securerouter.ui.app.screens.home.HomeScreen
+import com.tfg.securerouter.ui.notice.NoticeHost
+import com.tfg.securerouter.ui.notice.NoticeSpec
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
@@ -36,8 +40,13 @@ import kotlinx.coroutines.flow.asSharedFlow
  */
 open class ScreenDefault {
     private val components = mutableStateListOf<@Composable () -> Unit>()
+    private val noticeQueue = mutableStateListOf<NoticeSpec>()
 
-    private val _eventBus = MutableSharedFlow<ScreenEvent>()
+    private val _eventBus = MutableSharedFlow<ScreenEvent>(
+        replay = 0,
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     val eventBus = _eventBus.asSharedFlow()
 
     /**
@@ -48,6 +57,8 @@ open class ScreenDefault {
     suspend fun sendEvent(event: ScreenEvent) {
         _eventBus.emit(event)
     }
+
+    fun trySendEvent(event: ScreenEvent): Boolean = _eventBus.tryEmit(event)
 
     /**
      * Adds one or more composable components to the screen.
@@ -71,6 +82,16 @@ open class ScreenDefault {
     @Composable
     fun ScreenInit(coordinator: ScreenCoordinatorDefault) {
         val isReady by coordinator.isReady.collectAsState()
+
+        LaunchedEffect(Unit) {
+            eventBus.collect { ev ->
+                when (ev) {
+                    is NoticeEvent.Show -> noticeQueue.add(0, ev.notice)
+                    is NoticeEvent.ClearAll -> noticeQueue.clear()
+                    else -> Unit
+                }
+            }
+        }
 
         if (!isReady) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -107,6 +128,12 @@ open class ScreenDefault {
                 .padding(16.dp)
                 .verticalScroll(scrollState)
         ) {
+            NoticeHost(
+                notices = noticeQueue,
+                onDismiss = { idx -> noticeQueue.removeAt(idx) },
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
             components.forEachIndexed { index, component ->
                 if (index > 0) {
                     HorizontalDivider(
@@ -117,6 +144,13 @@ open class ScreenDefault {
                 }
                 component()
             }
+        }
+    }
+
+    fun setComponents(vararg newComponents: @Composable () -> Unit) {
+        components.clear()
+        newComponents.forEach { component ->
+            components.add(component)
         }
     }
 }

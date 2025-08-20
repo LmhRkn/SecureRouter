@@ -44,7 +44,6 @@ fun DisplayRouterPassword(
                         )
                     }
                 },
-                buttonSize = 20.dp,
                 onEditButtonPress = onEditButtonPress
             )
         }

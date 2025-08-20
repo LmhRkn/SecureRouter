@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,14 +13,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.devices_options.DevicesOptionsCoordinator
 import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
-import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
@@ -45,29 +41,29 @@ class DevicesOptionsScreen: ScreenDefault() {
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val navController = LocalNavController.current
-
-        val macArg = navController.currentBackStackEntry
-            ?.arguments?.getString("mac")?.uppercase()
+        val macArg = navController.currentBackStackEntry?.arguments?.getString("mac")?.uppercase()
 
         if (macArg.isNullOrBlank()) {
-            addComponents({ M3Text("Dispositivo no especificado.") })
+            setComponents({ M3Text("Dispositivo no especificado.") })
             RenderScreen()
             return
         }
 
         val routerId = AppSession.routerId
         if (routerId == null) {
-            addComponents({ M3Text("No hay router seleccionado.") })
+            setComponents({ M3Text("No hay router seleccionado.") })
             RenderScreen()
             return
         }
 
-        var deviceModel = DeviceManagerCache.getDevice(macArg)
-        if (deviceModel == null) {
-            addComponents({ M3Text("Dispositivo $macArg no encontrado en el router $routerId.") })
+        val initial = DeviceManagerCache.getDevice(macArg)
+        if (initial == null) {
+            setComponents({ M3Text("Dispositivo $macArg no encontrado en el router $routerId.") })
             RenderScreen()
             return
         }
+
+        var deviceModel by remember(macArg) { mutableStateOf(initial) }
 
         val devicesOptionsCoordinator = coordinator as? DevicesOptionsCoordinator
             ?: throw IllegalArgumentException("ExpectedDevicesOptionsCoordinator")
@@ -80,15 +76,15 @@ class DevicesOptionsScreen: ScreenDefault() {
             .filterIsInstance<DeviceFilterWebRuleModel>().first()
         val deviceFilterWebRule = deviceFilterWebRuleModel.state.collectAsState().value
 
-        addComponents(
+        setComponents(
             { DeviceOptionsData(macArg, {}) },
             { DeviceOptionsTimes(deviceTimesRule, macArg) },
             { DeviceOptionsFilters(deviceFilterWebRule, macArg) },
             {
-                DeviceOptionsBlocked(deviceModel!!)
+                DeviceOptionsBlocked(deviceModel)
                 Spacer(Modifier.height(8.dp))
                 DeviceOptionsBlockButton(
-                    deviceModel = deviceModel!!,
+                    deviceModel = deviceModel,
                     onChanged = { updated -> deviceModel = updated }
                 )
             }

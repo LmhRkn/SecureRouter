@@ -1,152 +1,136 @@
 package com.tfg.securerouter.ui.app.common.texts
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.R
-import com.tfg.securerouter.ui.app.common.buttons.EditButton
-
-/**
- * A reusable composable function for creating an editable text field.
- *
- * Usage:
- * It displays a text field with an edit button, allowing users to edit the text.
- *
- * @property text a [String] representing the initial text in the text field.
- * @property modifier a [Modifier] for customizing the layout of the composable.
- * @property onTextSaved a lambda function that is triggered when the user saves the edited text.
- * @property textStyle a [TextStyle] for customizing the appearance of the text field.
- * @property textColor a [Color] for customizing the text color.
- * @property buttonSize a [Int] for customizing the size of the edit button.
- * @property buttonColor a [Color] for customizing the color of the edit button.
- *
- * @see [EditButton] for the edit button.
- */
 
 @Composable
 fun EditableTextField(
     text: String,
     modifier: Modifier = Modifier,
     onTextSaved: (String) -> Unit,
-    textStyle: TextStyle = MaterialTheme.typography.headlineMedium,
-    textColor: Color = MaterialTheme.colorScheme.onBackground,
-    buttonSize: Dp? = null,
-    buttonColor: Color? = null,
+    label: String? = null,
+    textStyle: TextStyle = MaterialTheme.typography.titleSmall,
+    placeholder: String? = null,
     middleButton: (@Composable () -> Unit)? = null,
     onEditButtonPress: (() -> Unit)? = null
 ) {
     var isEditing by rememberSaveable { mutableStateOf(false) }
-    var originalText by rememberSaveable { mutableStateOf(text) }
-    var textValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(
-            TextFieldValue(
-                text = text,
-                selection = TextRange(0, text.length)
-            )
-        )
+    var editingValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue(text))
     }
-
+    var snapshotAtEditStart by rememberSaveable { mutableStateOf(text) }
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(text) {
+    LaunchedEffect(text, isEditing) {
         if (!isEditing) {
-            textValue = TextFieldValue(
-                text = text,
-                selection = TextRange(text.length)
-            )
+            editingValue = TextFieldValue(text, selection = TextRange(text.length))
         }
     }
-
     LaunchedEffect(isEditing) {
         if (isEditing) {
-            textValue = textValue.copy(selection = TextRange(0, textValue.text.length))
+            snapshotAtEditStart = text
+            editingValue = editingValue.copy(selection = TextRange(0, editingValue.text.length))
             focusRequester.requestFocus()
         }
     }
 
+    ElevatedCard(
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large
+    ) {
+        Column(Modifier.padding(16.dp)) {
 
-    Column(modifier = modifier) {
-        Row (
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (isEditing) {
-                BasicTextField(
-                    value = textValue,
-                    onValueChange = { textValue = it },
-                    singleLine = true,
-                    textStyle = textStyle.copy(color = textColor),
-                    modifier = Modifier
-                        .weight(1f)
-                        .focusRequester(focusRequester)
-                )
-            } else {
-                Text(
-                    text = textValue.text,
-                    style = textStyle,
-                    color = textColor,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            middleButton?.let {
-                Spacer(modifier = Modifier.width(4.dp))
-                it()
-            }
-
-            if (!isEditing) {
-                Spacer(modifier = Modifier.width(4.dp))
-                EditButton(
-                    onClick = {
-                        onEditButtonPress?.invoke()
-                            ?: run {
-                                isEditing = true
-                                originalText = textValue.text
+            Crossfade(targetState = isEditing, label = "edit-crossfade") { editing ->
+                if (editing) {
+                    TextField(
+                        value = editingValue,
+                        onValueChange = { editingValue = it },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(focusRequester),
+                        label = { if (label != null) Text(label) },
+                        placeholder = { if (placeholder != null) Text(placeholder) },
+                        trailingIcon = {
+                            IconButton(onClick = { editingValue = TextFieldValue("") }) {
+                                Icon(Icons.Filled.Clear, contentDescription = "Limpiar")
                             }
-                    },
-                    color = buttonColor ?: textColor,
-                    iconSize = buttonSize ?: (textStyle.fontSize.value.dp * 0.75f)
-                )
-            }
-        }
-
-        if (isEditing) {
-            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
-                TextButton(onClick = {
-                    textValue = TextFieldValue(originalText)
-                    isEditing = false
-                }) {
-                    Text(stringResource(R.string.cancel_button))
+                        }
+                    )
+                } else {
+                    TextField(
+                        value = editingValue,
+                        onValueChange = {},
+                        singleLine = true,
+                        readOnly = true,
+                        enabled = false,
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { if (label != null) Text(label) },
+                        placeholder = { if (placeholder != null) Text(placeholder) },
+                        trailingIcon = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                if (middleButton != null) {
+                                    middleButton()
+                                }
+                                FilledTonalIconButton(
+                                    onClick = { onEditButtonPress?.invoke() ?: run { isEditing = true } }
+                                ) {
+                                    Icon(Icons.Filled.Edit, contentDescription = "Editar")
+                                }
+                            }
+                        }
+                    )
                 }
-                TextButton(onClick = {
-                    onTextSaved(textValue.text)
-                    isEditing = false
-                }) {
-                    Text(stringResource(R.string.save_button))
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            if (isEditing) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    OutlinedButton(
+                        onClick = {
+                            editingValue = TextFieldValue(
+                                snapshotAtEditStart,
+                                selection = TextRange(snapshotAtEditStart.length)
+                            )
+                            isEditing = false
+                        }
+                    ) {
+                        Icon(Icons.Filled.Close, contentDescription = null)
+                        Spacer(Modifier.width(8.dp))
+                        Text(text = "Cancelar")
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    Button(
+                        onClick = {
+                            onTextSaved(editingValue.text)
+                            isEditing = false
+                        }
+                    ) {
+                        Icon(Icons.Filled.Check, contentDescription = null)
+                        Spacer(Modifier.width(8.dp))
+                        Text(text = "Guardar")
+                    }
                 }
             }
         }

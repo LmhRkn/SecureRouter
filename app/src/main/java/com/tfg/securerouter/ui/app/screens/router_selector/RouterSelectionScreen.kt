@@ -21,11 +21,12 @@ class RouterSelectionScreen : ScreenDefault() {
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val routerCoordinator = coordinator as RouterSelectorCoordinator
-
         val navController = LocalNavController.current
-        addComponents(
+
+        setComponents(
             { RoutersList(navController) }
         )
+
         RenderScreen()
     }
 }

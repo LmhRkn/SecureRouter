@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,14 +36,16 @@ import kotlinx.coroutines.launch
  *
  * @see DeviceManagerScreenEvent.ToggleSomething
  */
+
 @Composable
 fun ButtonToggleList(
     parent: ScreenDefault
 ) {
     var isToggled by rememberSaveable { mutableStateOf(false) }
     val eventFlow = parent.eventBus
+    val scope = rememberCoroutineScope()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(eventFlow) {
         eventFlow.collect { event ->
             if (event is DeviceManagerScreenEvent.ToggleSomething) {
                 isToggled = !isToggled
@@ -56,18 +59,22 @@ fun ButtonToggleList(
     ) {
         Button(
             onClick = {
-                CoroutineScope(Dispatchers.Main).launch {
-                    parent.sendEvent(DeviceManagerScreenEvent.ToggleSomething)
+                scope.launch {
+                    parent.trySendEvent(DeviceManagerScreenEvent.ToggleSomething)
                 }
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (isToggled) ExtendedColors.colors.correct.color else MaterialTheme.colorScheme.error
+                containerColor = if (isToggled)
+                    ExtendedColors.colors.correct.color
+                else
+                    MaterialTheme.colorScheme.error
             )
         ) {
             val buttonText =
-                if (isToggled) stringResource(R.string.dive_manger_show_allowed_devices_button) else stringResource(
-                    R.string.dive_manger_show_blocked_devices_button
-                )
+                if (isToggled)
+                    stringResource(R.string.dive_manger_show_allowed_devices_button)
+                else
+                    stringResource(R.string.dive_manger_show_blocked_devices_button)
             Text(buttonText)
         }
     }

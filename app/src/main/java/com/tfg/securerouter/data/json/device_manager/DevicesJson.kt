@@ -6,6 +6,7 @@ import com.tfg.securerouter.data.app.common.screen_components.devices.model.toDe
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.toSerializable
 import com.tfg.securerouter.data.json.RouterScopedBaseCache
 import com.tfg.securerouter.data.json.RouterScopedEnvelope
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 object DeviceManagerCache : RouterScopedBaseCache(
@@ -16,7 +17,9 @@ object DeviceManagerCache : RouterScopedBaseCache(
         return getDataMap()[mac.uppercase()]?.let {
             try {
                 Json.decodeFromString<SerializableDeviceModel>(it).toDeviceModel()
-            } catch (_: Exception) { null }
+            } catch (_: Exception) {
+                null
+            }
         }
     }
 
@@ -33,7 +36,9 @@ object DeviceManagerCache : RouterScopedBaseCache(
         return getDataMap().values.mapNotNull { json ->
             try {
                 Json.decodeFromString<SerializableDeviceModel>(json).toDeviceModel()
-            } catch (_: Exception) { null }
+            } catch (_: Exception) {
+                null
+            }
         }
     }
 }

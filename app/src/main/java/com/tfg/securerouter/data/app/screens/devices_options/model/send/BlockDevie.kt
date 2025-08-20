@@ -6,6 +6,7 @@ import com.tfg.securerouter.data.router.launchCommand
 object BlockDevice {
     fun blockDevice(mac: String) {
         val command = """
+            uci set wireless.@wifi-iface[0].macfilter='deny'
             uci add_list wireless.@wifi-iface[0].maclist='$mac'
             uci commit wireless
             wifi reload

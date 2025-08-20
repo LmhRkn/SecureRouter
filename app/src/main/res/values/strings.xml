@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SecureRouter</string>
+    <string name="app_name" translatable="false">SecureRouter</string>
 
     <!-- MENU OPTIONS SCREENS -->
     <string name="home_title">Inicio</string>
@@ -7,6 +7,7 @@
     <string name="wifi_title">Wifi</string>
     <string name="filter_title">Filtros</string>
     <string name="settings_title">Configuración</string>
+    <string name="change_router_title">Selector de router</string>
 
 
     <!-- MAIN SCREEN -->
@@ -42,6 +43,7 @@
     <string name="device_label_phone">Móvil</string>
     <string name="device_label_pc">PC</string>
     <string name="device_label_console">Consola</string>
+    <string name="device_label_other">Otro</string>
     <string name="device_label_online">Conectado</string>
     <string name="device_label_offline">Desconectado</string>
     <string name="device_label_blocked">Bloqueado</string>
@@ -51,7 +53,9 @@
     <string name="device_pc_icon">Icono PC</string>
     <string name="device_console_icon">Icono Consola</string>
     <string name="device_other_device_icon">Icono Otros Dispositivos</string>
-    
+
+    <string name="device_type_picker_title">Tipo de dispositivo</string>
+
     <!-- COMMON COMPONENTS -->
     <string name="search_bar_hint">Búscar...</string>
     <string name="search_bar_search_icon_description">Icono Búscar</string>

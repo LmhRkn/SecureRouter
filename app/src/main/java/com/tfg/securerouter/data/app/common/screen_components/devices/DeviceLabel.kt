@@ -29,6 +29,7 @@ enum class DeviceLabel(val displayName: String) {
     PC(R.string.device_label_pc.toString()),
     Console(R.string.device_label_console.toString()),
     Online(R.string.device_label_online.toString()),
+    Other(R.string.device_label_other.toString()),
     Offline(R.string.device_label_offline.toString()),
     Blocked(R.string.device_label_blocked.toString()),
     New(R.string.device_label_new.toString());

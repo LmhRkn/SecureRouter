@@ -9,5 +9,5 @@ data class DeviceTypeConfig(
     val keywords: List<String>,
     val icon: ImageVector,
     val descriptionRes: Int,
-    val label: DeviceLabel?
+    val label: DeviceLabel
 )

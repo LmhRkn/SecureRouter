@@ -1,7 +1,9 @@
 package com.tfg.securerouter
 
 import android.app.Application
+import android.util.Log
 import com.tfg.securerouter.data.app.screens.language.utils.setDeviceLanguage
+import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.json.JsonInitializer
 import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.encryptPassword
@@ -30,7 +32,8 @@ class SecureRouterApp : Application() {
         setDeviceLanguage(this)
 
 
-        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = encryptPassword("12345678")) }
+        Log.d("SecureRouterApp", "onCreate: ${RouterSelectorCache.get("1")}")
+//        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = encryptPassword("12345678")) }
 
 //        RouterSelectorCache.put(
 //            RouterInfo(

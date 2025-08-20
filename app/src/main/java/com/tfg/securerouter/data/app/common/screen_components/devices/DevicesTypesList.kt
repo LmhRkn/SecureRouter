@@ -88,10 +88,10 @@ val consoleType: DeviceTypeConfig = DeviceTypeConfig(
  * como IoT, dispositivos de redes, etc.
  */
 val otherType: DeviceTypeConfig = DeviceTypeConfig(
-    keywords = listOf(),  // Lista vacía, no necesita palabras clave.
+    keywords = listOf(),
     icon = Icons.Filled.DevicesOther,
     descriptionRes = R.string.device_other_device_icon,
-    label = null  // No se asigna una etiqueta.
+    label = DeviceLabel.Other
 )
 
 /**
@@ -99,8 +99,8 @@ val otherType: DeviceTypeConfig = DeviceTypeConfig(
  * Se pueden agregar más tipos de dispositivos en el futuro siguiendo la misma estructura.
  */
 val deviceTypes = arrayOf(
-    phoneType,    // Dispositivo de tipo teléfono
-    pcType,       // Dispositivo de tipo PC
-    consoleType,  // Dispositivo de tipo consola
-    otherType     // Dispositivo genérico u otro tipo
+    phoneType,
+    pcType,
+    consoleType,
+    otherType   // Always last
 )

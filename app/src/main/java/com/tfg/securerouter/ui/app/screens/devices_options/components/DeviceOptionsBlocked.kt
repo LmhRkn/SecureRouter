@@ -30,7 +30,7 @@ fun DeviceOptionsBlocked(
     deviceModel: DeviceModel,
     modifier: Modifier = Modifier
 ) {
-    var isBlocked by remember(deviceModel.mac, deviceModel.labels) {
+    val isBlocked by remember(deviceModel.mac, deviceModel.labels) {
         mutableStateOf(DeviceLabel.Blocked in deviceModel.labels)
     }
 

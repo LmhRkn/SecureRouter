@@ -1,5 +1,8 @@
 package com.tfg.securerouter.data.router
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
 import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
@@ -8,7 +11,7 @@ import com.jcraft.jsch.Session
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
-import com.tfg.securerouter.data.utils.decryptPassword
+import com.tfg.securerouter.data.utils.resolveStoredPassword
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -37,64 +40,74 @@ import com.jcraft.jsch.SocketFactory as JschSocketFactory
  * @return The standard output of the executed command, or an error message if execution fails.
  */
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 private fun connectSSH(
     username: String,
-    password: String,
+    passwordEncrypted: String?,
     host: String,
     port: Int = 22,
     command: String,
-    jschSocketFactory: JschSocketFactory? = null
+    jschSocketFactory: JschSocketFactory? = null,
 ): String {
+    // Si viene “en claro”, úsalo; si viene cifrado, resuélvelo.
+    val password: String? = resolveStoredPassword(passwordEncrypted) ?: passwordEncrypted
+
+    fun escSingleQuotes(s: String) = s.replace("'", "'\"'\"'")
+    val finalCmd = "sh -lc '${escSingleQuotes(command)}'"
+
+    Log.d("connectSSH", "user=$username host=$host viaVPN=${jschSocketFactory != null} cmd=$command")
+
     var session: Session? = null
     var channel: ChannelExec? = null
-    val errBuf = ByteArrayOutputStream()
+    val errBuf = java.io.ByteArrayOutputStream()
 
+    val t0 = System.currentTimeMillis()
     return try {
-        val jsch = JSch().apply {
-            // Asegura que NO haya identidades cargadas → no intente "publickey"
-            removeAllIdentity()
-        }
+        val jsch = JSch().apply { removeAllIdentity() }
 
         session = jsch.getSession(username, host, port).apply {
-            setPassword(password)
+            if (password != null) setPassword(password)
 
             val config = Properties().apply {
                 put("StrictHostKeyChecking", "no")
-                // Fuerza orden de métodos: primero contraseña; no ofrecemos publickey
-                put("PreferredAuthentications", "password,keyboard-interactive")
+                // Solo password para evitar esperas de keyboard-interactive
+                put("PreferredAuthentications", "password")
             }
             setConfig(config)
-
             if (jschSocketFactory != null) setSocketFactory(jschSocketFactory)
-
-            // Opcional: keepalive por si hay NATs quisquillosos
             setServerAliveInterval(10_000)
 
+            val tConn0 = System.currentTimeMillis()
             connect(30_000)
+            Log.d("connectSSH", "session.connect in ${System.currentTimeMillis() - tConn0}ms")
         }
 
         channel = (session.openChannel("exec") as ChannelExec).apply {
-            setCommand(command)
-            setInputStream(null)           // no input interactivo
-            setErrStream(errBuf)           // captura STDERR
+            setPty(false)
+            setCommand(finalCmd)
+            setInputStream(null)
+            setErrStream(errBuf)
+
+            val tCh0 = System.currentTimeMillis()
             connect(10_000)
+            Log.d("connectSSH", "channel.connect in ${System.currentTimeMillis() - tCh0}ms")
         }
 
+        val tRead0 = System.currentTimeMillis()
         val out = channel.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
-
-        // Espera a que el comando cierre para vaciar buffers
-        while (!channel.isClosed) Thread.sleep(30)
+        while (!channel.isClosed) Thread.sleep(15)
         val exit = channel.exitStatus
-        val err  = errBuf.toString(Charsets.UTF_8)
+        val err = errBuf.toString(Charsets.UTF_8)
+
+        Log.d("connectSSH", "read+wait in ${System.currentTimeMillis() - tRead0}ms; total=${System.currentTimeMillis() - t0}ms; exit=$exit")
 
         if (exit == 0) out
         else "Exit $exit\nSTDERR:\n$err\nSTDOUT:\n$out"
     } catch (e: JSchException) {
-        // Caso clásico: el servidor SOLO permite 'publickey'
-        if (e.message?.contains("Auth fail", ignoreCase = true) == true)
-            "Error: autenticación fallida. El servidor puede tener PasswordAuth desactivado o la contraseña es incorrecta. " +
-                    "En OpenWrt: uci set dropbear.@dropbear[0].PasswordAuth='on'; uci set dropbear.@dropbear[0].RootPasswordAuth='on'; uci commit; /etc/init.d/dropbear reload"
-        else "Error: ${e.message}"
+        val msg = e.message ?: "JSchException"
+        if (msg.contains("Auth fail", ignoreCase = true))
+            "Error: autenticación fallida. Revisa PasswordAuth en el servidor o la contraseña."
+        else "Error: $msg"
     } catch (e: Exception) {
         "Error: ${e.message}"
     } finally {
@@ -102,7 +115,6 @@ private fun connectSSH(
         try { session?.disconnect() } catch (_: Exception) {}
     }
 }
-
 
 /**
  * Sends a shell command to the router via SSH using predefined credentials and host.
@@ -117,17 +129,17 @@ private fun connectSSH(
  * @see connectSSH
  */
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun sendCommand(command: String): String {
-    val router: RouterInfo? = RouterSelectorCache.getRouter(AppSession.routerId.toString())
-    if (router == null) return "ERROR"
-
+    val router: RouterInfo = RouterSelectorCache.getRouter(AppSession.routerId.toString())
+        ?: return "ERROR"
 
     val host: String = when {
         router.isVpn && !router.vpnHost.isNullOrBlank() -> router.vpnHost
         !router.localIp.isNullOrBlank() -> router.localIp
         !router.publicIpOrDomain.isNullOrBlank() -> router.publicIpOrDomain
         else -> AppSession.routerIp ?: ""
-    } ?: ""
+    }
 
     val jschSF = if (router.isVpn) {
         val net = VpnUtils.getActiveVpnNetwork() ?: VpnUtils.findAnyVpnNetwork()
@@ -138,21 +150,21 @@ fun sendCommand(command: String): String {
 
     val output = connectSSH(
         username = "root",
-        password = if (router.sshPassword != null) decryptPassword(router.sshPassword) else "",
+        passwordEncrypted = router.sshPassword,
         host = host,
         port = port,
         command = command,
         jschSocketFactory = jschSF
     )
-    println("host=$host viaVPN=${jschSF!=null} cmd=$command\n$output")
     return output
 }
+
 
 fun sendCommandEphemeral(router: RouterInfo, command: String): String {
     val host: String = when {
         router.isVpn && !router.vpnHost.isNullOrBlank() -> router.vpnHost
-        !router.localIp.isNullOrBlank()                 -> router.localIp
-        !router.publicIpOrDomain.isNullOrBlank()        -> router.publicIpOrDomain
+        !router.localIp.isNullOrBlank() -> router.localIp
+        !router.publicIpOrDomain.isNullOrBlank() -> router.publicIpOrDomain
         else -> return "Error: no host"
     }
 
@@ -163,9 +175,10 @@ fun sendCommandEphemeral(router: RouterInfo, command: String): String {
 
     val port = router.vpnPort ?: 22
 
+    Log.d("sendCommandEphemeral", "router: $router")
     return connectSSH(
         username = "root",
-        password = "12345678",
+        passwordEncrypted = router.sshPassword,
         host = host,
         port = port,
         command = command,
@@ -174,18 +187,15 @@ fun sendCommandEphemeral(router: RouterInfo, command: String): String {
 }
 
 
-
 suspend fun shUsingLaunch(
     command: String,
-    timeoutMs: Long = 10_000L
-): String = withTimeout(timeoutMs) {
-    suspendCancellableCoroutine { cont ->
-        val job: Job = launchCommand(
-            command = command,
-            parse   = { it },
-            onResult = { out -> if (cont.isActive) cont.resume(out) },
-            onError  = { e   -> if (cont.isActive) cont.resumeWithException(e) }
-        )
-        cont.invokeOnCancellation { job.cancel() }
-    }
+): String =
+suspendCancellableCoroutine { cont ->
+    val job = launchCommand(
+        command = command,
+        parse = { it },
+        onResult = { out -> if (cont.isActive) cont.resume(out) },
+        onError  = { e -> if (cont.isActive) cont.resumeWithException(e) }
+    )
+    cont.invokeOnCancellation { job.cancel() }
 }

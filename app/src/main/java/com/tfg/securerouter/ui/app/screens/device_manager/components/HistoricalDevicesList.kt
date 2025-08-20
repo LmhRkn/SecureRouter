@@ -53,13 +53,15 @@ fun HistoricalDevicesList(
     val eventFlow = parent.eventBus
     var searchQuery by rememberSaveable { mutableStateOf("") }
     var labelFilters by rememberSaveable { mutableStateOf(emptySet<DeviceLabel>()) }
+    var showAllowedDevices by rememberSaveable { mutableStateOf(true) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(eventFlow) {
         eventFlow.collect { event ->
-            if (event is DeviceManagerScreenEvent.SearchSomething) {
-                searchQuery = event.query
-            } else if (event is DeviceManagerScreenEvent.FilterSomething) {
-                labelFilters = event.filters
+            when (event) {
+                is DeviceManagerScreenEvent.SearchSomething -> searchQuery = event.query
+                is DeviceManagerScreenEvent.FilterSomething -> labelFilters = event.filters
+                is DeviceManagerScreenEvent.ToggleSomething -> showAllowedDevices = !showAllowedDevices
+                else -> Unit
             }
         }
     }
@@ -71,29 +73,14 @@ fun HistoricalDevicesList(
     val devices = totalDevices.filter { device ->
         val hostname = device.hostname?.lowercase() ?: ""
         val query = searchQuery.lowercase()
-
         val matchesQuery = hostname.contains(query)
-        val matchesLabels = if (labelFilters.isEmpty()) {
-            true
-        } else {
-            labelFilters.all { it in device.labels }
-        }
-
+        val matchesLabels = if (labelFilters.isEmpty()) true
+        else labelFilters.all { it in device.labels }
         matchesQuery && matchesLabels
     }
 
-
     BoxWithConstraints {
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = weight)
-        var showAllowedDevices by rememberSaveable { mutableStateOf(true) }
-
-        LaunchedEffect(Unit) {
-            eventFlow.collect { event ->
-                if (event is DeviceManagerScreenEvent.ToggleSomething) {
-                    showAllowedDevices = !showAllowedDevices
-                }
-            }
-        }
 
         Column(
             modifier = Modifier

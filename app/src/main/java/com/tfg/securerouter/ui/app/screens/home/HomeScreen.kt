@@ -1,103 +1,46 @@
 package com.tfg.securerouter.ui.app.screens.home
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
-import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
-import com.tfg.securerouter.ui.icons.RouterIcon
+import android.util.Log
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Router
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.home.HomeCoordinator
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
-import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
-import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
-import com.tfg.securerouter.data.automatization.ExecuteAutomatizations
-import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryBeforeOpening
 import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
-import com.tfg.securerouter.data.router.getRouterIpAddress
+import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
+import com.tfg.securerouter.data.notice.model.tutorials.TutorialSpec
+import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
-import com.tfg.securerouter.ui.app.common.texts.TextWithToggleOption
-import com.tfg.securerouter.data.router.shUsingLaunch
+import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
+import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
 
-/**
- * Composable screen for displaying the home dashboard of the SecureRouter app.
- *
- * This screen renders the Home UI, displaying:
- * - Router information (name, status, etc.).
- * - A list of currently connected devices.
- * - A router icon and a toggleable test component.
- *
- * It uses [HomeCoordinator] as the screen coordinator for managing state
- * and providing modules like [HomeRouterInfoModel] and [ConnectedDeviceModel].
- *
- * @see HomeCoordinator
- * @see ScreenDefault
- */
-class HomeScreen: ScreenDefault() {
-    /**
-     * Initializes the Home screen by instantiating its ViewModel and
-     * delegating to [ScreenInit] for lifecycle management.
-     *
-     * This is the entry point for the screen.
-     *
-     * @see HomeCoordinator
-     */
+import com.tfg.securerouter.ui.notice.NoticeMedia
+import com.tfg.securerouter.ui.notice.alerts.AlertModal
+import com.tfg.securerouter.ui.notice.tutorials.TutorialModal
+
+class HomeScreen : ScreenDefault() {
+
     @Composable
     fun HomeScreenInit() {
         val coordinator: HomeCoordinator = viewModel()
-
         ScreenInit(coordinator)
     }
 
-    /**
-     * Renders the UI content for the Home screen.
-     *
-     * This function:
-     * - Retrieves the [HomeRouterInfoModel] and [ConnectedDeviceModel] modules from the coordinator.
-     * - Collects their states via [collectAsState].
-     * - Adds UI components to the layout using [addComponents].
-     *
-     * Components rendered:
-     * - [HomeRouterInfoSection]: Displays router info with an editable alias.
-     * - [RouterIcon]: A visual representation of the router.
-     * - [ConnectedDevicesList]: Displays connected devices.
-     * - [TextWithToggleOption]: Example of a toggleable text component.
-     *
-     * @param coordinator The screen coordinator, expected to be a [HomeCoordinator].
-     * @throws IllegalArgumentException if the provided coordinator is not of the expected type.
-     *
-     * @see HomeCoordinator
-     * @see HomeRouterInfoModel
-     * @see ConnectedDeviceModel
-     */
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
-        ExecuteAutomatizations(
-            factories = AutomatizationRegistryBeforeOpening.factories,
-            sh = ::shUsingLaunch,
-            key = AppSession.routerId
-        )
-
-//        RouterSelctorCache.put(
-//            RouterInfo(
-//                name = "Segundo Router",
-//                mac = "de:12:32:85:d4:b9",
-//                localIp = "192.168.0.5",
-//                isVpn = false,
-//                id = 1,
-//            )
-//        )
-//
-//        RouterSelectorCache.update(AppSession.routerId.toString()) { r -> r.copy(
-//            labels = r.labels - RouterLabel.Online + RouterLabel.Offline
-//        ) }
-//
-//        println("JSON: ${RouterSelctorCache.dumpPretty()}")
-
-
         val homeCoordinator = coordinator as? HomeCoordinator
             ?: throw IllegalArgumentException("Expected HomeCoordinator")
 
@@ -107,19 +50,95 @@ class HomeScreen: ScreenDefault() {
         val routerState = routerInfoModel.state.collectAsState().value
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
-        val ip = getRouterIpAddress()
 
-        addComponents(
-            {HomeRouterInfoSection(
-                state = routerState,
-                onEditAliasClick = { newAlias ->
-                    SendRouterName.updateRouterAlias(routerState.wirelessName, newAlias)
+        var showTutorial by rememberSaveable { mutableStateOf(true) }
+        var showAlert by rememberSaveable { mutableStateOf(false) }
+        var pendingAlias by rememberSaveable { mutableStateOf<String?>(null) }
+
+        setComponents(
+            {
+                HomeRouterInfoSection(
+                    state = routerState,
+                    onEditAliasClick = { newAlias ->
+                        pendingAlias  = newAlias
+                        showAlert = true
+                    }
+                )
+            },
+            {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.Router,
+                        contentDescription = "Router icon",
+                        modifier = Modifier.size(128.dp)
+                    )
                 }
-            )},
-            { RouterIcon() },
+            },
             { ConnectedDevicesList(devicesState = devicesState, weight = 0.4f) },
         )
 
-        RenderScreen()
+        val tutorial = remember {
+            TutorialSpec(
+                steps = listOf(
+                    TutorialStep(
+                        title = "¡Bienvenido a SecureRouter!",
+                        body  = "Configura tu red y revisa los dispositivos conectados.",
+                        media = NoticeMedia.Url("https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=800&auto=format&fit=crop")
+                    ),
+                    TutorialStep(
+                        title = "Consejo rápido",
+                        body  = "Pulsa el alias del router para renombrarlo al instante."
+                    )
+                ),
+                startIndex = 0,
+                skippable = true
+            )
+        }
+
+        val alert = remember {
+            AlertSpec(
+                title = "¿Aplicar cambios?",
+                message = "Esta acción reiniciará el router. ¿Continuar?",
+                confirmText = "Aceptar",
+                cancelText = "Cancelar",
+                showCancel = true
+            )
+        }
+
+        Box(Modifier.fillMaxSize()) {
+            RenderScreen()
+
+            if (showTutorial) {
+                TutorialModal(
+                    spec = tutorial,
+                    onSkip = {
+                        showTutorial = false
+                     },
+                    onFinish = {
+                        showTutorial = false
+                    }
+                )
+            }
+
+            if (showAlert) {
+                AlertModal(
+                    spec = alert,
+                    onConfirm = {
+                        Log.d("AAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAA")
+                        val alias = pendingAlias?.trim().orEmpty()
+                        if (alias.isNotEmpty()) {
+                            RouterSelectorCache.update(AppSession.routerId.toString()) { r -> r.copy(name = alias) }
+                            SendRouterName.updateRouterAlias(routerState.wirelessName, alias)
+                        }
+                        showAlert = false
+                        pendingAlias = null
+                    },
+                    onCancel = {
+                        showAlert = false
+                        pendingAlias = null
+                    }
+                )
+            }
+        }
     }
 }

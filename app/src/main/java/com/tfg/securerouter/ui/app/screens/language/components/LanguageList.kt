@@ -62,7 +62,7 @@ fun LanguageList(
                         selectedStates[index] = !selectedStates[index]
 
                         CoroutineScope(Dispatchers.Main).launch {
-                            parent.sendEvent(LanguageScreenEvent.LanguageSelected(abbreviation))
+                            parent.trySendEvent(LanguageScreenEvent.LanguageSelected(abbreviation))
                         }
                     }
                 )

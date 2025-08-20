@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SecureRouter</string>
 
     <!-- MENU OPTIONS SCREENS -->
     <string name="home_title">Inicio</string>
@@ -11,6 +10,7 @@
 
 
     <!-- MAIN SCREEN -->
+    <string name="change_router_title">Selector de router</string>
     <string name="menu_ic_description">Menú</string>
     <string name="home_router_Info_section_description">Editar alias</string>
 
@@ -43,6 +43,7 @@
     <string name="device_label_phone">Móvil</string>
     <string name="device_label_pc">PC</string>
     <string name="device_label_console">Consola</string>
+    <string name="device_label_other">Otro</string>
     <string name="device_label_online">Conectado</string>
     <string name="device_label_offline">Desconectado</string>
     <string name="device_label_blocked">Bloqueado</string>
@@ -54,6 +55,7 @@
     <string name="device_other_device_icon">Icono Otros Dispositivos</string>
 
     <!-- COMMON COMPONENTS -->
+    <string name="device_type_picker_title">Tipo de dispositivo</string>
     <string name="search_bar_hint">Búscar...</string>
     <string name="search_bar_search_icon_description">Icono Búscar</string>
     <string name="search_bar_trailing_icon_description">Icono Limpiar</string>

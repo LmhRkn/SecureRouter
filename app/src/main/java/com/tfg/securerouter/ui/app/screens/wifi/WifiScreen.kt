@@ -89,7 +89,7 @@ class WifiScreen: ScreenDefault() {
 
         val wifiFilterWebRule = wifiFilterWebRuleModel.state.collectAsState().value
 
-        addComponents(
+        setComponents(
             { WifiRouterInfoSection(
                 state = routerState,
                 onEditAliasClick = { newAlias ->
@@ -99,7 +99,6 @@ class WifiScreen: ScreenDefault() {
             { WifiRouterPassword(routerState) },
             { WifiOptionsTimes(wifiTimesRule) },
             { WifiOptionsFilterWeb(wifiFilterWebRule) },
-
         )
 
         RenderScreen()

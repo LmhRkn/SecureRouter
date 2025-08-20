@@ -55,10 +55,11 @@ class FilterScreen: ScreenDefault() {
         val filterCoordinator = coordinator as? FilterCoordinator
             ?: throw IllegalArgumentException("Expected HomeCoordinator")
 
-        addComponents(
-            { Text("Filter", color=Color.Black) }
+        setComponents(
+            { Text("Filter", color = Color.Black) }
         )
 
         RenderScreen()
     }
+
 }

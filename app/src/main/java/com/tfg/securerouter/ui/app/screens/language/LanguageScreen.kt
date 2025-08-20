@@ -61,7 +61,7 @@ class LanguageScreen: ScreenDefault() {
         val languageCoordinator = coordinator as? LanguageCoordinator
             ?: throw IllegalArgumentException("Expected LanguageCoordinator")
 
-        addComponents(
+        setComponents(
             {
                 LanguageList(this)
                 LanguageButtons(this)

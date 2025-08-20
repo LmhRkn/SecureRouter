@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,10 +36,13 @@ import kotlinx.coroutines.launch
  * @see FilterButton
  * @see DeviceManagerScreenEvent
  */
+
 @Composable
 fun DeviceManagerSearchBar(
     parent: ScreenDefault
 ) {
+    val scope = rememberCoroutineScope()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,9 +51,9 @@ fun DeviceManagerSearchBar(
     ) {
         SearchBar(
             modifier = Modifier.weight(0.9f),
-            onSearchChanged = {
-                CoroutineScope(Dispatchers.Main).launch {
-                    parent.sendEvent(DeviceManagerScreenEvent.SearchSomething(it))
+            onSearchChanged = { query ->
+                scope.launch {
+                    parent.trySendEvent(DeviceManagerScreenEvent.SearchSomething(query))
                 }
             },
             hint = stringResource(R.string.dive_manger_search_hint)
@@ -58,12 +62,11 @@ fun DeviceManagerSearchBar(
         FilterButton(
             modifier = Modifier.weight(0.1f),
             selectedFilters = emptySet(),
-            onFiltersChanged = {
-                CoroutineScope(Dispatchers.Main).launch {
-                    parent.sendEvent(DeviceManagerScreenEvent.FilterSomething(it))
+            onFiltersChanged = { filters ->
+                scope.launch {
+                    parent.trySendEvent(DeviceManagerScreenEvent.FilterSomething(filters))
                 }
             }
         )
     }
-
 }
