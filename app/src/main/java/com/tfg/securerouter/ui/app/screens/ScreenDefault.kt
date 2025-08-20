@@ -6,6 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,7 +17,11 @@ import com.tfg.securerouter.data.notice.model.NoticeEvent
 import com.tfg.securerouter.ui.app.screens.device_manager.DeviceManagerScreen
 import com.tfg.securerouter.ui.app.screens.home.HomeScreen
 import com.tfg.securerouter.ui.notice.NoticeHost
-import com.tfg.securerouter.ui.notice.NoticeSpec
+import com.tfg.securerouter.data.notice.model.NoticeSpec
+import com.tfg.securerouter.data.notice.model.alerts.ActiveAlert
+import com.tfg.securerouter.data.notice.model.tutorials.TutorialSpec
+import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.notice.tutorials.UiReadyCenter
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -39,6 +44,8 @@ import kotlinx.coroutines.flow.asSharedFlow
  * @see ScreenEvent
  */
 open class ScreenDefault {
+    open val initialTutorialSpec: TutorialSpec? = null
+
     private val components = mutableStateListOf<@Composable () -> Unit>()
     private val noticeQueue = mutableStateListOf<NoticeSpec>()
 
@@ -82,6 +89,14 @@ open class ScreenDefault {
     @Composable
     fun ScreenInit(coordinator: ScreenCoordinatorDefault) {
         val isReady by coordinator.isReady.collectAsState()
+        var activeAlert by rememberSaveable { mutableStateOf<ActiveAlert?>(null) }
+
+        LaunchedEffect(isReady) {
+            UiReadyCenter.setReady(isReady)
+            if (isReady) {
+                TutorialCenter.register(initialTutorialSpec)
+            }
+        }
 
         LaunchedEffect(Unit) {
             eventBus.collect { ev ->

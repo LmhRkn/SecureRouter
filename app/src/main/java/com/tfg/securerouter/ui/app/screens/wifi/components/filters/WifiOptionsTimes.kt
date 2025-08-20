@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.app.screens.wifi.components
+package com.tfg.securerouter.ui.app.screens.wifi.components.filters
 
 import android.os.Build
 import androidx.annotation.RequiresApi

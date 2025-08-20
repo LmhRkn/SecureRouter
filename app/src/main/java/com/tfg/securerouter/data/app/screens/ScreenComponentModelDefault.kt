@@ -1,5 +1,8 @@
 package com.tfg.securerouter.data.app.screens
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import com.tfg.securerouter.data.router.sendCommand
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,6 +37,7 @@ interface ScreenComponentModelDefault {
      *
      * @return `true` if the command executed and parsed successfully, `false` otherwise.
      */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     suspend fun <T> safeLoad(
         cache: MutableMap<String, Any>,
         command: String,
@@ -43,6 +47,7 @@ interface ScreenComponentModelDefault {
     ): Boolean = withContext(Dispatchers.IO) {
         return@withContext try {
             val output: String = sendCommand(command)
+            Log.d("HomeRouterInfoModel", "Entró: $output")
             val parsed = parse(output)
 
             cache[cacheKey] = output

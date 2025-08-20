@@ -49,7 +49,6 @@ private fun connectSSH(
     command: String,
     jschSocketFactory: JschSocketFactory? = null,
 ): String {
-    // Si viene “en claro”, úsalo; si viene cifrado, resuélvelo.
     val password: String? = resolveStoredPassword(passwordEncrypted) ?: passwordEncrypted
 
     fun escSingleQuotes(s: String) = s.replace("'", "'\"'\"'")
@@ -160,6 +159,7 @@ fun sendCommand(command: String): String {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun sendCommandEphemeral(router: RouterInfo, command: String): String {
     val host: String = when {
         router.isVpn && !router.vpnHost.isNullOrBlank() -> router.vpnHost

@@ -1,5 +1,6 @@
 package com.tfg.securerouter.ui.app.screens.router_selector.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -84,20 +85,19 @@ fun RoutersList(
                                 labels = router.labels - RouterLabel.New + RouterLabel.Online
                             )
 
-                            RouterSelectorCache.put(toSave)
                             AppSession.routerId = toSave.id
                             AppSession.routerIp  = toSave.localIp
+                            RouterSelectorCache.put(toSave)
                             runnerRouter = toSave
                         } else {
                             AppSession.routerId = router.id
                             AppSession.routerIp = router.localIp
                             runnerRouter = router
                         }
+                        Log.d("RouterSelectionScreen", "AppSession: ${AppSession.routerId}, ${AppSession.routerIp}")
                     }
                 )
             }
-
-            println(RouterSelectorCache.dumpPretty())
         }
     } else {
         ExecuteAutomationsBlockingUI(

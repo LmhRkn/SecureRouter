@@ -25,12 +25,17 @@ import com.tfg.securerouter.data.app.screens.other_screen.LanguageScreenOption
  * @see MenuOption for the interface each menu screen must implement.
  */
 
-object MenuRegistry {
+object MenuRegistryTop {
     val items = listOf(
         HomeMenuOption,
         ManageDevicesMenuOption,
         WifiMenuOption,
         FilterMenuOption,
+    )
+}
+
+object MenuRegistryBottom {
+    val items = listOf(
         RouterSelectorMenuOption,
         SettingsMenuOption,
     )

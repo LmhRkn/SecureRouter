@@ -1,5 +1,8 @@
 package com.tfg.securerouter.data.app.screens.home.model.load
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.app.screens.home.state.HomeRouterInfoState
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
@@ -39,6 +42,7 @@ class HomeRouterInfoModel(
      *
      * @return `true` if the data was successfully loaded; `false` otherwise.
      */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override suspend fun loadData(): Boolean {
         return safeLoad(
             cache = sharedCache,

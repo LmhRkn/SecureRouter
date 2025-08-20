@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,12 +40,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.tfg.securerouter.data.app.menu.MenuRegistry
+import com.tfg.securerouter.data.app.menu.MenuOption
+import com.tfg.securerouter.data.app.menu.MenuRegistryBottom
+import com.tfg.securerouter.data.app.menu.MenuRegistryTop
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.navegation.MainNavigation
 import com.tfg.securerouter.data.app.screens.main_screen.model.TopBarViewModel
 import com.tfg.securerouter.data.app.screens.main_screen.state.TopBarModel
 import com.tfg.securerouter.ui.app.screens.DrawerContent
+import com.tfg.securerouter.ui.notice.tutorials.TutorialButton
+import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.notice.tutorials.UiReadyCenter
 import kotlinx.coroutines.launch
 
 /**
@@ -111,7 +116,8 @@ fun MainScreen() {
 private fun UpdateTopBarTitle(navController: NavHostController, viewModel: TopBarViewModel) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val route = currentBackStackEntry?.destination?.route
-    val matchingOption = MenuRegistry.items.find { it.route == route }
+    val menuOptions: List<MenuOption> = MenuRegistryTop.items + MenuRegistryBottom.items
+    val matchingOption = menuOptions.find { it.route == route }
 
     matchingOption?.let {
         val title = stringResource(id = it.titleResId)
@@ -144,6 +150,10 @@ fun NavigationDrawerContent(
     navController: NavHostController,
 ) {
     val mainNavegation = remember { MainNavigation() }
+
+    val uiReady by UiReadyCenter.ready.collectAsState()
+    val hasTutorial by TutorialCenter.spec.collectAsState()
+    val isOpen by TutorialCenter.open.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -194,6 +204,11 @@ fun NavigationDrawerContent(
                         titleContentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
+            },
+            floatingActionButton = {
+                if (uiReady && hasTutorial != null && !isOpen) {
+                    TutorialButton()
+                }
             }
         ) { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {

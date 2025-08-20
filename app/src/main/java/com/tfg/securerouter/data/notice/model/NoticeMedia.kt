@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.notice
+package com.tfg.securerouter.data.notice.model
 
 import androidx.annotation.DrawableRes
 import androidx.compose.material3.MaterialTheme

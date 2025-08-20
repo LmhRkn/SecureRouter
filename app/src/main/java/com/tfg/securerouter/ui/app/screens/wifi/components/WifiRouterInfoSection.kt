@@ -14,14 +14,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.app.screens.home.state.HomeRouterInfoState
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import com.tfg.securerouter.data.app.screens.wifi.model.WifiRouterInfoState
-import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -5,7 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tfg.securerouter.data.app.menu.MenuOption
-import com.tfg.securerouter.data.app.menu.MenuRegistry
+import com.tfg.securerouter.data.app.menu.MenuRegistryBottom
+import com.tfg.securerouter.data.app.menu.MenuRegistryTop
 import com.tfg.securerouter.data.app.menu.OtherScreenRegistry
 
 /**
@@ -35,7 +36,12 @@ class MainNavigation {
     @Composable
     fun NavGraph(navController: NavHostController) {
         NavHost(navController = navController, startDestination = "router_selection") {
-            MenuRegistry.items.forEach { menuOption ->
+            MenuRegistryTop.items.forEach { menuOption ->
+                composable(menuOption.route) {
+                    menuOption.Content()
+                }
+            }
+            MenuRegistryBottom.items.forEach { menuOption ->
                 composable(menuOption.route) {
                     menuOption.Content()
                 }

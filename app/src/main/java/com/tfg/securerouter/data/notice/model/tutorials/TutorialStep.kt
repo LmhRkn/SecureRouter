@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.notice.model.tutorials
 
 import androidx.compose.runtime.Immutable
-import com.tfg.securerouter.ui.notice.NoticeMedia
+import com.tfg.securerouter.data.notice.model.NoticeMedia
 
 @Immutable
 data class TutorialStep(

@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.app.screens.wifi.components
+package com.tfg.securerouter.ui.app.screens.wifi.components.password
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 

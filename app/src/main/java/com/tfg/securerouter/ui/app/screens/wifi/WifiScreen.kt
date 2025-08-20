@@ -2,25 +2,24 @@ package com.tfg.securerouter.ui.app.screens.wifi
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
-import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
-import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
+import com.tfg.securerouter.data.app.screens.wifi.model.WifiTraficGraphState
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
+import com.tfg.securerouter.data.utils.graph.SAMPLE
+import com.tfg.securerouter.data.utils.graph.demoProvider
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
-import com.tfg.securerouter.ui.app.screens.wifi.components.WifiOptionsFilterWeb
-import com.tfg.securerouter.ui.app.screens.wifi.components.WifiOptionsTimes
+import com.tfg.securerouter.ui.app.screens.wifi.components.TraficDisplayerGraph
+import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsFilterWeb
+import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsTimes
 import com.tfg.securerouter.ui.app.screens.wifi.components.WifiRouterInfoSection
-import com.tfg.securerouter.ui.app.screens.wifi.components.WifiRouterPassword
+import com.tfg.securerouter.ui.app.screens.wifi.components.password.WifiRouterPassword
 
 /**
  * Composable screen for managing Wi-Fi settings in the SecureRouter app.
@@ -95,10 +94,12 @@ class WifiScreen: ScreenDefault() {
                 onEditAliasClick = { newAlias ->
                     SendRouterName.updateRouterAlias(routerState.wirelessName, newAlias)
                 }
-            )},
+            )
+            },
             { WifiRouterPassword(routerState) },
             { WifiOptionsTimes(wifiTimesRule) },
             { WifiOptionsFilterWeb(wifiFilterWebRule) },
+            { TraficDisplayerGraph( WifiTraficGraphState(traficData = SAMPLE)) }
         )
 
         RenderScreen()

@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.app.screens.wifi.components
+package com.tfg.securerouter.ui.app.screens.wifi.components.password
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -31,7 +31,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.menu.menu_screens.SettingsMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.WifiMenuOption
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.wifi.utils.validatePassword

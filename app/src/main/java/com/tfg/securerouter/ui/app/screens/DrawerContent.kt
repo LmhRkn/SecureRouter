@@ -10,7 +10,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.menu.MenuRegistry
+import com.tfg.securerouter.data.app.menu.MenuRegistryBottom
+import com.tfg.securerouter.data.app.menu.MenuRegistryTop
+import com.tfg.securerouter.data.utils.AppSession
 
 /**
  * Composable that renders the content of the navigation drawer.
@@ -39,15 +41,13 @@ fun DrawerContent(
         ) {
             BoxWithConstraints {
                 val maxHeight = this.maxHeight
-                // For the top items in the drawer
-                val menuItemsTop = MenuRegistry.items.filter { it.titleResId != R.string.settings_title }
-                // For the bottom items in the drawer
-                val menuItemsBot = MenuRegistry.items.find { it.titleResId == R.string.settings_title }
+                val menuItemsTop = if (AppSession.routerSelected) MenuRegistryTop.items else emptyList()
+                val menuItemsBot = MenuRegistryBottom.items
 
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .heightIn(max = maxHeight) // máximo alto dinámico
+                        .heightIn(max = maxHeight)
                 ) {
                     Column(
                         modifier = Modifier.weight(1f)
@@ -69,7 +69,6 @@ fun DrawerContent(
                         }
                     }
 
-                    // TODO: cuando añadamos la pantalla de cambiar de router, la pondremos aquí:
 //                    menuItemsBot?.let {
 //                        DrawerItem(
 //                            label = stringResource(id = it.titleResId),
@@ -78,12 +77,19 @@ fun DrawerContent(
 //                        )
 //                    }
 
-                    menuItemsBot?.let {
-                        DrawerItem(
-                            label = stringResource(id = it.titleResId),
-                            icon = it.icon,
-                            onClick = { onItemClick(it.route) }
-                        )
+                    menuItemsBot.forEachIndexed { index, menuOption ->DrawerItem(
+                        label = stringResource(id = menuOption.titleResId),
+                        icon = menuOption.icon,
+                        onClick = { onItemClick(menuOption.route) }
+                    )
+
+                        if (index < menuItemsTop.lastIndex) {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                thickness = 0.5.dp,
+                                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
+                            )
+                        }
                     }
                 }
             }

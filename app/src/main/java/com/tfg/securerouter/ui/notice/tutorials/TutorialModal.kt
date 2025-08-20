@@ -1,171 +1,155 @@
-package com.tfg.securerouter.ui.notice.tutorials
+    package com.tfg.securerouter.ui.notice.tutorials
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.decode.GifDecoder
-import coil.request.ImageRequest
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialSpec
-import com.tfg.securerouter.ui.notice.NoticeMedia
+    import androidx.compose.foundation.layout.*
+    import androidx.compose.foundation.shape.RoundedCornerShape
+    import androidx.compose.material.icons.Icons
+    import androidx.compose.material.icons.filled.ArrowBack
+    import androidx.compose.material.icons.filled.ArrowForward
+    import androidx.compose.material3.*
+    import androidx.compose.runtime.*
+    import androidx.compose.ui.Alignment
+    import androidx.compose.ui.Modifier
+    import androidx.compose.ui.draw.clip
+    import androidx.compose.ui.layout.ContentScale
+    import androidx.compose.ui.platform.LocalContext
+    import androidx.compose.ui.text.style.TextOverflow
+    import androidx.compose.ui.unit.dp
+    import coil.compose.AsyncImage
+    import coil.decode.GifDecoder
+    import coil.request.ImageRequest
+    import com.tfg.securerouter.data.notice.model.NoticeMedia
+    import com.tfg.securerouter.data.notice.model.tutorials.TutorialSpec
+    import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
 
-@SuppressLint("ConfigurationScreenWidthHeight")
-@Composable
-fun TutorialModal(
-    spec: TutorialSpec,
-    onSkip: () -> Unit,
-    onFinish: () -> Unit,
-    onDismissRequest: (() -> Unit)? = null,
-) {
-    var idx by remember(spec) { mutableIntStateOf(spec.startIndex.coerceIn(0, spec.steps.lastIndex)) }
-    val step = spec.steps[idx]
+    @Composable
+    fun TutorialModal(
+        spec: TutorialSpec,
+        onSkip: () -> Unit,
+        onFinish: () -> Unit
+    ) {
+        var currentIndex by remember { mutableStateOf(spec.startIndex.coerceIn(0, spec.steps.lastIndex)) }
 
-    val canPrev = idx > 0
-    val canNext = idx < spec.steps.lastIndex
-
-    val conf = LocalConfiguration.current
-    val targetHeight = (conf.screenHeightDp * 0.75f).dp
-
-    Box(Modifier.fillMaxSize()) {
-        val scrimColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.45f)
         Box(
-            Modifier
-                .fillMaxSize()
-                .consumeClicks { onDismissRequest?.invoke() }
-        ) {
-            Canvas(Modifier.matchParentSize()) {
-                drawRect(scrimColor)
-            }
-        }
-
-        // tarjeta centrada
-        Surface(
             modifier = Modifier
-                .fillMaxWidth(0.95f)
-                .heightIn(max = targetHeight)
-                .align(Alignment.Center),
-            shape = RoundedCornerShape(20.dp),
-            tonalElevation = 6.dp,
+                .fillMaxSize()
+                .padding(24.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Column(
-                Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
+            ElevatedCard(
+                modifier = Modifier
+                    .fillMaxWidth(0.95f)
+                    .fillMaxHeight(0.85f)
             ) {
-                // Título
-                Text(
-                    step.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(Modifier.height(12.dp))
-
-                // Contenido con scroll (imagen opcional + texto)
-                val scroll = rememberScrollState()
                 Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f, fill = true)
-                        .verticalScroll(scroll)
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    when (val m = step.media) {
-                        is NoticeMedia.Url -> {
-                            val req = ImageRequest.Builder(LocalContext.current)
-                                .data(m.url)
-                                .decoderFactory(GifDecoder.Factory())
-                                .crossfade(true)
-                                .build()
-                            AsyncImage(
-                                model = req,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .heightIn(min = 160.dp) // da presencia si hay imagen
-                                    .clip(RoundedCornerShape(12.dp))
+                    TutorialStepContent(step = spec.steps[currentIndex])
+
+                    Spacer(Modifier.weight(1f))
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        IconButton(
+                            onClick = { if (currentIndex > 0) currentIndex-- },
+                            enabled = currentIndex > 0
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Atrás"
                             )
-                            Spacer(Modifier.height(12.dp))
                         }
-                        is NoticeMedia.Resource -> {
-                            AsyncImage(
-                                model = m.resId,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .heightIn(min = 160.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                            )
-                            Spacer(Modifier.height(12.dp))
+
+                        if (currentIndex < spec.steps.lastIndex) {
+                            IconButton(
+                                onClick = { currentIndex++ }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowForward,
+                                    contentDescription = "Siguiente"
+                                )
+                            }
+                        } else {
+                            Button(onClick = onFinish) {
+                                Text("Finalizar")
+                            }
                         }
-                        NoticeMedia.None -> Unit // si no hay, el texto ocupa todo
                     }
 
-                    step.body?.let {
-                        Text(it, style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
-
-                Spacer(Modifier.height(12.dp))
-
-                // Barra inferior: ←  Skip  →
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    if (canPrev) {
-                        IconButton(onClick = { if (canPrev) idx-- }) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Atrás")
-                        }
-                    } else {
-                        Spacer(Modifier.size(48.dp)) // mantiene balanceado el layout
-                    }
+                    Spacer(Modifier.height(12.dp))
 
                     if (spec.skippable) {
-                        Button(onClick = onSkip, shape = RoundedCornerShape(50)) {
+                        OutlinedButton(onClick = onSkip) {
                             Text("Saltar")
                         }
-                    } else {
-                        Spacer(Modifier.width(8.dp))
-                    }
-
-                    if (canNext) {
-                        IconButton(onClick = { if (canNext) idx++ }) {
-                            Icon(Icons.Default.ArrowForward, contentDescription = "Adelante")
-                        }
-                    } else {
-                        // último paso → botón “Finalizar”
-                        Button(onClick = onFinish) { Text("Finalizar") }
                     }
                 }
             }
         }
     }
-}
 
-private fun Modifier.consumeClicks(onClick: () -> Unit) = composed {
-    val src = remember { MutableInteractionSource() }
-    clickable(interactionSource = src, indication = null) { onClick() }
-}
+    @Composable
+    fun TutorialStepContent(step: TutorialStep) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                step.title,
+                style = MaterialTheme.typography.headlineSmall,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(Modifier.height(8.dp))
+
+            when (val media = step.media) {
+                is NoticeMedia.Url -> {
+                    val request = ImageRequest.Builder(LocalContext.current)
+                        .data(media.url)
+                        .decoderFactory(GifDecoder.Factory())
+                        .crossfade(true)
+                        .build()
+                    AsyncImage(
+                        model = request,
+                        contentDescription = step.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                    Spacer(Modifier.height(12.dp))
+                }
+
+                is NoticeMedia.Resource -> {
+                    val request = ImageRequest.Builder(LocalContext.current)
+                        .data(media.resId)
+                        .decoderFactory(GifDecoder.Factory())
+                        .crossfade(true)
+                        .build()
+                    AsyncImage(
+                        model = request,
+                        contentDescription = step.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                    Spacer(Modifier.height(12.dp))
+                }
+
+                NoticeMedia.None -> {
+                }
+            }
+
+            step.body?.let {
+                Text(it, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+    }

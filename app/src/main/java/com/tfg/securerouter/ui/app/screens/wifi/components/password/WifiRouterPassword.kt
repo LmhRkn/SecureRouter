@@ -1,4 +1,4 @@
-package com.tfg.securerouter.ui.app.screens.wifi.components
+package com.tfg.securerouter.ui.app.screens.wifi.components.password
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

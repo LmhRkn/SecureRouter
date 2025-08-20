@@ -18,51 +18,40 @@ import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
 fun AlertModal(
     spec: AlertSpec,
     onConfirm: () -> Unit,
-    onCancel: () -> Unit,
-    onDismissRequest: (() -> Unit)? = onCancel
+    onCancel: () -> Unit
 ) {
-    Box(Modifier.fillMaxSize()) {
-        val scrimColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.45f)
-        Box(
-            Modifier
-                .fillMaxSize()
-                .consumeClicks { onDismissRequest?.invoke() }
-        ) {
-            Canvas(Modifier.matchParentSize()) {
-                drawRect(scrimColor)
-            }
-        }
-
+    androidx.compose.ui.window.Dialog(
+        onDismissRequest = { /* Evitamos que se cierre tocando fuera */ }
+    ) {
         Surface(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .wrapContentHeight()
-                .align(Alignment.Center),
-            shape = RoundedCornerShape(18.dp),
-            tonalElevation = 8.dp
+            shape = MaterialTheme.shapes.medium,
+            tonalElevation = 4.dp
         ) {
-            Column(Modifier.padding(16.dp)) {
-                Text(
-                    spec.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                spec.message?.let {
-                    Spacer(Modifier.height(8.dp))
-                    Text(it, style = MaterialTheme.typography.bodyMedium)
-                }
+            Column(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = spec.title, style = MaterialTheme.typography.titleLarge)
+                Spacer(Modifier.height(8.dp))
+                spec.message?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
 
                 Spacer(Modifier.height(16.dp))
+
                 Row(
-                    Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     if (spec.showCancel) {
-                        TextButton(onClick = onCancel) { Text(spec.cancelText) }
+                        TextButton(onClick = onCancel) {
+                            Text(spec.cancelText)
+                        }
                         Spacer(Modifier.width(8.dp))
                     }
-                    Button(onClick = onConfirm) { Text(spec.confirmText) }
+                    Button(onClick = onConfirm) {
+                        Text(spec.confirmText)
+                    }
                 }
             }
         }

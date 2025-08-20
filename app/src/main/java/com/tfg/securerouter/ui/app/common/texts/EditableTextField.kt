@@ -125,7 +125,8 @@ fun EditableTextField(
                         onClick = {
                             onTextSaved(editingValue.text)
                             isEditing = false
-                        }
+                        },
+                        enabled = editingValue.text != snapshotAtEditStart
                     ) {
                         Icon(Icons.Filled.Check, contentDescription = null)
                         Spacer(Modifier.width(8.dp))

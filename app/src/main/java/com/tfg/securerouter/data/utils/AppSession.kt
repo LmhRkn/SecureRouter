@@ -12,6 +12,7 @@ object AppSession {
         _currentRouter.value = router
     }
 
+    @Volatile var routerSelected: Boolean = false
     @Volatile var routerId: Int? = null
     @Volatile var routerIp: String? = null
     @Volatile var packageInstaller: String? = null

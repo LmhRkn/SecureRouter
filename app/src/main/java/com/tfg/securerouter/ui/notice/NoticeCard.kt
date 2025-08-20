@@ -17,6 +17,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.request.ImageRequest
+import com.tfg.securerouter.data.notice.model.NoticeActionRole
+import com.tfg.securerouter.data.notice.model.NoticeDefaults
+import com.tfg.securerouter.data.notice.model.NoticeMedia
+import com.tfg.securerouter.data.notice.model.NoticeSpec
 
 @Composable
 fun NoticeCard(

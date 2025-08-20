@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.home.HomeCoordinator
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
@@ -20,29 +21,38 @@ import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
 import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialSpec
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
 import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
-
-import com.tfg.securerouter.ui.notice.NoticeMedia
 import com.tfg.securerouter.ui.notice.alerts.AlertModal
+import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
 import com.tfg.securerouter.ui.notice.tutorials.TutorialModal
+import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
+import com.tfg.securerouter.ui.notice.tutorials.AutoOpenTutorialOnce
 
 class HomeScreen : ScreenDefault() {
 
     @Composable
     fun HomeScreenInit() {
         val coordinator: HomeCoordinator = viewModel()
+        LaunchedEffect(Unit) {
+            AppSession.routerSelected = true
+        }
         ScreenInit(coordinator)
     }
 
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
+        Log.d("HomeScreen", "AppSession: ${AppSession.routerId}, ${AppSession.routerIp}")
+
         val homeCoordinator = coordinator as? HomeCoordinator
             ?: throw IllegalArgumentException("Expected HomeCoordinator")
+
+        AutoOpenTutorialOnce(
+            routerId = AppSession.routerId,
+            screenKey = HomeMenuOption.route
+        )
 
         val routerInfoModel = homeCoordinator.modules.filterIsInstance<HomeRouterInfoModel>().first()
         val connectedDevicesModel = homeCoordinator.modules.filterIsInstance<ConnectedDeviceModel>().first()
@@ -50,10 +60,13 @@ class HomeScreen : ScreenDefault() {
         val routerState = routerInfoModel.state.collectAsState().value
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
-
-        var showTutorial by rememberSaveable { mutableStateOf(true) }
         var showAlert by rememberSaveable { mutableStateOf(false) }
         var pendingAlias by rememberSaveable { mutableStateOf<String?>(null) }
+
+        RegisterHomeTutorial()
+
+        val tutorialSpec by TutorialCenter.spec.collectAsState()
+        val tutorialOpen by TutorialCenter.open.collectAsState()
 
         setComponents(
             {
@@ -77,24 +90,6 @@ class HomeScreen : ScreenDefault() {
             { ConnectedDevicesList(devicesState = devicesState, weight = 0.4f) },
         )
 
-        val tutorial = remember {
-            TutorialSpec(
-                steps = listOf(
-                    TutorialStep(
-                        title = "¡Bienvenido a SecureRouter!",
-                        body  = "Configura tu red y revisa los dispositivos conectados.",
-                        media = NoticeMedia.Url("https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=800&auto=format&fit=crop")
-                    ),
-                    TutorialStep(
-                        title = "Consejo rápido",
-                        body  = "Pulsa el alias del router para renombrarlo al instante."
-                    )
-                ),
-                startIndex = 0,
-                skippable = true
-            )
-        }
-
         val alert = remember {
             AlertSpec(
                 title = "¿Aplicar cambios?",
@@ -108,15 +103,11 @@ class HomeScreen : ScreenDefault() {
         Box(Modifier.fillMaxSize()) {
             RenderScreen()
 
-            if (showTutorial) {
+            if (tutorialOpen && tutorialSpec != null) {
                 TutorialModal(
-                    spec = tutorial,
-                    onSkip = {
-                        showTutorial = false
-                     },
-                    onFinish = {
-                        showTutorial = false
-                    }
+                    spec = tutorialSpec!!,
+                    onSkip = { TutorialCenter.close() },
+                    onFinish = { TutorialCenter.close() }
                 )
             }
 
@@ -124,7 +115,6 @@ class HomeScreen : ScreenDefault() {
                 AlertModal(
                     spec = alert,
                     onConfirm = {
-                        Log.d("AAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAA")
                         val alias = pendingAlias?.trim().orEmpty()
                         if (alias.isNotEmpty()) {
                             RouterSelectorCache.update(AppSession.routerId.toString()) { r -> r.copy(name = alias) }
