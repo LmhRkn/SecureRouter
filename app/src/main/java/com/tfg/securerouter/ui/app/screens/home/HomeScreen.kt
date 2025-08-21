@@ -29,6 +29,8 @@ import com.tfg.securerouter.ui.notice.alerts.AlertModal
 import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
 import com.tfg.securerouter.ui.notice.tutorials.TutorialModal
 import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTrafficGraphModel
+import com.tfg.securerouter.data.utils.PromptHost
 import com.tfg.securerouter.ui.notice.tutorials.AutoOpenTutorialOnce
 
 class HomeScreen : ScreenDefault() {
@@ -44,8 +46,6 @@ class HomeScreen : ScreenDefault() {
 
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
-        Log.d("HomeScreen", "AppSession: ${AppSession.routerId}, ${AppSession.routerIp}")
-
         val homeCoordinator = coordinator as? HomeCoordinator
             ?: throw IllegalArgumentException("Expected HomeCoordinator")
 
@@ -62,6 +62,8 @@ class HomeScreen : ScreenDefault() {
 
         var showAlert by rememberSaveable { mutableStateOf(false) }
         var pendingAlias by rememberSaveable { mutableStateOf<String?>(null) }
+
+
 
         RegisterHomeTutorial()
 

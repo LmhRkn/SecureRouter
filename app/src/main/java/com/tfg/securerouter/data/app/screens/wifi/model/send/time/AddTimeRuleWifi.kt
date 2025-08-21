@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.screens.wifi.model.send
+package com.tfg.securerouter.data.app.screens.wifi.model.send.time
 
 import com.tfg.securerouter.data.app.screens.devices_options.model.time.nextDays
 import com.tfg.securerouter.data.app.screens.devices_options.model.time.parseStringToDays

@@ -48,7 +48,7 @@ fun ToggleButton(
     inactiveColor: Color = MaterialTheme.colorScheme.onBackground,
     thumbColor: Color = MaterialTheme.colorScheme.inversePrimary,
     modifier: Modifier = Modifier,
-    buttonSize: Dp = 50.dp,
+    buttonSize: Dp = 20.dp,
 ) {
     var isChecked by rememberSaveable { mutableStateOf(checked) }
 

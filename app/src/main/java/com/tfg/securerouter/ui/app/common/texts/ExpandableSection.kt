@@ -24,32 +24,36 @@ fun ExpandableSection(
     initiallyExpanded: Boolean = false,
     content: @Composable () -> Unit,
     titleColor: Color = MaterialTheme.colorScheme.onBackground,
-    titleStyle: TextStyle = MaterialTheme.typography.titleMedium
-    ) {
-    var isExpanded by rememberSaveable { mutableStateOf(initiallyExpanded) }
+    titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
+    expanded: Boolean? = null,
+    onExpandedChange: ((Boolean) -> Unit)? = null
+) {
+    val internal = rememberSaveable { mutableStateOf(initiallyExpanded) }
+    val isControlled = (expanded != null && onExpandedChange != null)
+
+    val isExpanded = if (isControlled) expanded!! else internal.value
+    val setExpanded: (Boolean) -> Unit =
+        if (isControlled) onExpandedChange!!
+        else { { internal.value = it } }
 
     Column(modifier = modifier) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            Text(
-                text = title,
-                style = titleStyle,
-                color = titleColor
-            )
-            IconButton(onClick = { isExpanded = !isExpanded }) {
+            Text(text = title, style = titleStyle, color = titleColor)
+            IconButton(onClick = { setExpanded(!isExpanded) }) {
                 Icon(
                     imageVector = if (isExpanded) Icons.Default.Remove else Icons.Default.Add,
-                    contentDescription = if (isExpanded) stringResource(id = R.string.expandable_section_collapse) else stringResource(id = R.string.expandable_section_expand),
+                    contentDescription = if (isExpanded)
+                        stringResource(id = R.string.expandable_section_collapse)
+                    else
+                        stringResource(id = R.string.expandable_section_expand),
                     modifier = Modifier.size(20.dp)
                 )
             }
         }
-
         AnimatedVisibility(visible = isExpanded) {
             content()
         }

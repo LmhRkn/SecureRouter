@@ -8,6 +8,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -23,6 +24,7 @@ import kotlinx.coroutines.withContext
 import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.*
 
@@ -33,15 +35,15 @@ data class DayStat(val date: LocalDate, val rxMiB: Double, val txMiB: Double)
 /* ---------- PARSER VNSTAT ---------- */
 object VnstatParser {
     // "00   0.0   0.0" (se repite en columnas)
-    private val hourlyTriple =
+    val hourlyTriple =
         Regex("""\b(\d{2})\s+([0-9]+(?:\.[0-9]+)?)\s+([0-9]+(?:\.[0-9]+)?)\b""")
 
     // "08/20/25  591.69 MiB | 30.63 MiB | ..."
-    private val dailyLine = Regex(
+    val dailyLine = Regex(
         """(?m)^\s*(\d{2}/\d{2}/\d{2})\s+([0-9]+(?:\.[0-9]+)?)\s+([KMGT]?i?B)\s+\|\s+([0-9]+(?:\.[0-9]+)?)\s+([KMGT]?i?B)\b"""
     )
     @RequiresApi(Build.VERSION_CODES.O)
-    private val dateFmt = DateTimeFormatter.ofPattern("MM/dd/yy")
+    val dateFmt = DateTimeFormatter.ofPattern("MM/dd/yy")
 
     fun parseHourly(raw: String): List<HourStat> {
         val found = mutableMapOf<Int, HourStat>()
@@ -199,42 +201,91 @@ private fun niceUpper(v: Double): Double {
     return nf * 10.0.pow(exp)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+fun reorderLast24h(stats: List<HourStat>): Pair<List<HourStat>, List<String>> {
+    val now = LocalTime.now().hour
+    val start = (now + 1) % 24
+    val ordered = (0 until 24).map { stats[(start + it) % 24] }
+    val labels  = (0 until 24).map { "%02d".format((start + it) % 24) }
+    return ordered to labels
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun normalizeLastNDays(days: List<DayStat>, n: Int = 30): List<DayStat> {
+    val map = days.associateBy { it.date }
+    val today = LocalDate.now()
+    val start = today.minusDays((n - 1).toLong())
+    return (0 until n).map { i ->
+        val d = start.plusDays(i.toLong())
+        map[d] ?: DayStat(d, rxMiB = 0.0, txMiB = 0.0)
+    }
+}
+
+/* ---------- LEYENDA ---------- */
+@Composable
+private fun ChartLegend() {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+        LegendSwatch(Color(0xFF8B5CF6), dashed = false, label = "Descarga)")
+        Spacer(Modifier.width(12.dp))
+        LegendSwatch(Color(0xFF10B981), dashed = true,  label = "Subida)")
+    }
+}
+
+@Composable
+private fun LegendSwatch(color: Color, dashed: Boolean, label: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Canvas(Modifier.width(28.dp).height(12.dp)) {
+            drawLine(
+                color = color,
+                start = Offset(0f, size.height/2),
+                end   = Offset(size.width, size.height/2),
+                strokeWidth = 4f,
+                pathEffect = if (dashed) PathEffect.dashPathEffect(floatArrayOf(12f, 8f)) else null
+            )
+        }
+        Text(label, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(start = 6.dp))
+    }
+}
+
+
 /* ---------- PANTALLA PRINCIPAL ---------- */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun VnstatMonitorScreen(
-    provider: suspend () -> String,   // Devuelve el texto de "vnstat -h; echo; vnstat -d"
+    provider: suspend () -> String,
 ) {
     var hours by remember { mutableStateOf(List(24) { HourStat(it, 0.0, 0.0) }) }
     var days  by remember { mutableStateOf(emptyList<DayStat>()) }
 
-    // Auto-refresh cada 10 s
     LaunchedEffect(Unit) {
         while (true) {
             val raw = provider()
             hours = VnstatParser.parseHourly(raw)
-            days  = VnstatParser.parseDaily(raw).takeLast(30) // últimos 30
-            delay(10_000)
+            days  = VnstatParser.parseDaily(raw).takeLast(7)
+            delay(60_000)
         }
     }
 
-    val hourLabels = (0..23).map { "%02d".format(it) }
-    val dayLabels  = days.map { it.date.toString().substring(5) } // "MM-dd"
+    val (hoursOrdered, hourLabels) = reorderLast24h(hours)
+    val daysNorm = normalizeLastNDays(days, n = 7)
+    val dayLabels  = daysNorm.map { it.date.toString().substring(5) }
 
     Column(Modifier.fillMaxSize().padding(12.dp)) {
         LineChart(
-            title = "Hoy (00–23)",
+            title = "Últimas 24 h",
             labels = hourLabels,
-            seriesA = hours.map { it.rxMiB },
-            seriesB = hours.map { it.txMiB },
+            seriesA = hoursOrdered.map { it.rxMiB },
+            seriesB = hoursOrdered.map { it.txMiB },
         )
+        ChartLegend()
         Spacer(Modifier.height(8.dp))
         LineChart(
-            title = "Últimos 30 días",
+            title = "Últimos 7 días",
             labels = dayLabels,
-            seriesA = days.map { it.rxMiB },
-            seriesB = days.map { it.txMiB },
+            seriesA = daysNorm.map { it.rxMiB },
+            seriesB = daysNorm.map { it.txMiB },
         )
+        ChartLegend()
     }
 }
 

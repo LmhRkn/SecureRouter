@@ -2,6 +2,7 @@ package com.tfg.securerouter.ui.app.common.texts
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -26,10 +27,12 @@ fun EditableTextField(
     modifier: Modifier = Modifier,
     onTextSaved: (String) -> Unit,
     label: String? = null,
-    textStyle: TextStyle = MaterialTheme.typography.titleSmall,
+    textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     placeholder: String? = null,
     middleButton: (@Composable () -> Unit)? = null,
-    onEditButtonPress: (() -> Unit)? = null
+    onEditButtonPress: (() -> Unit)? = null,
+    buttonSize: Dp = 32.dp,
+    iconSize: Dp = 18.dp,
 ) {
     var isEditing by rememberSaveable { mutableStateOf(false) }
     var editingValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -51,14 +54,13 @@ fun EditableTextField(
         }
     }
 
-    ElevatedCard(
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.large
-    ) {
-        Column(Modifier.padding(16.dp)) {
-
-            Crossfade(targetState = isEditing, label = "edit-crossfade") { editing ->
-                if (editing) {
+    Crossfade(targetState = isEditing, label = "edit-crossfade") { editing ->
+        if (editing) {
+            ElevatedCard(
+                modifier = modifier.fillMaxWidth(),
+                shape = MaterialTheme.shapes.large
+            ) {
+                Column(Modifier.padding(16.dp)) {
                     TextField(
                         value = editingValue,
                         onValueChange = { editingValue = it },
@@ -72,65 +74,84 @@ fun EditableTextField(
                             IconButton(onClick = { editingValue = TextFieldValue("") }) {
                                 Icon(Icons.Filled.Clear, contentDescription = "Limpiar")
                             }
-                        }
+                        },
+                        textStyle = textStyle
                     )
-                } else {
-                    TextField(
-                        value = editingValue,
-                        onValueChange = {},
-                        singleLine = true,
-                        readOnly = true,
-                        enabled = false,
+
+                    Spacer(Modifier.height(12.dp))
+
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
-                        label = { if (label != null) Text(label) },
-                        placeholder = { if (placeholder != null) Text(placeholder) },
-                        trailingIcon = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                if (middleButton != null) {
-                                    middleButton()
-                                }
-                                FilledTonalIconButton(
-                                    onClick = { onEditButtonPress?.invoke() ?: run { isEditing = true } }
-                                ) {
-                                    Icon(Icons.Filled.Edit, contentDescription = "Editar")
-                                }
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        OutlinedButton(
+                            onClick = {
+                                editingValue = TextFieldValue(
+                                    snapshotAtEditStart,
+                                    selection = TextRange(snapshotAtEditStart.length)
+                                )
+                                isEditing = false
                             }
+                        ) {
+                            Icon(Icons.Filled.Close, contentDescription = null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(text = "Cancelar")
                         }
-                    )
+                        Spacer(Modifier.width(8.dp))
+                        Button(
+                            onClick = {
+                                onTextSaved(editingValue.text)
+                                isEditing = false
+                            },
+                            enabled = editingValue.text != snapshotAtEditStart
+                        ) {
+                            Icon(Icons.Filled.Check, contentDescription = null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(text = "Guardar")
+                        }
+                    }
                 }
             }
-
-            Spacer(Modifier.height(12.dp))
-
-            if (isEditing) {
+        } else {
+            // --- Modo lectura: sin fondo, texto a la izquierda y botón a la derecha ---
+            Column(modifier = modifier.fillMaxWidth()) {
+                if (label != null) {
+                    Text(
+                        text = label,
+                        style = textStyle,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(4.dp))
+                }
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    OutlinedButton(
-                        onClick = {
-                            editingValue = TextFieldValue(
-                                snapshotAtEditStart,
-                                selection = TextRange(snapshotAtEditStart.length)
-                            )
-                            isEditing = false
-                        }
-                    ) {
-                        Icon(Icons.Filled.Close, contentDescription = null)
-                        Spacer(Modifier.width(8.dp))
-                        Text(text = "Cancelar")
+                    SelectionContainer(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = if (editingValue.text.isNotBlank())
+                                editingValue.text
+                            else
+                                (placeholder ?: ""),
+                            style = textStyle,
+                            color = if (editingValue.text.isNotBlank())
+                                MaterialTheme.colorScheme.onSurface
+                            else
+                                MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
-                    Spacer(Modifier.width(8.dp))
-                    Button(
-                        onClick = {
-                            onTextSaved(editingValue.text)
-                            isEditing = false
-                        },
-                        enabled = editingValue.text != snapshotAtEditStart
+
+                    if (middleButton != null) {
+                        middleButton()
+                    }
+
+                    FilledTonalIconButton(
+                        onClick = { onEditButtonPress?.invoke() ?: run { isEditing = true } },
+                        modifier = Modifier.size(buttonSize),
                     ) {
-                        Icon(Icons.Filled.Check, contentDescription = null)
-                        Spacer(Modifier.width(8.dp))
-                        Text(text = "Guardar")
+                        Icon(Icons.Filled.Edit, contentDescription = "Editar", modifier = Modifier.size(iconSize))
                     }
                 }
             }

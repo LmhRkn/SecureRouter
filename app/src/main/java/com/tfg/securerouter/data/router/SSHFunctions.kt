@@ -128,7 +128,6 @@ private fun connectSSH(
  * @see connectSSH
  */
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun sendCommand(command: String): String {
     val router: RouterInfo = RouterSelectorCache.getRouter(AppSession.routerId.toString())
         ?: return "ERROR"

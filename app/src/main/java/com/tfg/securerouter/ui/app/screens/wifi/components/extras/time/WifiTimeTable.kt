@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.screens.wifi.model.send.RemoveTimeRuleWifi
+import com.tfg.securerouter.data.app.screens.wifi.model.send.time.RemoveTimeRuleWifi
 import com.tfg.securerouter.data.app.screens.wifi.model.time.WifiTimesRuleState
 import com.tfg.securerouter.data.app.screens.wifi.model.time.WifiTimesRulesState
 import com.tfg.securerouter.data.app.screens.wifi.model.time.toReadableList

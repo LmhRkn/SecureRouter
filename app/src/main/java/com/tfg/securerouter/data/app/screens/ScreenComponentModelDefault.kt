@@ -37,7 +37,6 @@ interface ScreenComponentModelDefault {
      *
      * @return `true` if the command executed and parsed successfully, `false` otherwise.
      */
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     suspend fun <T> safeLoad(
         cache: MutableMap<String, Any>,
         command: String,

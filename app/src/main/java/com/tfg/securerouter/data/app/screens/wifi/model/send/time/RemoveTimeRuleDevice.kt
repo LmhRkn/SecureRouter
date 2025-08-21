@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.screens.wifi.model.send
+package com.tfg.securerouter.data.app.screens.wifi.model.send.time
 
 import com.tfg.securerouter.data.router.launchCommand
 

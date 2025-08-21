@@ -16,7 +16,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.devices_options.DevicesOptionsCoordinator
-import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
 import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.utils.AppSession
@@ -24,7 +23,6 @@ import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsBlockButton
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsBlocked
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsData
-import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsFilters
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsTimes
 import androidx.compose.material3.Text as M3Text
 
@@ -72,14 +70,9 @@ class DevicesOptionsScreen: ScreenDefault() {
             .filterIsInstance<DeviceTimesRuleModel>().first()
         val deviceTimesRule = deviceTimesRuleModel.state.collectAsState().value
 
-        val deviceFilterWebRuleModel = devicesOptionsCoordinator.modules
-            .filterIsInstance<DeviceFilterWebRuleModel>().first()
-        val deviceFilterWebRule = deviceFilterWebRuleModel.state.collectAsState().value
-
         setComponents(
             { DeviceOptionsData(macArg, {}) },
             { DeviceOptionsTimes(deviceTimesRule, macArg) },
-            { DeviceOptionsFilters(deviceFilterWebRule, macArg) },
             {
                 DeviceOptionsBlocked(deviceModel)
                 Spacer(Modifier.height(8.dp))

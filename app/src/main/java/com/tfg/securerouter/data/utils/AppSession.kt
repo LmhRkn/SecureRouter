@@ -16,4 +16,5 @@ object AppSession {
     @Volatile var routerId: Int? = null
     @Volatile var routerIp: String? = null
     @Volatile var packageInstaller: String? = null
+    @Volatile var cancelledSpeedTestByUser: Boolean = false
 }

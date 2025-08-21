@@ -120,8 +120,7 @@ private fun MainView(
                 text = deviceData.hostname ?: "",
                 onTextSaved = { newAlias ->
                     onEditAliasClick(newAlias)
-                    com.tfg.securerouter.data.app.screens.devices_options.model.send
-                        .ChangeDeviceName.updateDeviceAlias(
+                    ChangeDeviceName.updateDeviceAlias(
                             mac = deviceData.mac,
                             newAlias = newAlias
                         )

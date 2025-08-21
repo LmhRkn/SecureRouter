@@ -18,13 +18,13 @@ import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
+import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
 import com.tfg.securerouter.data.app.screens.wifi.model.WifiRouterInfoState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WifiRouterInfoSection(
-    state: WifiRouterInfoState,
-    onEditAliasClick: (String) -> Unit
+    state: WifiRouterInfoState
 ) {
     Row (
         verticalAlignment = Alignment.CenterVertically
@@ -41,7 +41,8 @@ fun WifiRouterInfoSection(
             EditableTextField(
                 text = state.routerAlias ?: state.macAddress,
                 onTextSaved = { newAlias ->
-                    if (newAlias != state.routerAlias) onEditAliasClick(newAlias) },
+                    if (newAlias != state.routerAlias) SendRouterName.updateRouterAlias(state.wirelessName, newAlias)
+                              },
                 modifier = Modifier.fillMaxWidth()
             )
 

@@ -19,7 +19,7 @@ import com.tfg.securerouter.ui.app.common.texts.TimePickerField
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.app.screens.wifi.model.send.AddTimeRuleWifi
+import com.tfg.securerouter.data.app.screens.wifi.model.send.time.AddTimeRuleWifi
 import com.tfg.securerouter.data.app.screens.wifi.model.time.WifiTimesRuleState
 import com.tfg.securerouter.data.app.screens.wifi.model.time.toReadableList
 import com.tfg.securerouter.ui.app.common.tables.saveRuleGeneric
