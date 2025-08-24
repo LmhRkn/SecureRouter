@@ -18,6 +18,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     buildTypes {
         release {
             // Enables code-related app optimization.
@@ -54,6 +60,7 @@ android {
 
 
 dependencies {
+    implementation("com.google.zxing:core:3.5.3")
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
     implementation(platform(libs.kotlin.bom))

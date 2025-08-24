@@ -58,12 +58,12 @@ class HomeScreen : ScreenDefault() {
         val connectedDevicesModel = homeCoordinator.modules.filterIsInstance<ConnectedDeviceModel>().first()
 
         val routerState = routerInfoModel.state.collectAsState().value
+        AppSession.wirelessName = routerState.wirelessName
+
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
         var showAlert by rememberSaveable { mutableStateOf(false) }
         var pendingAlias by rememberSaveable { mutableStateOf<String?>(null) }
-
-
 
         RegisterHomeTutorial()
 

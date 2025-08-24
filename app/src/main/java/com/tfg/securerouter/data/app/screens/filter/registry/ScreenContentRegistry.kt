@@ -1,6 +1,8 @@
    package com.tfg.securerouter.data.app.screens.filter.registry
 
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
 import com.tfg.securerouter.ui.app.screens.filter.FilterScreen
 
 /**
@@ -22,5 +24,7 @@ import com.tfg.securerouter.ui.app.screens.filter.FilterScreen
 
 class FilterScreenContentRegistry(sharedCache: MutableMap<String, Any>) {
     val modules: List<ScreenComponentModelDefault> = listOf(
+        WifiTimesRuleModel(sharedCache),
+        WifiFilterWebRuleModel(sharedCache),
     )
 }

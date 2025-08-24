@@ -33,6 +33,8 @@ import com.tfg.securerouter.data.router.shUsingLaunch
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.router_selector.components.extras.RouterCard
 import androidx.compose.material3.CircularProgressIndicator
+import com.tfg.securerouter.data.app.screens.other_screen.ShLoginScreenOption
+import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryAfterSHLogin
 
 @Composable
 fun RoutersList(
@@ -102,11 +104,11 @@ fun RoutersList(
     } else {
         ExecuteAutomationsBlockingUI(
             router = runnerRouter,
-            factories = AutomatizationRegistryBeforeOpening.factories,
+            factories = AutomatizationRegistryAfterSHLogin.factories,
             sh = ::shUsingLaunch,
             content = {
                 LaunchedEffect(Unit) {
-                    val route = HomeMenuOption.route
+                    val route = ShLoginScreenOption.route
                     navController.navigate(route) {
                         popUpTo(route) { inclusive = false }
                     }

@@ -20,39 +20,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
 import com.tfg.securerouter.data.app.screens.wifi.model.WifiRouterInfoState
+import com.tfg.securerouter.ui.app.common.router_info.RouterInfoSection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WifiRouterInfoSection(
     state: WifiRouterInfoState
 ) {
-    Row (
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = Icons.Filled.Router,
-            contentDescription = "Router",
-            modifier = Modifier.size(60.dp)
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        Column {
-            EditableTextField(
-                text = state.routerAlias ?: state.macAddress,
-                onTextSaved = { newAlias ->
-                    if (newAlias != state.routerAlias) SendRouterName.updateRouterAlias(state.wirelessName, newAlias)
-                              },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                state.macAddress,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-    }
+    RouterInfoSection(
+        alias = state.routerAlias,
+        mac = state.macAddress
+    )
 }

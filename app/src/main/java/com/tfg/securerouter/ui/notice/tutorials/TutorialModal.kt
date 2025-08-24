@@ -16,7 +16,9 @@
     import androidx.compose.ui.unit.dp
     import coil.compose.AsyncImage
     import coil.decode.GifDecoder
+    import coil.decode.GifDecoder.*
     import coil.request.ImageRequest
+    import coil.request.ImageRequest.*
     import com.tfg.securerouter.data.notice.model.NoticeMedia
     import com.tfg.securerouter.data.notice.model.tutorials.TutorialSpec
     import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
@@ -109,9 +111,9 @@
 
             when (val media = step.media) {
                 is NoticeMedia.Url -> {
-                    val request = ImageRequest.Builder(LocalContext.current)
+                    val request = Builder(LocalContext.current)
                         .data(media.url)
-                        .decoderFactory(GifDecoder.Factory())
+                        .decoderFactory(Factory())
                         .crossfade(true)
                         .build()
                     AsyncImage(
@@ -127,9 +129,9 @@
                 }
 
                 is NoticeMedia.Resource -> {
-                    val request = ImageRequest.Builder(LocalContext.current)
+                    val request = Builder(LocalContext.current)
                         .data(media.resId)
-                        .decoderFactory(GifDecoder.Factory())
+                        .decoderFactory(Factory())
                         .crossfade(true)
                         .build()
                     AsyncImage(
@@ -146,6 +148,9 @@
 
                 NoticeMedia.None -> {
                 }
+
+                is NoticeMedia.AsciiMonospace -> TODO()
+                is NoticeMedia.Base64Image -> TODO()
             }
 
             step.body?.let {

@@ -11,6 +11,9 @@ sealed class NoticeMedia {
     data class Url(val url: String) : NoticeMedia()
     data class Resource(@DrawableRes val resId: Int) : NoticeMedia()
     object None : NoticeMedia()
+
+    data class Base64Image(val base64: String) : NoticeMedia()
+    data class AsciiMonospace(val text: String) : NoticeMedia()
 }
 
 enum class NoticeType { Info, Success, Warning, Error }

@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun ToggleButton(
-    checked: Boolean = false,
+    checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     activeColor: Color = MaterialTheme.colorScheme.primary,
     inactiveColor: Color = MaterialTheme.colorScheme.onBackground,
@@ -50,15 +50,12 @@ fun ToggleButton(
     modifier: Modifier = Modifier,
     buttonSize: Dp = 20.dp,
 ) {
-    var isChecked by rememberSaveable { mutableStateOf(checked) }
-
     val switchHeight: Dp = buttonSize
     val switchWidth: Dp = buttonSize * 1.6f
     val thumbSize: Dp = buttonSize * 0.87f
 
-    // Animates the thumb position smoothly when toggled
     val thumbOffset by animateDpAsState(
-        targetValue = if (isChecked) (switchWidth - thumbSize) else 0.dp,
+        targetValue = if (checked) (switchWidth - thumbSize) else 0.dp,
         label = "ThumbOffset"
     )
 
@@ -67,11 +64,8 @@ fun ToggleButton(
             .width(switchWidth)
             .height(switchHeight)
             .clip(RoundedCornerShape(50))
-            .background(if (isChecked) activeColor else inactiveColor)
-            .clickable {
-                isChecked = !isChecked
-                onCheckedChange(isChecked)
-            },
+            .background(if (checked) activeColor else inactiveColor)
+            .clickable { onCheckedChange(!checked) },
         contentAlignment = Alignment.CenterStart
     ) {
         Box(

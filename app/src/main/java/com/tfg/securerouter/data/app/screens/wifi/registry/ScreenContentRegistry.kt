@@ -2,6 +2,9 @@ package com.tfg.securerouter.data.app.screens.wifi.registry
 
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiGetVPNPeers
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiGetVPNQRModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiGetWifiQRModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTrafficGraphModel
@@ -27,8 +30,9 @@ import com.tfg.securerouter.ui.app.screens.wifi.WifiScreen
 class WifiContentRegistry(sharedCache: MutableMap<String, Any>) {
     val modules: List<ScreenComponentModelDefault> = listOf(
         WifiRouterInfoModel(sharedCache),
-        WifiTimesRuleModel(sharedCache),
-        WifiFilterWebRuleModel(sharedCache),
         WifiTrafficGraphModel(sharedCache),
+        WifiGetVPNQRModel(sharedCache),
+        WifiGetVPNPeers(sharedCache),
+        WifiGetWifiQRModel(sharedCache)
     )
 }

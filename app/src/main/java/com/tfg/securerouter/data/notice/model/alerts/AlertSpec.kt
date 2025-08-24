@@ -8,5 +8,12 @@ data class AlertSpec(
     val message: String? = null,
     val confirmText: String = "Aceptar",
     val cancelText: String = "Cancelar",
-    val showCancel: Boolean = true
+    val showCancel: Boolean = true,
+
+    val isMonospace: Boolean = false,
+    val fontScale: Float = 0.8f,
+    val softWrap: Boolean = false,
+    val maxHeightDp: Int = 360,
+
+    val imageBase64: String? = null
 )

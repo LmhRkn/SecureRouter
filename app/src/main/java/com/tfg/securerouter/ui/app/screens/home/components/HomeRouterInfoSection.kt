@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.home.state.HomeRouterInfoState
+import com.tfg.securerouter.ui.app.common.router_info.RouterInfoSection
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 
 /**
@@ -29,18 +30,8 @@ fun HomeRouterInfoSection(
     state: HomeRouterInfoState,
     onEditAliasClick: (String) -> Unit
 ) {
-    EditableTextField(
-        text = state.routerAlias ?: state.macAddress,
-        onTextSaved = { newAlias ->
-            if (newAlias != state.routerAlias) onEditAliasClick(newAlias) },
-        modifier = Modifier.fillMaxWidth()
-    )
-
-    Spacer(modifier = Modifier.height(4.dp))
-
-    Text(
-        state.macAddress,
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onBackground
+    RouterInfoSection(
+        alias = state.routerAlias,
+        mac = state.macAddress
     )
 }

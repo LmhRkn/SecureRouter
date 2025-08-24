@@ -2,6 +2,7 @@ package com.tfg.securerouter.data.automatization.automatizations.on_speedtest
 
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.automatization.AutomatizationDefault
+import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.data.utils.PromptBus
 
@@ -101,7 +102,7 @@ class InstallSpeedtestOokla(
 
     companion object {
         // ---- Textos de los diálogos ----
-        val EulaSpec = com.tfg.securerouter.data.notice.model.alerts.AlertSpec(
+        val EulaSpec = AlertSpec(
             title = "Speedtest CLI — Licencia (EULA)",
             message = """
 ==============================================================================
@@ -123,7 +124,7 @@ these URLs:
             showCancel = true
         )
 
-        val PrivacySpec = com.tfg.securerouter.data.notice.model.alerts.AlertSpec(
+        val PrivacySpec = AlertSpec(
             title = "Speedtest CLI — Privacidad (GDPR)",
             message = """
 ==============================================================================

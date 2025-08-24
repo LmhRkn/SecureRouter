@@ -39,7 +39,6 @@ import com.jcraft.jsch.SocketFactory as JschSocketFactory
  * @param command The shell command to execute on the remote host.
  * @return The standard output of the executed command, or an error message if execution fails.
  */
-
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 private fun connectSSH(
     username: String,
@@ -50,7 +49,6 @@ private fun connectSSH(
     jschSocketFactory: JschSocketFactory? = null,
 ): String {
     val password: String? = resolveStoredPassword(passwordEncrypted) ?: passwordEncrypted
-
     fun escSingleQuotes(s: String) = s.replace("'", "'\"'\"'")
     val finalCmd = "sh -lc '${escSingleQuotes(command)}'"
 
@@ -59,61 +57,90 @@ private fun connectSSH(
     var session: Session? = null
     var channel: ChannelExec? = null
     val errBuf = java.io.ByteArrayOutputStream()
-
     val t0 = System.currentTimeMillis()
-    return try {
+
+    fun newSession(): Session {
         val jsch = JSch().apply { removeAllIdentity() }
-
-        session = jsch.getSession(username, host, port).apply {
+        return jsch.getSession(username, host, port).apply {
             if (password != null) setPassword(password)
-
             val config = Properties().apply {
                 put("StrictHostKeyChecking", "no")
-                // Solo password para evitar esperas de keyboard-interactive
                 put("PreferredAuthentications", "password")
+                // Opcionalmente:
+                // put("ServerAliveInterval", "10")  // algunos JSch no leen esto; usamos API abajo
             }
             setConfig(config)
             if (jschSocketFactory != null) setSocketFactory(jschSocketFactory)
-            setServerAliveInterval(10_000)
+            setServerAliveInterval(10_000)      // keepalive
+            setServerAliveCountMax(3)           // cae tras ~30s sin respuesta
 
             val tConn0 = System.currentTimeMillis()
             connect(30_000)
             Log.d("connectSSH", "session.connect in ${System.currentTimeMillis() - tConn0}ms")
+
+            // guarda en pool
+            SshSessionPool.put(username, host, port, jschSocketFactory, this)
         }
+    }
 
-        channel = (session.openChannel("exec") as ChannelExec).apply {
-            setPty(false)
-            setCommand(finalCmd)
-            setInputStream(null)
-            setErrStream(errBuf)
+    var attempt = 0
+    while (true) {
+        try {
+            session = SshSessionPool.get(username, host, port, jschSocketFactory) ?: newSession()
 
-            val tCh0 = System.currentTimeMillis()
-            connect(10_000)
-            Log.d("connectSSH", "channel.connect in ${System.currentTimeMillis() - tCh0}ms")
+            channel = (session.openChannel("exec") as ChannelExec).apply {
+                setPty(false)
+                setCommand(finalCmd)
+                inputStream = null
+                setErrStream(errBuf)
+                val tCh0 = System.currentTimeMillis()
+                connect(10_000)
+                Log.d("connectSSH", "channel.connect in ${System.currentTimeMillis() - tCh0}ms")
+            }
+
+            // 3) leer salida
+            val tRead0 = System.currentTimeMillis()
+            val out = channel.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
+            while (!channel.isClosed) Thread.sleep(15)
+            val exit = channel.exitStatus
+            val err = errBuf.toString(Charsets.UTF_8)
+
+            Log.d(
+                "connectSSH",
+                "read+wait in ${System.currentTimeMillis() - tRead0}ms; total=${System.currentTimeMillis() - t0}ms; exit=$exit"
+            )
+
+            return if (exit == 0) out
+            else "Exit $exit\nSTDERR:\n$err\nSTDOUT:\n$out"
+        } catch (e: JSchException) {
+            val msg = e.message ?: "JSchException"
+            // Si es auth o sesión rota, limpia del pool y (si es el 1º intento) reintenta
+            val retriable = msg.contains("session is down", true)
+                    || msg.contains("channel is not opened", true)
+                    || msg.contains("timeout", true)
+                    || msg.contains("End of IO Stream Read", true)
+
+            if (msg.contains("Auth fail", true)) {
+                SshSessionPool.remove(username, host, port, jschSocketFactory)
+                return "Error: autenticación fallida. Revisa PasswordAuth en el servidor o la contraseña."
+            }
+
+            if (retriable && attempt == 0) {
+                attempt++
+                SshSessionPool.remove(username, host, port, jschSocketFactory)
+                runCatching { channel?.disconnect() }
+                continue
+            }
+
+            return "Error: $msg"
+        } catch (e: Exception) {
+            return "Error: ${e.message}"
+        } finally {
+            try { channel?.disconnect() } catch (_: Exception) {}
         }
-
-        val tRead0 = System.currentTimeMillis()
-        val out = channel.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
-        while (!channel.isClosed) Thread.sleep(15)
-        val exit = channel.exitStatus
-        val err = errBuf.toString(Charsets.UTF_8)
-
-        Log.d("connectSSH", "read+wait in ${System.currentTimeMillis() - tRead0}ms; total=${System.currentTimeMillis() - t0}ms; exit=$exit")
-
-        if (exit == 0) out
-        else "Exit $exit\nSTDERR:\n$err\nSTDOUT:\n$out"
-    } catch (e: JSchException) {
-        val msg = e.message ?: "JSchException"
-        if (msg.contains("Auth fail", ignoreCase = true))
-            "Error: autenticación fallida. Revisa PasswordAuth en el servidor o la contraseña."
-        else "Error: $msg"
-    } catch (e: Exception) {
-        "Error: ${e.message}"
-    } finally {
-        try { channel?.disconnect() } catch (_: Exception) {}
-        try { session?.disconnect() } catch (_: Exception) {}
     }
 }
+
 
 /**
  * Sends a shell command to the router via SSH using predefined credentials and host.
@@ -197,4 +224,39 @@ suspendCancellableCoroutine { cont ->
         onError  = { e -> if (cont.isActive) cont.resumeWithException(e) }
     )
     cont.invokeOnCancellation { job.cancel() }
+}
+
+private object SshSessionPool {
+    private data class Key(
+        val user: String,
+        val host: String,
+        val port: Int,
+        val sfId: Int
+    )
+
+    private val map = java.util.concurrent.ConcurrentHashMap<Key, Session>()
+
+    fun get(user: String, host: String, port: Int, sf: JschSocketFactory?): Session? {
+        val k = Key(user, host, port, sf?.hashCode() ?: 0)
+        val s = map[k]
+        return if (s?.isConnected == true) s else {
+            if (s != null) map.remove(k)
+            null
+        }
+    }
+
+    fun put(user: String, host: String, port: Int, sf: JschSocketFactory?, s: Session) {
+        val k = Key(user, host, port, sf?.hashCode() ?: 0)
+        map[k] = s
+    }
+
+    fun remove(user: String, host: String, port: Int, sf: JschSocketFactory?) {
+        val k = Key(user, host, port, sf?.hashCode() ?: 0)
+        map.remove(k)?.let { runCatching { it.disconnect() } }
+    }
+
+    fun closeAll() {
+        map.values.forEach { runCatching { it.disconnect() } }
+        map.clear()
+    }
 }

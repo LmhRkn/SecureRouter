@@ -15,6 +15,17 @@ object AppSession {
     @Volatile var routerSelected: Boolean = false
     @Volatile var routerId: Int? = null
     @Volatile var routerIp: String? = null
+    @Volatile var wirelessName: String? = null
+
     @Volatile var packageInstaller: String? = null
     @Volatile var cancelledSpeedTestByUser: Boolean = false
+    @Volatile var firstVPN: Boolean = false
+    @Volatile var ddnsDomain: String? = null
+
+
+    @Volatile var newDeviceVPN: Boolean = false
+    @Volatile var nextDeviceVPN: Int = 2
+
+    @Volatile var createSSHPassword: Boolean? = null
+
 }

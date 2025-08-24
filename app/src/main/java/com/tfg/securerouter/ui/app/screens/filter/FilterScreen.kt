@@ -1,12 +1,19 @@
 package com.tfg.securerouter.ui.app.screens.filter
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.filter.FilterCoordinator
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
+import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
+import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsFilterWeb
+import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsTimes
 
 /**
  * Composable screen for managing filters in the SecureRouter app.
@@ -50,13 +57,29 @@ class FilterScreen: ScreenDefault() {
      *
      * @see FilterCoordinator
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val filterCoordinator = coordinator as? FilterCoordinator
             ?: throw IllegalArgumentException("Expected HomeCoordinator")
 
+
+        val wifiTimesRuleModel = filterCoordinator.modules
+            .filterIsInstance<WifiTimesRuleModel>()
+            .first()
+
+        val wifiFilterWebRuleModel = filterCoordinator.modules
+            .filterIsInstance<WifiFilterWebRuleModel>()
+            .first()
+
+        val wifiTimesRule = wifiTimesRuleModel.state.collectAsState().value
+        val wifiFilterWebRule = wifiFilterWebRuleModel.state.collectAsState().value
+
         setComponents(
-            { Text("Filter", color = Color.Black) }
+            {
+                WifiOptionsTimes(wifiTimesRule)
+                WifiOptionsFilterWeb(wifiFilterWebRule)
+            },
         )
 
         RenderScreen()

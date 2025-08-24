@@ -8,6 +8,7 @@ import com.tfg.securerouter.data.app.menu.menu_screens.SettingsMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.WifiMenuOption
 import com.tfg.securerouter.data.app.screens.other_screen.DeviceOptionsScreenOption
 import com.tfg.securerouter.data.app.screens.other_screen.LanguageScreenOption
+import com.tfg.securerouter.data.app.screens.other_screen.ShLoginScreenOption
 
 /**
  * Registry object that holds all available [MenuOption]s used in the navigation drawer.
@@ -45,5 +46,6 @@ object OtherScreenRegistry {
     val items = listOf(
         LanguageScreenOption,
         DeviceOptionsScreenOption,
+        ShLoginScreenOption,
     )
 }

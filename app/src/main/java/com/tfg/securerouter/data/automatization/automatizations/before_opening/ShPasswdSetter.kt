@@ -6,41 +6,25 @@ import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.automatization.AutomatizationDefault
 import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
+import com.tfg.securerouter.data.utils.decryptPassword
 import com.tfg.securerouter.data.utils.encryptPassword
 
-class SshPasswdDetector(
+class ShPasswdSetter(
     private val sh: suspend (String) -> String
 ) : AutomatizationDefault() {
 
     override val timeoutMs: Long = 30_000L
 
     override suspend fun shouldRun(router: RouterInfo?): Int {
-        if (router?.sshPassword != null) return -1
-
-        val out = sh(
-            """
-                h=$(awk -F: '$1=="root"{print $2}' /etc/shadow 2>/dev/null)
-                case "${'$'}h" in
-                  ""|"!"|"*"|"!!") echo EMPTY ;;     # sin contraseña o bloqueada
-                  "!"*)            echo LOCKED ;;    # bloqueada con hash previo
-                  \$*)             echo SET ;;       # hay hash -> hay contraseña
-                  *)               echo UNKNOWN ;;
-                esac
-            """.trimIndent()
-        ).trim()
-
-        val state = out.lines().lastOrNull() == "EMPTY"
-        return if (state) 1 else 0
+        return if (AppSession.createSSHPassword == null) -1 else 1
     }
 
     override suspend fun execute(): Boolean {
-        Log.d("aaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaa")
-//        val pwd = PasswordGenerator.generar(
-//            longitud = 24,
-//            minus = true, mayus = true, digitos = true, simbolos = true,
-//            evitarSimilares = true, exigirCadaClase = true
-//        )
-        val pwd = "12345678"
+        val router: RouterInfo? = RouterSelectorCache.getRouter(AppSession.routerId.toString())
+        Log.d("ShPasswdSetter", "Router: $router")
+        if (router == null) return false
+
+        val pwd = decryptPassword(router.sshPassword ?: "")
 
         val res = sh(
             """
@@ -92,12 +76,12 @@ class SshPasswdDetector(
         """.trimIndent()
         ).trim()
 
+        Log.d("ShPasswdSetter", "Pwd: $pwd")
+        Log.d("ShPasswdSetter", "Sh: $sh")
+
+
         val setOk = res.lineSequence().any { it.startsWith("NEW_PASSWORD:") }
-        if (setOk) {
-            RouterSelectorCache.update(AppSession.routerId.toString()) { r ->
-                r.copy(sshPassword = encryptPassword(pwd))
-            }
-        }
+        Log.d("ShPasswdSetter", "setOk: $setOk")
         return res.lineSequence().lastOrNull() == "OK" && setOk
     }
 }

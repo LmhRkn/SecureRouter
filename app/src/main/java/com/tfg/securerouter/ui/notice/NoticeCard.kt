@@ -1,17 +1,24 @@
 package com.tfg.securerouter.ui.notice
 
-import android.util.Log
+import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -47,7 +54,12 @@ fun NoticeCard(
                     Spacer(Modifier.width(12.dp))
                 }
                 Column(Modifier.weight(1f)) {
-                    Text(spec.title, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text(
+                        spec.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
                     spec.body?.let {
                         Spacer(Modifier.height(6.dp))
                         Text(it, style = MaterialTheme.typography.bodyMedium)
@@ -55,7 +67,8 @@ fun NoticeCard(
                 }
                 if (spec.dismissible && onDismiss != null) {
                     Spacer(Modifier.width(8.dp))
-                    Text("✕",
+                    Text(
+                        "✕",
                         modifier = Modifier
                             .size(24.dp)
                             .clickable { onDismiss() },
@@ -90,7 +103,6 @@ fun NoticeCard(
     }
 
     LaunchedEffect(spec.autoDismissMillis) {
-        Log.d("NoticeCard", "LaunchedEffect: autoDismissMillis=${spec.autoDismissMillis}")
         val ms = spec.autoDismissMillis
         if (ms != null && ms > 0) {
             kotlinx.coroutines.delay(ms)
@@ -109,10 +121,72 @@ private fun NoticeMediaView(media: NoticeMedia) {
                 .decoderFactory(GifDecoder.Factory())
                 .crossfade(true)
                 .build()
-            AsyncImage(model = req, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+            AsyncImage(
+                model = req,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
         }
-        is NoticeMedia.Resource ->
-            AsyncImage(model = media.resId, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+
+        is NoticeMedia.Resource -> {
+            AsyncImage(
+                model = media.resId,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        is NoticeMedia.Base64Image -> {
+            val bitmap = remember(media.base64) {
+                runCatching {
+                    val bytes = Base64.decode(media.base64, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                }.getOrNull()
+            }
+            if (bitmap != null) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 120.dp, max = 360.dp)
+                        .verticalScroll(rememberScrollState()),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = "QR",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                    )
+                }
+            } else {
+                Text(
+                    "No se pudo mostrar la imagen (base64 inválido).",
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+
+        is NoticeMedia.AsciiMonospace -> {
+            // Muestra QR ASCII monoespaciado sin wrap, con scroll
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 120.dp, max = 360.dp)
+                    .verticalScroll(rememberScrollState())
+                    .horizontalScroll(rememberScrollState())
+            ) {
+                Text(
+                    media.text,
+                    fontFamily = FontFamily.Monospace,
+                    softWrap = false,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+
         NoticeMedia.None -> Unit
     }
 }

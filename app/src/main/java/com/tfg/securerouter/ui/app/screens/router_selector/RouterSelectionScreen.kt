@@ -21,6 +21,7 @@ class RouterSelectionScreen : ScreenDefault() {
             AppSession.routerSelected = false
             AppSession.routerId = null
             AppSession.routerIp = null
+            AppSession.createSSHPassword = null
         }
 
         ScreenInit(coordinator)

@@ -1,7 +1,9 @@
 package com.tfg.securerouter.ui.app.common.texts
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -18,6 +20,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -29,10 +32,11 @@ fun EditableTextField(
     label: String? = null,
     textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     placeholder: String? = null,
-    middleButton: (@Composable () -> Unit)? = null,
+    actions: (@Composable RowScope.() -> Unit)? = null, // <--- NUEVO
     onEditButtonPress: (() -> Unit)? = null,
     buttonSize: Dp = 32.dp,
     iconSize: Dp = 18.dp,
+    showEditButton: Boolean = true,
 ) {
     var isEditing by rememberSaveable { mutableStateOf(false) }
     var editingValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -113,7 +117,6 @@ fun EditableTextField(
                 }
             }
         } else {
-            // --- Modo lectura: sin fondo, texto a la izquierda y botón a la derecha ---
             Column(modifier = modifier.fillMaxWidth()) {
                 if (label != null) {
                     Text(
@@ -129,29 +132,33 @@ fun EditableTextField(
                 ) {
                     SelectionContainer(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = if (editingValue.text.isNotBlank())
-                                editingValue.text
-                            else
-                                (placeholder ?: ""),
+                            text = editingValue.text.ifBlank { (placeholder ?: "") },
                             style = textStyle,
                             color = if (editingValue.text.isNotBlank())
                                 MaterialTheme.colorScheme.onSurface
                             else
                                 MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
-                            modifier = Modifier.weight(1f)
+                            softWrap = false,
+                            overflow = TextOverflow.Visible,
+                            modifier = Modifier
+                                .horizontalScroll(rememberScrollState())
                         )
                     }
 
-                    if (middleButton != null) {
-                        middleButton()
-                    }
+                    actions?.invoke(this)
 
-                    FilledTonalIconButton(
-                        onClick = { onEditButtonPress?.invoke() ?: run { isEditing = true } },
-                        modifier = Modifier.size(buttonSize),
-                    ) {
-                        Icon(Icons.Filled.Edit, contentDescription = "Editar", modifier = Modifier.size(iconSize))
+                    if (showEditButton) {
+                        FilledTonalIconButton(
+                            onClick = { onEditButtonPress?.invoke() ?: run { isEditing = true } },
+                            modifier = Modifier.size(buttonSize),
+                        ) {
+                            Icon(
+                                Icons.Filled.Edit,
+                                contentDescription = "Editar",
+                                modifier = Modifier.size(iconSize)
+                            )
+                        }
                     }
                 }
             }

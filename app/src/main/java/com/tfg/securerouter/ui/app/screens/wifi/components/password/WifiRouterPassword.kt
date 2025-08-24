@@ -2,6 +2,7 @@ package com.tfg.securerouter.ui.app.screens.wifi.components.password
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -12,15 +13,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
 import com.tfg.securerouter.data.app.screens.wifi.model.WifiRouterInfoState
 import com.tfg.securerouter.data.app.screens.wifi.model.send.SendRouterPassword
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WifiRouterPassword(
-    state: WifiRouterInfoState
+    state: WifiRouterInfoState,
+    wifiCoordinator: WifiCoordinator
 ) {
     var changeRouterPassword by remember { mutableStateOf(false) }
+
+    Spacer(Modifier.height(8.dp))
 
     Row (
         verticalAlignment = Alignment.CenterVertically
@@ -32,7 +37,11 @@ fun WifiRouterPassword(
                 onPasswordChanged =  { newPassword ->
                     SendRouterPassword.updateRouterAlias( wirelessName = state.wirelessName, newPassword = newPassword)
                 })
-        } else DisplayRouterPassword(password = state.password, onEditButtonPress = { changeRouterPassword = !changeRouterPassword })
+        } else DisplayRouterPassword(
+            password = state.password,
+            onEditButtonPress = { changeRouterPassword = !changeRouterPassword },
+            wifiCoordinator = wifiCoordinator
+        )
         Spacer(modifier = Modifier.width(8.dp))
     }
 }

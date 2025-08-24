@@ -17,7 +17,6 @@ class DetectPackageManagerTask(
     }
 
     override suspend fun execute(): Boolean {
-        Log.d("aaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaa")
         val id = AppSession.routerId?.toString() ?: return false
 
         val detectCmd = """

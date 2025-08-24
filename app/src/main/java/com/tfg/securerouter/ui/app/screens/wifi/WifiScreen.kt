@@ -19,10 +19,10 @@ import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsFilterWeb
 import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsTimes
 import com.tfg.securerouter.ui.app.screens.wifi.components.WifiRouterInfoSection
+import com.tfg.securerouter.ui.app.screens.wifi.components.ad_blocker.WifiAdBlockerSection
 import com.tfg.securerouter.ui.app.screens.wifi.components.graph.WifiOptionTrafficFilterWeb
 import com.tfg.securerouter.ui.app.screens.wifi.components.password.WifiRouterPassword
 import com.tfg.securerouter.ui.app.screens.wifi.components.speedtest.WifiOptionSpeedtest
-import com.tfg.securerouter.ui.app.screens.wifi.components.ad_blocker.WifiAdBlockerSection
 import com.tfg.securerouter.ui.app.screens.wifi.components.vpn_conection.WifiVPNSection
 import kotlinx.coroutines.delay
 
@@ -84,19 +84,9 @@ class WifiScreen : ScreenDefault() {
             wifiCoordinator.modules.filterIsInstance<WifiRouterInfoModel>().first()
         val routerState = routerInfoModel.state.collectAsState().value
 
-        val wifiTimesRuleModel = wifiCoordinator.modules
-            .filterIsInstance<WifiTimesRuleModel>()
-            .first()
-
-        val wifiFilterWebRuleModel = wifiCoordinator.modules
-            .filterIsInstance<WifiFilterWebRuleModel>()
-            .first()
-
         val trafficGraphModel =
             wifiCoordinator.modules.filterIsInstance<WifiTrafficGraphModel>().first()
 
-        val wifiTimesRule = wifiTimesRuleModel.state.collectAsState().value
-        val wifiFilterWebRule = wifiFilterWebRuleModel.state.collectAsState().value
         val wifiTrafficGraph = trafficGraphModel.state.collectAsState().value
 
         LaunchedEffect(Unit) {
@@ -106,24 +96,19 @@ class WifiScreen : ScreenDefault() {
             }
         }
 
-
         setComponents(
             {
                 WifiRouterInfoSection(state = routerState)
             },
             {
-                WifiRouterPassword(routerState)
+                WifiRouterPassword(routerState, wifiCoordinator)
             },
             {
                 WifiOptionSpeedtest()
                 WifiOptionTrafficFilterWeb(wifiTrafficGraph)
             },
             {
-                WifiOptionsTimes(wifiTimesRule)
-                WifiOptionsFilterWeb(wifiFilterWebRule)
-            },
-            {
-                WifiVPNSection(router = RouterSelectorCache.getRouter(AppSession.routerId.toString()))
+                WifiVPNSection(router = RouterSelectorCache.getRouter(AppSession.routerId.toString()), wifiCoordinator)
             },
             {
                 WifiAdBlockerSection(router = RouterSelectorCache.getRouter(AppSession.routerId.toString()))
