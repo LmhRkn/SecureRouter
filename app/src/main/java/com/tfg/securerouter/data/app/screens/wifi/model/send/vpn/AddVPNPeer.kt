@@ -56,9 +56,6 @@ object AddVPNPeer {
             AllowedIPs = 0.0.0.0/0, ::/0
             PersistentKeepalive = 25
             EOF
-
-            # Permisos (por si acaso)
-            chmod 600 $CLIENT_KEY $CLIENT_PSK $CLIENT_PUB
         """.trimIndent()
 
         launchCommand(

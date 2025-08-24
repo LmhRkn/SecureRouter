@@ -34,20 +34,41 @@ import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.router_selector.components.extras.RouterCard
 import androidx.compose.material3.CircularProgressIndicator
 import com.tfg.securerouter.data.app.screens.other_screen.ShLoginScreenOption
+import com.tfg.securerouter.data.app.screens.router_selector.model.load.detectEphemeralOpenWrtViaVpn
+import com.tfg.securerouter.data.app.screens.router_selector.model.load.findMatchingNoIpRouter
 import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryAfterSHLogin
+import com.tfg.securerouter.data.router.sendCommand
 
 @Composable
 fun RoutersList(
     navController: NavController
 ) {
     var ephemeral by remember { mutableStateOf<RouterInfo?>(null) }
+    var match by remember { mutableStateOf<RouterInfo?>(null) }
     var runnerRouter by remember { mutableStateOf<RouterInfo?>(null) }
+
+    val everyRouter = RouterSelectorCache.getRouters()
 
     LaunchedEffect(Unit) {
         ephemeral = detectEphemeralOpenWrt()
+        if (ephemeral == null) {
+            match = findMatchingNoIpRouter(everyRouter)
+            Log.d("RoutersList", "Match por IP pública/no-ip: $match")
+        }
     }
 
-    val routers: List<RouterInfo> = getRouterList(ephemeral)
+    val baseRouters: List<RouterInfo> = getRouterList(ephemeral) // ← SOLO ephemeral real
+    val routers: List<RouterInfo> =
+        if (match != null) {
+            baseRouters.map {
+                if (it.id == match!!.id)
+                    it.copy(
+                        labels = it.labels - RouterLabel.Offline + RouterLabel.Online,
+                        isVpn  = true
+                    )
+                else it
+            }
+        } else baseRouters
     val anyOnline = routers.any { RouterLabel.Online in it.labels }
 
     if (runnerRouter == null) {

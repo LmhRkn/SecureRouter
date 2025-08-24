@@ -43,6 +43,9 @@ class VPNConfigureNetwork(
             uci set network.${VPN_IF}.listen_port="${VPN_PORT}"
             uci add_list network.${VPN_IF}.addresses="${VPN_ADDR}"
             uci add_list network.${VPN_IF}.addresses="${VPN_ADDR6}"
+            
+            uci commit network
+            /etc/init.d/network restart
         """.trimIndent()
 
 

@@ -1,14 +1,16 @@
 package com.tfg.securerouter.data.automatization.registry
 
 import com.tfg.securerouter.data.automatization.automatizations.after_sh_login.SshPasswdDetector
-import com.tfg.securerouter.data.automatization.automatizations.before_ad_blocker.ChangeDnsmasqPort
 import com.tfg.securerouter.data.automatization.automatizations.before_opening.ChooseDateTimeZone
 import com.tfg.securerouter.data.automatization.automatizations.before_opening.DetectPackageManagerTask
 import com.tfg.securerouter.data.automatization.automatizations.before_ad_blocker.InstallAdGuardHome
 import com.tfg.securerouter.data.automatization.automatizations.before_opening.InstallCurl
 import com.tfg.securerouter.data.automatization.automatizations.on_speedtest.InstallSpeedtestOokla
 import com.tfg.securerouter.data.automatization.automatizations.before_opening.InstallVnstat
+import com.tfg.securerouter.data.automatization.automatizations.before_opening.IsActualizationExists
+import com.tfg.securerouter.data.automatization.automatizations.before_opening.IsActualizationFileCreated
 import com.tfg.securerouter.data.automatization.automatizations.before_opening.PrepareDnsFirewall
+import com.tfg.securerouter.data.automatization.automatizations.before_opening.RouterHasDomain
 import com.tfg.securerouter.data.automatization.automatizations.before_opening.ShPasswdSetter
 import com.tfg.securerouter.data.automatization.automatizations.on_vpn.GenerateServerRSA
 import com.tfg.securerouter.data.automatization.automatizations.on_vpn.InstallQrencode
@@ -20,11 +22,14 @@ import com.tfg.securerouter.data.automatization.automatizations.on_vpn.VPNGetNum
 object AutomatizationRegistryBeforeOpening {
     val factories: List<TaskFactory> = listOf(
         ::ShPasswdSetter,
+        ::RouterHasDomain,
         ::DetectPackageManagerTask,
         ::InstallCurl,
         ::InstallVnstat,
         ::ChooseDateTimeZone,
         ::PrepareDnsFirewall,
+        ::IsActualizationFileCreated,
+        ::IsActualizationExists,
         // ::EnsureCurlTask, ...
     )
 }
@@ -45,7 +50,6 @@ object AutomatizationRegistryOnSpeedtest {
 object AutomatizationRegistryBeforeAdBlocker {
     val factories: List<TaskFactory> = listOf(
         ::InstallAdGuardHome,
-        ::ChangeDnsmasqPort,
     )
 }
 

@@ -24,6 +24,8 @@ import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
 import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.common.card.StatusIndicators
+import androidx.compose.material.icons.filled.VpnLock
+import androidx.compose.material.icons.filled.Router
 
 @Composable
 fun RouterCard(
@@ -54,14 +56,21 @@ fun RouterCard(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val icon = when {
+                    isOnline && router.isVpn -> Icons.Filled.VpnLock
+                    else -> Icons.Filled.Router
+                }
+                val iconTint = if (isOnline) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+
                 Icon(
-                    imageVector = Icons.Filled.Router,
-                    contentDescription = "Router",
+                    imageVector = icon,
+                    contentDescription = if (router.isVpn) "Router por VPN" else "Router",
                     modifier = Modifier
                         .size(50.dp)
                         .padding(end = 12.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = iconTint
                 )
+
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(

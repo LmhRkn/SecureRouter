@@ -31,9 +31,7 @@ class SecureRouterApp : Application() {
         JsonInitializer.init(this)
         setDeviceLanguage(this)
 
-
-        Log.d("SecureRouterApp", "onCreate: ${RouterSelectorCache.get("1")}")
-//        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = encryptPassword("12345678")) }
+//        RouterSelectorCache.update("1") { r -> r.copy(publicIpOrDomain = "securerouter.ddns.net") }
 
 //        RouterSelectorCache.put(
 //            RouterInfo(

@@ -11,11 +11,13 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.tfg.securerouter.ContextProvider
 import java.net.InetAddress
+import java.net.Inet4Address
 import java.io.File
 import com.jcraft.jsch.HostKey
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.security.MessageDigest
 import java.util.Base64
@@ -116,7 +118,6 @@ fun fetchRouterSsidFor(router: RouterInfo): String? {
     return out.takeIf { it.isNotEmpty() && !it.startsWith("Error") }
 }
 
-/** Devuelve true si el host remoto reporta OpenWrt en /etc/openwrt_release (o /etc/os-release). */
 fun isOpenWrtBySsh(host: String, viaVpn: Boolean = false): Boolean {
     val tmp = RouterInfo(
         name = "tmp",
@@ -132,19 +133,55 @@ fun isOpenWrtBySsh(host: String, viaVpn: Boolean = false): Boolean {
         sshHostKeyFingerprint = null
     )
 
-    val out = sendCommandEphemeral(
-        tmp,
-        "cat /etc/openwrt_release 2>/dev/null || cat /etc/os-release 2>/dev/null || echo __NO__"
-    ).trim()
+    Log.d("isOpenWrtBySsh", "==== Iniciando chequeo ====")
+    Log.d("isOpenWrtBySsh", "Host: $host, viaVpn=$viaVpn, tmp=$tmp")
 
-    if (out.startsWith("Error") || out == "__NO__" || out.isEmpty()) return false
+    val cmd = "cat /etc/openwrt_release 2>/dev/null || cat /etc/os-release 2>/dev/null || echo __NO__"
+    Log.d("isOpenWrtBySsh", "Ejecutando comando: $cmd")
+
+    val out = try {
+        sendCommandEphemeral(tmp, cmd).trim()
+    } catch (e: Exception) {
+        Log.e("isOpenWrtBySsh", "Excepción al ejecutar comando SSH: ${e.message}", e)
+        return false
+    }
+
+    Log.d("isOpenWrtBySsh", "Resultado bruto: '${out}' (len=${out.length})")
+
+    if (out.startsWith("Error")) {
+        Log.w("isOpenWrtBySsh", "El comando devolvió un error SSH")
+        return false
+    }
+    if (out == "__NO__") {
+        Log.w("isOpenWrtBySsh", "No existe ni /etc/openwrt_release ni /etc/os-release")
+        return false
+    }
+    if (out.isEmpty()) {
+        Log.w("isOpenWrtBySsh", "Salida vacía del comando")
+        return false
+    }
 
     val s = out.lowercase()
-    Log.d("AAAAAAAAAAAAA", "$s")
+    Log.d("isOpenWrtBySsh", "Salida normalizada (lowercase): $s")
 
-    if ("openwrt" in s) return true
-    return Regex("""(?m)^\s*(name|id)\s*=\s*"?openwrt"?\s*$""").containsMatchIn(s)
+    if ("openwrt" in s) {
+        Log.i("isOpenWrtBySsh", "Cadena contiene 'openwrt' → detectado OpenWrt")
+        return true
+    }
+
+    val regex = Regex("""(?m)^\s*(name|id)\s*=\s*"?openwrt"?\s*$""")
+    val match = regex.containsMatchIn(s)
+    Log.d("isOpenWrtBySsh", "Resultado regex=${match}")
+
+    if (match) {
+        Log.i("isOpenWrtBySsh", "Regex detectó OpenWrt en os-release")
+        return true
+    }
+
+    Log.w("isOpenWrtBySsh", "No se detectó OpenWrt")
+    return false
 }
+
 
 suspend fun isOpenWrtNoAuth(ip: String, viaVpn: Boolean = false, timeoutMs: Int = 1500): Boolean =
     withContext(kotlinx.coroutines.Dispatchers.IO) {
@@ -220,7 +257,7 @@ fun normalizeMacOrNull(mac: String?): String? {
     return if (m.isBlank() || m in BAD_MACS) null else m
 }
 
-suspend fun getPublicIp(): String? = withContext(kotlinx.coroutines.Dispatchers.IO) {
+suspend fun getPublicIp(): String? = withContext(Dispatchers.IO) {
     try {
         val url = java.net.URL("https://api.ipify.org")
         (url.openConnection() as java.net.HttpURLConnection).run {
@@ -229,3 +266,16 @@ suspend fun getPublicIp(): String? = withContext(kotlinx.coroutines.Dispatchers.
         }
     } catch (_: Exception) { null }
 }
+
+suspend fun resolveDomainIps(host: String, timeoutMs: Int = 2000): Set<String> =
+    withContext(kotlinx.coroutines.Dispatchers.IO) {
+        try {
+            // OJO: esto usa el resolver del sistema. Si el host tiene AAAA y prefieres IPv4, filtramos:
+            InetAddress.getAllByName(host)
+                .filterIsInstance<Inet4Address>()        // quita esta línea si también quieres IPv6
+                .map { it.hostAddress.trim().lowercase() }
+                .toSet()
+        } catch (_: Exception) {
+            emptySet()
+        }
+    }

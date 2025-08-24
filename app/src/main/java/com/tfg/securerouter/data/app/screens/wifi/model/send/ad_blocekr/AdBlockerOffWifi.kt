@@ -9,6 +9,12 @@ object AdBlockerOffWifi {
         val command = """
             service adguardhome stop
             service adguardhome disable
+            
+            uci del dhcp.@dnsmasq[0].port
+            uci commit dhcp
+            service dnsmasq restart
+            service odhcpd restart
+
         """.trimIndent()
 
         launchCommand(

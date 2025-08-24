@@ -11,9 +11,11 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.wifi.model.send.vpn.AddVPNPeer
+import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 import java.net.IDN
 
@@ -50,7 +52,7 @@ fun ActivateVPNScreen(
 
         OutlinedTextField(
             value = nameText,
-            onValueChange = { nameText = it },
+            onValueChange = { nameText = noWhitespace(it) },   // <- sin espacios
             label = { Text("Nombre de la conexión") },
             placeholder = { Text("ej.: Casa, Oficina, VPN-Móvil") },
             singleLine = true,
@@ -58,7 +60,7 @@ fun ActivateVPNScreen(
             supportingText = {
                 when {
                     normalizedName.isBlank() -> Text("Introduce un nombre")
-                    !isNameValid -> Text("Nombre no válido")
+                    !isNameValid -> Text("Nombre no válido (sin espacios)")
                     else -> Text("Se guardará como: $normalizedName")
                 }
             },
@@ -67,7 +69,7 @@ fun ActivateVPNScreen(
 
         OutlinedTextField(
             value = domainText,
-            onValueChange = { domainText = it },
+            onValueChange = { domainText = noWhitespace(it) },
             label = { Text("Dominio (IP pública)") },
             placeholder = { Text("ej.: mi-casa.ddns.net o vpn.midominio.com") },
             singleLine = true,
@@ -75,12 +77,13 @@ fun ActivateVPNScreen(
             supportingText = {
                 when {
                     normalizedDomain.isBlank() -> Text("Introduce un dominio")
-                    !isDomainValid -> Text("Dominio no válido")
+                    !isDomainValid -> Text("Dominio no válido (sin espacios)")
                     else -> Text("Se guardará como: $normalizedDomain")
                 }
             },
             modifier = Modifier.fillMaxWidth()
         )
+
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -94,6 +97,7 @@ fun ActivateVPNScreen(
                         name = normalizedName
                     )
                     AppSession.newDeviceVPN = false
+                    RouterSelectorCache.update(AppSession.routerId.toString()) { r -> r.copy(publicIpOrDomain = normalizedDomain) }
                     onSave()
                 },
                 enabled = isNameValid && isDomainValid
@@ -112,23 +116,27 @@ fun ActivateVPNScreen(
     }
 }
 
-/* --------------------------- VALIDATION ---------------------------- */
-
 private fun normalizeDomain(raw: String): String {
     var s = raw.trim().lowercase()
     if (s.isBlank()) return ""
+    s = s.replace(Regex("\\s"), "")
+
     s = s.removePrefix("http://")
         .removePrefix("https://")
         .removePrefix("ftp://")
+
     val at = s.indexOf('@')
     if (at != -1) s = s.substring(at + 1)
+
     s = s.substringBefore('/').substringBefore('?').substringBefore('#').substringBefore(':')
+
     if (s.startsWith("www.")) s = s.removePrefix("www.")
     return try { IDN.toASCII(s) } catch (_: Exception) { s }
 }
 
 private fun isValidDomain(domain: String): Boolean {
     if (domain.isBlank() || domain.length > 253) return false
+    if (domain.any { it.isWhitespace() }) return false
     val labels = domain.split('.')
     if (labels.size < 2) return false
     return labels.all { label ->
@@ -141,7 +149,12 @@ private fun isValidDomain(domain: String): Boolean {
 }
 
 private fun normalizeName(raw: String): String =
-    raw.trim().replace(Regex("\\s+"), " ")
+    raw.filterNot(Char::isWhitespace) // sin espacios
 
 private fun isValidName(name: String): Boolean =
-    name.isNotBlank() && name.length in 1..64
+    name.isNotBlank() && name.length in 1..64 && name.none(Char::isWhitespace)
+
+private fun noWhitespace(tfv: TextFieldValue): TextFieldValue {
+    val cleaned = tfv.text.replace(Regex("\\s"), "")
+    return if (cleaned == tfv.text) tfv else TextFieldValue(cleaned, TextRange(cleaned.length))
+}

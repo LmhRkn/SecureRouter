@@ -7,6 +7,11 @@ import com.tfg.securerouter.data.router.launchCommand
 object AdBlockerOnWifi {
     fun adBlockerOnWifi() {
         val command = """
+            uci set dhcp.@dnsmasq[0].port="54"
+            uci commit dhcp
+            service dnsmasq restart
+            service odhcpd restart
+
             service adguardhome enable
             service adguardhome start
         """.trimIndent()

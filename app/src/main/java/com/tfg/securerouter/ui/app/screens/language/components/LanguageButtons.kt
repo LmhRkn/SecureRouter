@@ -5,6 +5,7 @@ import android.app.LocaleManager
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -32,6 +33,7 @@ import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.language.model.LanguageScreenEvent
 import com.tfg.securerouter.data.app.screens.language.utils.setDeviceLanguage
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
+import kotlinx.coroutines.flow.filterIsInstance
 
 @SuppressLint("LocalContextConfigurationRead")
 @Composable
@@ -44,12 +46,13 @@ fun LanguageButtons(
     var selectedLanguage by rememberSaveable { mutableStateOf<String?>(null) }
     val eventFlow = parent.eventBus
 
-    LaunchedEffect(Unit) {
-        eventFlow.collect { event ->
-            if (event is LanguageScreenEvent.LanguageSelected) {
-                selectedLanguage = event.query
+    LaunchedEffect(parent) {
+        parent.eventBus
+            .filterIsInstance<LanguageScreenEvent.LanguageSelected>()
+            .collect { ev ->
+                selectedLanguage = ev.query
+                Log.d("LanguageButtons", "Se puede pulsar")
             }
-        }
     }
 
     Row(

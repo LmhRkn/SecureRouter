@@ -9,9 +9,11 @@ import com.tfg.securerouter.data.router.getCurrentConnectionIdentifiers
 import com.tfg.securerouter.data.router.getGatewayMacAddress
 import com.tfg.securerouter.data.router.getRouterIpAddress
 import com.tfg.securerouter.data.router.VpnUtils
+import com.tfg.securerouter.data.router.getPublicIp
 import com.tfg.securerouter.data.router.isOpenWrtBySsh
 import com.tfg.securerouter.data.router.isOpenWrtNoAuth
 import com.tfg.securerouter.data.router.normalizeMacOrNull
+import com.tfg.securerouter.data.router.resolveDomainIps
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -92,3 +94,20 @@ suspend fun detectEphemeralOpenWrtViaVpn(hostInTunnel: String): RouterInfo? =
             labels = setOf(RouterLabel.New, RouterLabel.Online)
         )
     }
+
+suspend fun findMatchingNoIpRouter(routers: List<RouterInfo>): RouterInfo? {
+    val current = getPublicIp()?.trim()?.lowercase() ?: return null
+    for (r in routers) {
+        val target = r.publicIpOrDomain?.trim()?.lowercase().orEmpty()
+        if (target.isBlank()) continue
+
+        val ips: Set<String> = when {
+            Regex("""^\d{1,3}(\.\d{1,3}){3}$""").matches(target) -> setOf(target)
+            target.any { it.isLetter() } -> resolveDomainIps(target)
+            else -> emptySet()
+        }
+
+        if (current in ips) return r.copy()
+    }
+    return null
+}

@@ -1,6 +1,7 @@
 package com.tfg.securerouter.ui.app.screens.language.components
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -8,9 +9,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.tfg.securerouter.R
@@ -29,7 +33,7 @@ fun LanguageList(
 ) {
     BoxWithConstraints {
         val heightDp = height_weight_to_dp(maxHeight = maxHeight, weight = 0.7f)
-        var firstIteration: Boolean = true
+        var firstIteration by remember { mutableStateOf(true) }
 
         val selectedStates = remember {
             mutableStateListOf<Boolean>().apply {
@@ -57,12 +61,16 @@ fun LanguageList(
                     language = text,
                     isSelected = selectedStates[index],
                     onClick = {
-                        val previousIndex = getIndexPreviouslySelected(selectedStates)
-                        if (previousIndex != -1) selectedStates[previousIndex] = false
-                        selectedStates[index] = !selectedStates[index]
+                        val prev = selectedStates.indexOfFirst { it }   // -1 si ninguno
+                        if (prev != -1 && prev != index) selectedStates[prev] = false
+                        selectedStates[index] = true                    // sin toggle
+
+                        val prevVal = if (prev != -1) selectedStates[prev] else null
+                        Log.d("LanguageList", "previousIndex: $prev -> $prevVal")
+                        Log.d("LanguageList", "index: $index -> ${selectedStates[index]}")
 
                         CoroutineScope(Dispatchers.Main).launch {
-                            parent.trySendEvent(LanguageScreenEvent.LanguageSelected(abbreviation))
+                            parent.sendEvent(LanguageScreenEvent.LanguageSelected(abbreviation))
                         }
                     }
                 )

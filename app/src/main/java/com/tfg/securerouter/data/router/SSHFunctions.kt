@@ -160,7 +160,7 @@ fun sendCommand(command: String): String {
         ?: return "ERROR"
 
     val host: String = when {
-        router.isVpn && !router.vpnHost.isNullOrBlank() -> router.vpnHost
+        router.isVpn -> "192.168.9.1"
         !router.localIp.isNullOrBlank() -> router.localIp
         !router.publicIpOrDomain.isNullOrBlank() -> router.publicIpOrDomain
         else -> AppSession.routerIp ?: ""
