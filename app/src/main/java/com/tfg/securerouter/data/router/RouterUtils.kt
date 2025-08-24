@@ -261,11 +261,17 @@ suspend fun getPublicIp(): String? = withContext(Dispatchers.IO) {
     try {
         val url = java.net.URL("https://api.ipify.org")
         (url.openConnection() as java.net.HttpURLConnection).run {
-            connectTimeout = 1500; readTimeout = 1500
+            connectTimeout = 5000
+            readTimeout = 5000
+            setRequestProperty("User-Agent", "SecureRouter/1.0 (Android)")
             inputStream.bufferedReader().use { it.readText().trim() }.also { disconnect() }
         }
-    } catch (_: Exception) { null }
+    } catch (e: Exception) {
+        Log.w("getPublicIp", "Fallo obteniendo IP pública: ${e.javaClass.simpleName}: ${e.message}", e)
+        null
+    }
 }
+
 
 suspend fun resolveDomainIps(host: String, timeoutMs: Int = 2000): Set<String> =
     withContext(kotlinx.coroutines.Dispatchers.IO) {

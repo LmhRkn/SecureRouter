@@ -31,17 +31,23 @@ class SecureRouterApp : Application() {
         JsonInitializer.init(this)
         setDeviceLanguage(this)
 
+
 //        RouterSelectorCache.update("1") { r -> r.copy(publicIpOrDomain = "securerouter.ddns.net") }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////// DESCOMENTAR ESTO Y EJECUTAR Y VOLVER A COMENTAR ////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 //        RouterSelectorCache.put(
 //            RouterInfo(
-//                name = "Segundo Router",
-//                mac = "de:12:32:85:d4:b9",
-//                localIp = "192.168.0.5",
-//                isVpn = false,
+//                name = "SecureRouter5G",
+//                localIp = "192.168.10.1",
+//                mac = "DE:A6:32:85:D4:B9",
 //                id = 1,
+//                publicIpOrDomain = "securerouter.ddns.net",
+//                isVpn = false,
 //            )
 //        )
+//------------------------------------------------------------------------------------------------
 
         // Used to clear the cache during development or testing.
         // It should be commented out or removed in production builds.
