@@ -48,20 +48,17 @@ class RouterHasDomain(
         val path = "/root/vpn/devices/peer_${idx}/client.conf"
         val clientConf = sh("""cat "$path" 2>/dev/null || true""")
         if (clientConf.isBlank()) {
-            Log.d("RouterHasDomain", "Empty or missing $path")
             return false
         }
 
-        // Busca la línea Endpoint = <host>:<port>
         val endpointLine = clientConf
             .lineSequence()
             .map { it.trim() }
             .firstOrNull { it.startsWith("Endpoint", ignoreCase = true) }
-            ?: return false
+            ?: "return false"
 
         val endpointVal = endpointLine.substringAfter("=").trim()
 
-        // Soporta [IPv6]:port o host:port
         val host = if (endpointVal.startsWith("[")) {
             endpointVal.substringAfter("[").substringBefore("]").trim()
         } else {
@@ -72,7 +69,6 @@ class RouterHasDomain(
         if (normalizedDomain.isBlank()) return false
 
         RouterSelectorCache.update(routerId) { r -> r.copy(publicIpOrDomain = normalizedDomain) }
-        Log.d("RouterHasDomain", "publicIpOrDomain set to '$normalizedDomain' (peer_$idx)")
 
         return true
     }
