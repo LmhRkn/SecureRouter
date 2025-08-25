@@ -62,9 +62,6 @@ class HomeScreen : ScreenDefault() {
 
         val devicesState = connectedDevicesModel.state.collectAsState().value
 
-        var showAlert by rememberSaveable { mutableStateOf(false) }
-        var pendingAlias by rememberSaveable { mutableStateOf<String?>(null) }
-
         RegisterHomeTutorial()
 
         val tutorialSpec by TutorialCenter.spec.collectAsState()
@@ -74,10 +71,6 @@ class HomeScreen : ScreenDefault() {
             {
                 HomeRouterInfoSection(
                     state = routerState,
-                    onEditAliasClick = { newAlias ->
-                        pendingAlias  = newAlias
-                        showAlert = true
-                    }
                 )
             },
             {
@@ -92,16 +85,6 @@ class HomeScreen : ScreenDefault() {
             { ConnectedDevicesList(devicesState = devicesState, weight = 0.4f) },
         )
 
-        val alert = remember {
-            AlertSpec(
-                title = "¿Aplicar cambios?",
-                message = "Esta acción reiniciará el router. ¿Continuar?",
-                confirmText = "Aceptar",
-                cancelText = "Cancelar",
-                showCancel = true
-            )
-        }
-
         Box(Modifier.fillMaxSize()) {
             RenderScreen()
 
@@ -110,25 +93,6 @@ class HomeScreen : ScreenDefault() {
                     spec = tutorialSpec!!,
                     onSkip = { TutorialCenter.close() },
                     onFinish = { TutorialCenter.close() }
-                )
-            }
-
-            if (showAlert) {
-                AlertModal(
-                    spec = alert,
-                    onConfirm = {
-                        val alias = pendingAlias?.trim().orEmpty()
-                        if (alias.isNotEmpty()) {
-                            RouterSelectorCache.update(AppSession.routerId.toString()) { r -> r.copy(name = alias) }
-                            SendRouterName.updateRouterAlias(routerState.wirelessName, alias)
-                        }
-                        showAlert = false
-                        pendingAlias = null
-                    },
-                    onCancel = {
-                        showAlert = false
-                        pendingAlias = null
-                    }
                 )
             }
         }

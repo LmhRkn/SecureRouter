@@ -109,52 +109,51 @@
             )
             Spacer(Modifier.height(8.dp))
 
-            when (val media = step.media) {
-                is NoticeMedia.Url -> {
-                    val request = Builder(LocalContext.current)
-                        .data(media.url)
-                        .decoderFactory(Factory())
-                        .crossfade(true)
-                        .build()
-                    AsyncImage(
-                        model = request,
-                        contentDescription = step.title,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                    )
-                    Spacer(Modifier.height(12.dp))
-                }
-
+            when (step.media) {
+                is NoticeMedia.Url,
                 is NoticeMedia.Resource -> {
-                    val request = Builder(LocalContext.current)
-                        .data(media.resId)
-                        .decoderFactory(Factory())
-                        .crossfade(true)
-                        .build()
-                    AsyncImage(
-                        model = request,
-                        contentDescription = step.title,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                    )
+                    TutorialStepImage(step.media, step.title)
                     Spacer(Modifier.height(12.dp))
                 }
-
-                NoticeMedia.None -> {
-                }
-
+                NoticeMedia.None -> {}
                 is NoticeMedia.AsciiMonospace -> TODO()
                 is NoticeMedia.Base64Image -> TODO()
             }
 
-            step.body?.let {
-                Text(it, style = MaterialTheme.typography.bodyMedium)
-            }
+            step.body?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
         }
     }
+
+
+    @Composable
+    private fun TutorialStepImage(
+        media: NoticeMedia,
+        contentDescription: String
+    ) {
+        val request = ImageRequest.Builder(LocalContext.current)
+            .data(
+                when (media) {
+                    is NoticeMedia.Url -> media.url
+                    is NoticeMedia.Resource -> media.resId
+                    else -> null
+                }
+            )
+            .crossfade(true)
+            .build()
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(max = 200.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            AsyncImage(
+                model = request,
+                contentDescription = contentDescription,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Fit
+            )
+        }
+    }
+

@@ -2,16 +2,22 @@ package com.tfg.securerouter.ui.app.screens.wifi
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTrafficGraphModel
+import com.tfg.securerouter.data.app.screens.wifi.tutorials.WifiTutorial
 import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.data.utils.PromptHost
@@ -24,6 +30,8 @@ import com.tfg.securerouter.ui.app.screens.wifi.components.graph.WifiOptionTraff
 import com.tfg.securerouter.ui.app.screens.wifi.components.password.WifiRouterPassword
 import com.tfg.securerouter.ui.app.screens.wifi.components.speedtest.WifiOptionSpeedtest
 import com.tfg.securerouter.ui.app.screens.wifi.components.vpn_conection.WifiVPNSection
+import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.notice.tutorials.TutorialModal
 import kotlinx.coroutines.delay
 
 /**
@@ -89,6 +97,11 @@ class WifiScreen : ScreenDefault() {
 
         val wifiTrafficGraph = trafficGraphModel.state.collectAsState().value
 
+        WifiTutorial()
+
+        val tutorialSpec by TutorialCenter.spec.collectAsState()
+        val tutorialOpen by TutorialCenter.open.collectAsState()
+
         LaunchedEffect(Unit) {
             while (true) {
                 trafficGraphModel.loadData()
@@ -115,6 +128,16 @@ class WifiScreen : ScreenDefault() {
             }
         )
 
-        RenderScreen()
+        Box(Modifier.fillMaxSize()) {
+            RenderScreen()
+
+            if (tutorialOpen && tutorialSpec != null) {
+                TutorialModal(
+                    spec = tutorialSpec!!,
+                    onSkip = { TutorialCenter.close() },
+                    onFinish = { TutorialCenter.close() }
+                )
+            }
+        }
     }
 }

@@ -28,7 +28,6 @@ import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 @Composable
 fun HomeRouterInfoSection(
     state: HomeRouterInfoState,
-    onEditAliasClick: (String) -> Unit
 ) {
     RouterInfoSection(
         alias = state.routerAlias,
