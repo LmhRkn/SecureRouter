@@ -113,9 +113,11 @@ fun RoutersList(
                             RouterSelectorCache.put(toSave)
                             runnerRouter = toSave
                         } else {
-                            AppSession.routerId = router.id
-                            AppSession.routerIp = router.localIp
-                            runnerRouter = router
+                            if (RouterLabel.Online in router.labels) {
+                                AppSession.routerId = router.id
+                                AppSession.routerIp = router.localIp
+                                runnerRouter = router
+                            }
                         }
                         Log.d("RouterSelectionScreen", "AppSession: ${AppSession.routerId}, ${AppSession.routerIp}")
                     }

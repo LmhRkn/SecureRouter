@@ -110,7 +110,7 @@ private fun LoadingCard(onCancel: (() -> Unit)?) {
     ) {
         Text("Midiendo…", style = MaterialTheme.typography.titleLarge)
         Spacer(Modifier.height(14.dp))
-        SweepLoader(size = 136.dp, stroke = 12.dp)   // un poco más pequeño
+        SweepLoader(size = 136.dp, stroke = 12.dp)
         Spacer(Modifier.height(12.dp))
         Text(
             "Esto puede tardar unos segundos.",
@@ -254,9 +254,6 @@ private fun InfoChip(label: String, value: String) {
     }
 }
 
-// -------------------- SHELL + PARSERS --------------------
-
-/** Ejecuta speedtest aceptando licencia/GDPR y devuelve datos parseados. */
 private suspend fun runSpeedtestShell(preferJson: Boolean): Result<SpeedData> = withContext(Dispatchers.IO) {
     try {
         if (preferJson) {
@@ -275,7 +272,6 @@ private suspend fun runSpeedtestShell(preferJson: Boolean): Result<SpeedData> = 
     }
 }
 
-/** Parser muy ligero para el JSON de Ookla CLI (sin dependencias). */
 private fun parseJson(json: String): SpeedData {
     fun num(key: String): Double? =
         Regex(""""$key"\s*:\s*([-+]?\d+(\.\d+)?)""").find(json)?.groupValues?.get(1)?.toDoubleOrNull()
