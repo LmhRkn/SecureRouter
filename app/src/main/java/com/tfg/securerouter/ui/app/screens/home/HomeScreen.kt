@@ -1,6 +1,5 @@
 package com.tfg.securerouter.ui.app.screens.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -8,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Router
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,19 +16,13 @@ import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.home.HomeCoordinator
 import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceModel
 import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoModel
-import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
-import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
 import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
-import com.tfg.securerouter.ui.notice.alerts.AlertModal
-import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
-import com.tfg.securerouter.ui.notice.tutorials.TutorialModal
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
 import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
-import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTrafficGraphModel
-import com.tfg.securerouter.data.utils.PromptHost
 import com.tfg.securerouter.ui.notice.tutorials.AutoOpenTutorialOnce
 
 class HomeScreen : ScreenDefault() {

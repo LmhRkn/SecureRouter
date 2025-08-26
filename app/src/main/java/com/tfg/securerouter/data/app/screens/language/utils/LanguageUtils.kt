@@ -7,7 +7,7 @@ import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import java.util.Locale
-import com.tfg.securerouter.data.json.language.LanguageManagerCache
+import com.tfg.securerouter.data.json.jsons.language.LanguageManagerCache
 
 fun saveDeviceLanguage(context: Context, languageCode: String? = null): String {
     val codeToSave = when {

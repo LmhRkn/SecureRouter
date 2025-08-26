@@ -48,9 +48,9 @@ import com.tfg.securerouter.data.app.navegation.MainNavigation
 import com.tfg.securerouter.data.app.screens.main_screen.model.TopBarViewModel
 import com.tfg.securerouter.data.app.screens.main_screen.state.TopBarModel
 import com.tfg.securerouter.ui.app.screens.DrawerContent
-import com.tfg.securerouter.ui.notice.tutorials.TutorialButton
-import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
-import com.tfg.securerouter.ui.notice.tutorials.UiReadyCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialButton
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.UiReadyCenter
 import kotlinx.coroutines.launch
 
 /**

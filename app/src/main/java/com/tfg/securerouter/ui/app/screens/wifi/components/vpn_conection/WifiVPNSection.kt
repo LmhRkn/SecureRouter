@@ -7,9 +7,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
-import com.tfg.securerouter.data.automatization.ExecuteAutomationsBlockingUI
-import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryOnVPN
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.app.automatization.ExecuteAutomationsBlockingUI
+import com.tfg.securerouter.data.app.automatization.registry.AutomatizationRegistryOnVPN
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.router.shUsingLaunch
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.common.texts.ExpandableSection

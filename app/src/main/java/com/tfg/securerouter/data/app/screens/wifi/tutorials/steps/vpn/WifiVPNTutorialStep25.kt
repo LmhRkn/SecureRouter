@@ -1,7 +1,6 @@
 package com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn
 
-import com.tfg.securerouter.data.notice.model.NoticeMedia
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
+import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun WifiVPNTutorialStep25(): TutorialStep = TutorialStep(
     title = "VPN configurado",

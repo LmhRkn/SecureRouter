@@ -42,8 +42,8 @@ import com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn.WifiVPNTut
 import com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn.WifiVPNTutorialStep7
 import com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn.WifiVPNTutorialStep8
 import com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn.WifiVPNTutorialStep9
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialSpec
-import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialSpec
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
 
 
 @Composable

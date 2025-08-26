@@ -3,8 +3,8 @@ package com.tfg.securerouter.ui.app.screens.wifi.components.extras.vpn_connectio
 import androidx.compose.runtime.*
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiGetVPNQRModel
-import com.tfg.securerouter.data.utils.PromptBus
-import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
+import com.tfg.securerouter.data.app.notice.utils.PromptBus
+import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator

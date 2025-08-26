@@ -6,8 +6,8 @@ import androidx.annotation.RequiresApi
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 import com.tfg.securerouter.data.app.screens.defaults.ScreenComponentModelDevicesDefault
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
-import com.tfg.securerouter.data.utils.TimeUtils.blockedNowHuman
+import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.utils.time.TimeUtils.blockedNowHuman
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

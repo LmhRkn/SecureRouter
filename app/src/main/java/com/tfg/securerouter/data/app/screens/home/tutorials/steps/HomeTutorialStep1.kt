@@ -1,8 +1,8 @@
 package com.tfg.securerouter.data.app.screens.home.tutorials.steps
 
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.notice.model.NoticeMedia
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
+import com.tfg.securerouter.data.app.notice.model.NoticeMedia
+import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun HomeTutorialStep1(): TutorialStep = TutorialStep(
         title = "¡Bienvenido a SecureRouter!",

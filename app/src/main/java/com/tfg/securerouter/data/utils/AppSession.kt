@@ -20,8 +20,6 @@ object AppSession {
     @Volatile var packageInstaller: String? = null
     @Volatile var cancelledSpeedTestByUser: Boolean = false
     @Volatile var firstVPN: Boolean = false
-    @Volatile var ddnsDomain: String? = null
-
 
     @Volatile var newDeviceVPN: Boolean = false
     @Volatile var nextDeviceVPN: Int = 2

@@ -10,28 +10,25 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
-import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
-import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiFilterWebRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiRouterInfoModel
-import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTimesRuleModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiTrafficGraphModel
 import com.tfg.securerouter.data.app.screens.wifi.tutorials.WifiTutorial
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
-import com.tfg.securerouter.data.utils.PromptHost
+import com.tfg.securerouter.data.app.notice.utils.PromptHost
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
-import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsFilterWeb
-import com.tfg.securerouter.ui.app.screens.wifi.components.filters.WifiOptionsTimes
 import com.tfg.securerouter.ui.app.screens.wifi.components.WifiRouterInfoSection
 import com.tfg.securerouter.ui.app.screens.wifi.components.ad_blocker.WifiAdBlockerSection
 import com.tfg.securerouter.ui.app.screens.wifi.components.graph.WifiOptionTrafficFilterWeb
 import com.tfg.securerouter.ui.app.screens.wifi.components.password.WifiRouterPassword
 import com.tfg.securerouter.ui.app.screens.wifi.components.speedtest.WifiOptionSpeedtest
 import com.tfg.securerouter.ui.app.screens.wifi.components.vpn_conection.WifiVPNSection
-import com.tfg.securerouter.ui.notice.tutorials.TutorialCenter
-import com.tfg.securerouter.ui.notice.tutorials.TutorialModal
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
+import com.tfg.securerouter.ui.notice.tutorials.AutoOpenTutorialOnce
 import kotlinx.coroutines.delay
 
 /**
@@ -83,7 +80,10 @@ class WifiScreen : ScreenDefault() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU, Build.VERSION_CODES.O)
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
-        PromptHost()
+        AutoOpenTutorialOnce(
+            routerId = AppSession.routerId,
+            screenKey = HomeMenuOption.route
+        )
 
         val wifiCoordinator = coordinator as? WifiCoordinator
             ?: throw IllegalArgumentException("Expected WifiCoordinator")

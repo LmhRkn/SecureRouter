@@ -2,16 +2,11 @@ package com.tfg.securerouter.data.app.screens.defaults
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DevicesOther
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.router.sendCommand
-import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.common.screen_components.devices.deviceTypes
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
-import com.tfg.securerouter.data.app.common.screen_components.devices.model.toDeviceModel
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
 
 

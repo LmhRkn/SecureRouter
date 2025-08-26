@@ -1,10 +1,8 @@
 package com.tfg.securerouter.ui.app.screens.router_selector.components
 
 import android.util.Log
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,29 +13,22 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.screens.router_selector.model.load.detectEphemeralOpenWrt
 import com.tfg.securerouter.data.app.screens.router_selector.model.load.getRouterList
-import com.tfg.securerouter.data.automatization.ExecuteAutomationsBlockingUI
-import com.tfg.securerouter.data.automatization.executeAutomationsBlocking
-import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryBeforeOpening
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.app.automatization.ExecuteAutomationsBlockingUI
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.router.shUsingLaunch
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.router_selector.components.extras.RouterCard
-import androidx.compose.material3.CircularProgressIndicator
 import com.tfg.securerouter.data.app.screens.other_screen.ShLoginScreenOption
-import com.tfg.securerouter.data.app.screens.router_selector.model.load.detectEphemeralOpenWrtViaVpn
 import com.tfg.securerouter.data.app.screens.router_selector.model.load.findMatchingNoIpRouter
-import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryAfterSHLogin
-import com.tfg.securerouter.data.router.sendCommand
+import com.tfg.securerouter.data.app.automatization.registry.AutomatizationRegistryAfterSHLogin
 
 @Composable
 fun RoutersList(

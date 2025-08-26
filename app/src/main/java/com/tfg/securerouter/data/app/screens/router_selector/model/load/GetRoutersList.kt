@@ -3,12 +3,11 @@ package com.tfg.securerouter.data.app.screens.router_selector.model.load
 import android.util.Log
 import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.router.getCurrentBssid
 import com.tfg.securerouter.data.router.getCurrentConnectionIdentifiers
 import com.tfg.securerouter.data.router.getGatewayMacAddress
 import com.tfg.securerouter.data.router.getRouterIpAddress
-import com.tfg.securerouter.data.router.VpnUtils
 import com.tfg.securerouter.data.router.getPublicIp
 import com.tfg.securerouter.data.router.isOpenWrtBySsh
 import com.tfg.securerouter.data.router.isOpenWrtNoAuth

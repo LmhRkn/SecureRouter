@@ -9,11 +9,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.home.model.send.SendRouterName
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
-import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
+import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
 import com.tfg.securerouter.data.utils.AppSession
-import com.tfg.securerouter.ui.notice.alerts.AlertModal
+import com.tfg.securerouter.ui.app.notice.alerts.AlertModal
 
 @Composable
 fun RouterInfoSection(

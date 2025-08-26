@@ -17,10 +17,10 @@ import com.tfg.securerouter.data.app.screens.devices_options.alerts.BlockDeviceA
 import com.tfg.securerouter.data.app.screens.devices_options.alerts.UnblockDeviceAlert
 import com.tfg.securerouter.data.app.screens.devices_options.model.send.BlockDevice
 import com.tfg.securerouter.data.app.screens.devices_options.model.send.UnblockDevice
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
-import com.tfg.securerouter.data.utils.TimeUtils.blockedNowHuman
-import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
-import com.tfg.securerouter.ui.notice.alerts.AlertModal
+import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.utils.time.TimeUtils.blockedNowHuman
+import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
+import com.tfg.securerouter.ui.app.notice.alerts.AlertModal
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

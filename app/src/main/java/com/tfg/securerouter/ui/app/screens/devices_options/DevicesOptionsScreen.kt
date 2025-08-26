@@ -17,7 +17,7 @@ import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.devices_options.DevicesOptionsCoordinator
 import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsBlockButton

@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
-import com.tfg.securerouter.data.app.screens.home.state.load.ConnectedDeviceState
+import com.tfg.securerouter.data.app.screens.home.model.load.ConnectedDeviceState
 import com.tfg.securerouter.data.utils.height_weight_to_dp
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
 

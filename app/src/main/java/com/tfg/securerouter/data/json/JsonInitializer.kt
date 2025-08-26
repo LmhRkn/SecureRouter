@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.json
 
 import android.content.Context
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.json.registry.JsonRegistry
 
 /**
  * Centralized initializer for all JSON-based cache instances.

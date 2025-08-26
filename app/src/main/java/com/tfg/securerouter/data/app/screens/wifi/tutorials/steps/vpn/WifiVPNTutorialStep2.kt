@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn
 
-import com.tfg.securerouter.data.notice.model.NoticeMedia
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
+import com.tfg.securerouter.data.app.notice.model.NoticeMedia
+import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun WifiVPNTutorialStep2(): TutorialStep = TutorialStep(
     title = "Mi ip pública pt.1",

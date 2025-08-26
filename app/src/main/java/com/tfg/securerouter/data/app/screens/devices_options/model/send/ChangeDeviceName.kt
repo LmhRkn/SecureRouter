@@ -1,6 +1,6 @@
 package com.tfg.securerouter.data.app.screens.devices_options.model.send
 
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
 
 
 object ChangeDeviceName {

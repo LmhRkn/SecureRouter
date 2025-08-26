@@ -1,12 +1,8 @@
 package com.tfg.securerouter.ui.app.screens.wifi.components.password
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -32,25 +28,16 @@ import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.R
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
-import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiGetVPNQRModel
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiGetWifiQRModel
-import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
-import com.tfg.securerouter.data.utils.PromptBus
+import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
+import com.tfg.securerouter.data.app.notice.utils.PromptBus
 import com.tfg.securerouter.data.utils.QRDecoder
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.flow.first
-import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable

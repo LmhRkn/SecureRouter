@@ -1,7 +1,6 @@
 package com.tfg.securerouter.ui.app.screens.wifi.components.extras.vpn_connection
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,7 +14,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.wifi.model.send.vpn.AddVPNPeer
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 import java.net.IDN
 

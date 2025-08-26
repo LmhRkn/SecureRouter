@@ -10,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,15 +21,14 @@ import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.screens.wifi.model.send.ad_blocekr.AdBlockerOffWifi
 import com.tfg.securerouter.data.app.screens.wifi.model.send.ad_blocekr.AdBlockerOnWifi
-import com.tfg.securerouter.data.automatization.ExecuteAutomationsBlockingUI
-import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryBeforeAdBlocker
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
-import com.tfg.securerouter.data.notice.model.alerts.AlertSpec
+import com.tfg.securerouter.data.app.automatization.ExecuteAutomationsBlockingUI
+import com.tfg.securerouter.data.app.automatization.registry.AutomatizationRegistryBeforeAdBlocker
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
 import com.tfg.securerouter.data.router.shUsingLaunch
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.common.buttons.ToggleButton
-import com.tfg.securerouter.ui.notice.alerts.AlertModal
-import kotlinx.coroutines.launch
+import com.tfg.securerouter.ui.app.notice.alerts.AlertModal
 import kotlinx.coroutines.withTimeoutOrNull
 
 @SuppressLint("CoroutineCreationDuringComposition")

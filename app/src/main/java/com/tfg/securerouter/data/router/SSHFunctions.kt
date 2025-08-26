@@ -3,20 +3,17 @@ package com.tfg.securerouter.data.router
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
 import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.JSchException
 import com.jcraft.jsch.Session
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.data.utils.resolveStoredPassword
-import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlinx.coroutines.Job
 import java.util.Properties
 import com.jcraft.jsch.SocketFactory as JschSocketFactory
 

@@ -1,6 +1,5 @@
 package com.tfg.securerouter.ui.app.screens.sh_login.components
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -23,11 +22,10 @@ import androidx.navigation.NavController
 import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.menu.menu_screens.RouterSelectorMenuOption
-import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.wifi.utils.validatePassword
-import com.tfg.securerouter.data.automatization.ExecuteAutomationsBlockingUI
-import com.tfg.securerouter.data.automatization.registry.AutomatizationRegistryBeforeOpening
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
+import com.tfg.securerouter.data.app.automatization.ExecuteAutomationsBlockingUI
+import com.tfg.securerouter.data.app.automatization.registry.AutomatizationRegistryBeforeOpening
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.router.shUsingLaunch
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.data.utils.encryptPassword

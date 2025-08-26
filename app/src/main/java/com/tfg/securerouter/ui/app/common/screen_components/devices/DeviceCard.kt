@@ -26,23 +26,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
 import com.tfg.securerouter.ui.app.common.screen_components.devices.DeviceList
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.ui.draw.clip
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.ui.draw.clip
-import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.tfg.securerouter.R
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
 import com.tfg.securerouter.ui.app.common.card.StatusIndicators
 
 /**

@@ -21,11 +21,8 @@ import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.R
 import androidx.compose.ui.res.stringResource
 import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
-import com.tfg.securerouter.data.json.router_selector.RouterSelectorCache
-import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.common.card.StatusIndicators
 import androidx.compose.material.icons.filled.VpnLock
-import androidx.compose.material.icons.filled.Router
 
 @Composable
 fun RouterCard(

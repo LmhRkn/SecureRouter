@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn
 
-import com.tfg.securerouter.data.notice.model.NoticeMedia
-import com.tfg.securerouter.data.notice.model.tutorials.TutorialStep
+import com.tfg.securerouter.data.app.notice.model.NoticeMedia
+import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun WifiVPNTutorialStep24(): TutorialStep = TutorialStep(
     title = "Más funcionalidades de la VPN pt.3",

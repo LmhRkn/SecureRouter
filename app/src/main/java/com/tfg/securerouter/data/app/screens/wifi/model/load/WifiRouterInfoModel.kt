@@ -1,7 +1,7 @@
 package com.tfg.securerouter.data.app.screens.wifi.model.load
 
 import com.tfg.securerouter.data.app.screens.ScreenComponentModelDefault
-import com.tfg.securerouter.data.app.screens.home.state.HomeRouterInfoState
+import com.tfg.securerouter.data.app.screens.home.model.load.HomeRouterInfoState
 import com.tfg.securerouter.data.app.screens.wifi.model.WifiRouterInfoState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

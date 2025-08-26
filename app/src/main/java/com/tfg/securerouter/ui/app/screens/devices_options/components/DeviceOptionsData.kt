@@ -1,10 +1,8 @@
 package com.tfg.securerouter.ui.app.screens.devices_options.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.tfg.securerouter.data.json.device_manager.DeviceManagerCache
+import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
 import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
