@@ -1,0 +1,128 @@
+LÍMITES DE TIEMPO:
+
+
+com.tfg.securerouter.data.app.screens.devices_options.model.send.AddTimeRuleDevice
+
+# Configure firewall
+uci add firewall rule
+uci set firewall.@rule[-1].name="Filter-Parental-Controls"
+uci set firewall.@rule[-1].src="lan"
+uci set firewall.@rule[-1].src_mac="00:11:22:33:44:55"
+uci set firewall.@rule[-1].dest="wan"
+uci set firewall.@rule[-1].start_time="21:30:00"
+uci set firewall.@rule[-1].stop_time="07:00:00"
+uci set firewall.@rule[-1].weekdays="Mon Tue Wed Thu Fri"
+uci set firewall.@rule[-1].target="REJECT"
+uci commit firewall
+service firewall restart
+
+
+com.tfg.securerouter.data.app.screens.devices_options.model.send.RemoveTimeRuleDevice
+
+Para borrarla:
+
+uci delete firewall.Filter-Parental-Controls
+uci commit firewall
+service firewall restar
+
+-----
+
+Para toda la wifi:
+
+uci add firewall rule
+uci set firewall.@rule[-1].name="time_wifi_${timeToName(wifiTimesRule.start, wifiTimesRule.finish)}"
+uci set firewall.@rule[-1].src="lan"
+uci set firewall.@rule[-1].dest="wan"
+uci set firewall.@rule[-1].start_time="${wifiTimesRule.start}"
+uci set firewall.@rule[-1].stop_time="${wifiTimesRule.finish}"
+uci set firewall.@rule[-1].weekdays="${parseStringToDays(wifiTimesRule.days)}"
+uci set firewall.@rule[-1].target="REJECT"
+uci commit firewall
+
+
+Para borrarla:
+
+uci delete firewall.@rule[$index]
+uci commit firewall
+service firewall restart
+
+-------------------------------------------------------------------------------------------------
+
+BANEAR DISPOSITIVOS:
+
+com.tfg.securerouter.data.app.screens.devices_options.model.send.BlockDevice
+
+Bloquear MACS:
+
+uci set wireless.[nombre_banda].macfilter='deny' (el modo deny bloquea las MACs en maclist, allow solo permite las MACs en maclist y disable deshabilita el filtro de MAC)
+uci add_list wireless.[nombre_banda].maclist='XX:XX:XX:XX:XX:XX'
+uci commit wireless
+wifi reload
+
+
+com.tfg.securerouter.data.app.screens.devices_options.model.send.UnblockDevice
+
+Desbloquear MACs:
+
+uci get wireless.[nombre_banda].maclist
+uci set wireless.[nombre_banda].maclist='(todas las MACs devueltas quitando la que queremos eliminar)'
+
+-------------------------------------------------------------------------------------------------
+
+AUTOMATIZACIONES POR MAC, HORA Y DIA DE LA SEMANA:
+
+# Configure firewall
+uci add firewall rule
+uci set firewall.@rule[-1].name="Filter-Parental-Controls"
+uci set firewall.@rule[-1].src="lan"
+uci set firewall.@rule[-1].src_mac="00:11:22:33:44:55"
+uci set firewall.@rule[-1].dest="wan"
+uci set firewall.@rule[-1].start_time="21:30:00"
+uci set firewall.@rule[-1].stop_time="07:00:00"
+uci set firewall.@rule[-1].weekdays="Mon Tue Wed Thu Fri"
+uci set firewall.@rule[-1].target="REJECT"
+uci commit firewall
+service firewall restart
+
+
+Para borrarla:
+
+uci delete firewall.Filter-Parental-Controls
+uci commit firewall
+service firewall restart
+
+https://openwrt.org/docs/guide-user/firewall/fw3_configurations/fw3_parent_controls
+
+-------------------------------------------------------------------------------------------------
+
+USANDO CRON:
+
+SINTAXIS CRON:
+* * * * * command to execute
+- - - - -
+| | | | |
+| | | | ----- Day of week (0 - 6) (Sunday =0)
+| | | ------- Month (1 - 12)
+| | --------- Day (1 - 31)
+| ----------- Hour (0 - 23)
+------------- Minute (0 - 59)
+
+METER AUTOMATIZACIONES EN CRON:
+(crontab -l; echo "* * * * * /root/[nombre_script]") | crontab -
+
+QUITAR AUTOMATIZACIONES CRON:
+crontab -l | grep -v "/root/[nombre_script]" | crontab -
+
+INICIAR CRON:
+/etc/init.d/cron status (para ver si esta activo)
+/etc/init.d/cron start
+/etc/init.d/cron enable
+
+-------------------------------------------------------------------------------------------------
+
+ESTOS DEBEN DE SER SCRIPTS EN ROOT:
+ENCENDER WIFI: ifup [nombre_interfaz]
+APAGAR WIFI: ifdown [nombre_interfaz]
+
+
+

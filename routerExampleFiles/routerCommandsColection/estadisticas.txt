@@ -1,0 +1,51 @@
+COMPROBAR VELOCIDAD DE SUBIDA Y BAJADA:
+
+(para descargar usar el script install_speedtest.sh)
+speedtest
+
+
+ESTADISTICAS DE TRAFICO ACTUALES Y ACUMULADAS:
+
+opkg install vnstat
+vnstat -u
+Tráfico actual (resumen rápido): vnstat
+Tráfico por hora: vnstat -h
+Tráfico por día: vnstat -d
+
+
+-------------------------------------------------------------------------------------------------
+
+Para ver el estado rápidamente en tiempo real: top, cat /proc/net/dev, free -h.
+
+Para historial de uso de ancho de banda: vnstat.
+
+Para monitoreo avanzado desde otro servidor: SNMP.
+
+Para una visión detallada en tiempo real (con un poco más de consumo de recursos en el router): Netdata.
+
+Para sacar la interfaz usar .device en uci Wireless
+
+-------------------------------------------------------------------------------------------------
+
+COMPROBAR LATENCIA:
+
+opkg update
+opkg install netperf speedtest-netperf
+speedtest-netperf.sh -i 30 (o el tiempo que se quiera)
+
+
+
+COMPROBAR VELOCIDAD DE SUBIDA Y BAJADA:
+
+(para descargar usar el script install_speedtest.sh)
+speedtest
+
+
+ESTADISTICAS DE TRAFICO ACTUALES Y ACUMULADAS:
+
+opkg install vnstat
+vnstat -u -i [nombre_de_interfaz]
+Tráfico actual (resumen rápido): vnstat
+Tráfico por hora: vnstat -h
+Tráfico por día: vnstat -d
+Tráfico por mes: vnstat -m

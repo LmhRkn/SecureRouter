@@ -1,0 +1,19 @@
+
+config wifi-device 'radio1'
+	option type 'mac80211'
+	option path 'platform/soc/fe300000.mmcnr/mmc_host/mmc1/mmc1:0001/mmc1:0001:1'
+	option band '5g'
+	option channel '36'
+	option disabled '0'
+	option country 'ES'
+
+config wifi-iface
+	option device 'radio1'
+	option network 'lan'
+	option mode 'ap'
+	option ssid 'SecureRouter5G'
+	option encryption 'psk2'
+	option key 'AnMaMiSecureRouter#123.'
+	option macfilter 'deny'
+	list maclist '3c:5a:b4:88:99:aa'
+

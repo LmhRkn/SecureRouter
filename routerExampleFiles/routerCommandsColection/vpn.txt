@@ -1,0 +1,134 @@
+MUY IMPORTANTE TENER CUIDADO CON LAS CARPETAS CREADAS
+
+Configuración inicial del servidor en el router:
+
+# Install packages
+opkg update
+opkg install wireguard-tools
+opkg install qrencode
+ 
+# Configuration parameters 
+¡¡IMPORTANTE: estos parámetros tienen que guardarse en la aplicación y volver a cargarlos CADA VEZ que se quiera hacer algo relativo a la vpn!!
+
+VPN_IF="vpn"
+VPN_PORT="51820"
+VPN_ADDR="192.168.9.1/24"
+VPN_ADDR6="fd00:9::1/64"
+
+# Generate keys (Esto lo haría en la carpeta vpn general)
+umask go=
+wg genkey | tee wgserver.key | wg pubkey > wgserver.pub
+ 
+(Para acceder después con cat tienes que tener en cuenta donde estas)
+(si estas en la propia carpeta asi vale, si estas en home cat /vpn/wgserver.key y si estas en la carpeta de algún usuario ../wgserver.key)
+
+¡¡IMPORTANTE: estos parámetros también debes recargarlos cuando se vayan a usar!!
+
+# Server private key
+VPN_KEY="$(cat wgserver.key)"
+
+# Configure firewall
+uci rename firewall.@zone[0]="lan"
+uci rename firewall.@zone[1]="wan"
+uci del_list firewall.lan.network="${VPN_IF}"
+uci add_list firewall.lan.network="${VPN_IF}"
+uci -q delete firewall.wg
+uci set firewall.wg="rule"
+uci set firewall.wg.name="Allow-WireGuard"
+uci set firewall.wg.src="wan"
+uci set firewall.wg.dest_port="${VPN_PORT}"
+uci set firewall.wg.proto="udp"
+uci set firewall.wg.target="ACCEPT"
+uci commit firewall
+service firewall restart
+
+# Configure network
+uci -q delete network.${VPN_IF}
+uci set network.${VPN_IF}="interface"
+uci set network.${VPN_IF}.proto="wireguard"
+uci set network.${VPN_IF}.private_key="${VPN_KEY}"
+uci set network.${VPN_IF}.listen_port="${VPN_PORT}"
+uci add_list network.${VPN_IF}.addresses="${VPN_ADDR}"
+uci add_list network.${VPN_IF}.addresses="${VPN_ADDR6}"
+
+-------------------------------------------------------------------------------------------------
+
+AÑADIR USUARIOS (peers):
+
+# Generate keys (Esto lo haría en la carpeta de cada usuario)
+umask go=
+wg genkey | tee wgclient.key | wg pubkey > wgclient.pub
+wg genpsk > wgclient.psk
+
+(Para acceder después con cat tienes que tener en cuenta donde estas, al tenerlo en distintas carpetas los archivos de clave pueden tener el mismo nombre (creo))
+(si estas en la propia carpeta asi vale, si estas en home cat /vpn/{carpeta}/wgclient.psk y si estas en la carpeta general de vpn /{carpeta}/wgclient.psk)
+
+¡¡IMPORTANTE: estos parámetros también debes recargarlos cuando se vayan a usar!!
+
+# Pre-shared key
+VPN_PSK="$(cat wgclient.psk)"
+ 
+# Client public key
+VPN_PUB="$(cat wgclient.pub)"
+
+CLIENT_IP="192.168.9.x/32" (x puede ir de 2 a 254, esto se deberia guardar en la app)
+CLIENT_IP6="fd00:9::x/128"
+CLIENT_NAME="{el nombre que veas}"
+
+# Add VPN peers
+uci -q delete network.${CLIENT_NAME}
+uci set network.${CLIENT_NAME}="wireguard_${VPN_IF}"
+uci set network.${CLIENT_NAME}.public_key="${VPN_PUB}"
+uci set network.${CLIENT_NAME}.preshared_key="${VPN_PSK}"
+uci add_list network.${CLIENT_NAME}.allowed_ips="${CLIENT_IP}"
+uci add_list network.${CLIENT_NAME}.allowed_ips="${CLIENT_IP6}"
+uci commit network
+service network restart
+
+-------------------------------------------------------------------------------------------------
+
+CREAR ARCHIVO DE CONFIGURACION PARA PEERS:
+
+¡¡IMPORTANTE: estos parámetros también debes recargarlos cuando se vayan a usar!!
+
+SERVER_PUB="$(cat wgserver.pub)" (alojado en carpeta general)
+CLIENT_PRIV="$(cat wgclient.key)" (alojado en carpeta de peer)
+CLIENT_PSK="$(cat wgclient.psk)" (alojado en carpeta de peer)
+
+Todo este proceso lo haría en la carpeta del peer (conviene tener ahí el archivo de configuración por si se necesita) por lo que para acceder a la clave publica del servidor sería con cat SERVER_PUB="$(cat ../wgserver.pub)"
+
+DDNS_DOMAIN="{dominio que deben introducir ellos}"
+
+cat > client.conf <<EOF
+[Interface]
+PrivateKey = $CLIENT_PRIV
+Address = $CLIENT_IP, $CLIENT_IP6
+DNS = {ip del router}
+
+[Peer]
+PublicKey = $SERVER_PUB
+PresharedKey = $CLIENT_PSK
+Endpoint = $DDNS_DOMAIN:51820
+AllowedIPs = 0.0.0.0/0, ::/0
+PersistentKeepalive = 25
+EOF
+
+-------------------------------------------------------------------------------------------------
+
+EXPORTAR ARCHIVO DE CONFIGURACIÓN:
+
+#Mandar archivo
+scp root@{ip del router}:/root/vpn/{carpeta}/client.conf .
+¡CUIDADO: el punto al final es importante!
+
+#Código QR
+qrencode -t ansiutf8 < /root/vpn/{carpeta}/client.conf
+
+
+BORRAR PEERS:
+
+borrar la carpeta del peer
+uci -q delete network.{nombre del peer}
+
+Cuando acabes reinicia la red: /etc/init.d/network restart
+

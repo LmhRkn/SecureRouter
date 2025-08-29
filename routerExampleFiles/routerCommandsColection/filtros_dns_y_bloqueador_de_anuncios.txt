@@ -1,0 +1,82 @@
+BLOQUEAR PÁGINAS:
+
+uci add_list dhcp.@dnsmasq[0].server="/example.com/"
+uci commit dhcp
+service dnsmasq restart
+
+
+DESBLOQUEAR PÁGINAS:
+
+uci del_list dhcp.@dnsmasq[0].server="/example.com/"
+uci commit dhcp
+service dnsmasq restart
+
+-------------------------------------------------------------------------------------------------
+
+INTERCEPTAR TRÁFICO DNS:
+
+uci -q del firewall.dns_int
+uci set firewall.dns_int="redirect"
+uci set firewall.dns_int.name="Intercept-DNS"
+uci set firewall.dns_int.family="any"
+uci set firewall.dns_int.proto="tcp udp"
+uci set firewall.dns_int.src="lan"
+uci set firewall.dns_int.src_dport="53"
+uci set firewall.dns_int.dest_port="53"
+uci set firewall.dns_int.target="DNAT"
+uci commit firewall
+service firewall restart
+
+
+FILTRAR TRÁFICO DoT:
+
+uci -q delete firewall.dot_fwd
+uci set firewall.dot_fwd="rule"
+uci set firewall.dot_fwd.name="Deny-DoT"
+uci set firewall.dot_fwd.src="lan"
+uci set firewall.dot_fwd.dest="wan"
+uci set firewall.dot_fwd.dest_port="853"
+uci set firewall.dot_fwd.proto="tcp udp"
+uci set firewall.dot_fwd.target="REJECT"
+uci commit firewall
+service firewall restart
+
+-------------------------------------------------------------------------------------------------
+
+ADGUARD:
+
+Para que adguard funcione las interceptación de tráfico dns y la filtración de tráfico DoT tienen que estar activas
+
+opkg update
+opkg install adguardhome
+
+#Cambiamos el puerto de dnsmasq para que no haya conflicto
+
+uci set dhcp.@dnsmasq[0].port="54"
+uci commit dhcp
+service dnsmasq restart
+service odhcpd restart
+
+#Iniciamos el servicio
+
+service adguardhome enable
+service adguardhome start
+
+#Configuración inicial
+
+Al iniciar el servicio tendremos que ir al enlace {ip del router}:3000 para hacer la configuración incial
+
+Cambiaremos el puerto del servicio web al puerto 8080 y no tocaremos nada mas mientras le damos a siguiente
+
+Una vez configurado le daremos a Settings -> DNS settings y en el apartado de upstream servers cambiaremos la url por: 127.0.0.1:54 (esto es la dirección de loopback del router en el puerto en el que hemos puesto dnsmasq, esto hara que una vez que el tráfico pase por adguard pase por dnsmasq también y sigan funcionando los filtros)
+
+De toda esta configuración deberemos incluir capturas de pantalla
+
+Además dejaría permanente el enlace de conexión a este servicio (ahora {ip del router}:8080}
+
+#Deshabilitar el servicio
+
+service adguardhome stop
+service adguardhome disable
+
+Puede que sea necesario borrar la caché de los navegadores para que el cambio surja efecto

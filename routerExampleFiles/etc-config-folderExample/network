@@ -1,0 +1,63 @@
+
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	list ipaddr '127.0.0.1/8'
+
+config globals 'globals'
+	option ula_prefix 'fd3a:b512:e44e::/48'
+
+config interface 'lan'
+	option type 'bridge'
+	option ifname 'wlan0'
+	option proto 'static'
+	option ipaddr '192.168.10.1'
+	option netmask '255.255.255.0'
+	option ip6assign '60'
+
+config interface 'wan'
+	option ifname 'eth0'
+	option proto 'dhcp'
+
+config interface 'vpn'
+	option proto 'wireguard'
+	option private_key 'iDonMVHBaAXikDpmxXG23/0SM5kPkMjCoZMbgsyF2UE='
+	option listen_port '51820'
+	list addresses '192.168.9.1/24'
+	list addresses 'fd00:9::1/64'
+
+config wireguard_vpn 'TabletMarcos'
+	option public_key '/0NBjcAqHdY+eqCVxMgHGUIbJeYKztiy0LujJ2kJyl0='
+	option preshared_key '9VnjKc9LAM/MB4oDG6EFrXllF2QbNH20xVpbOuV97yc='
+	list allowed_ips '192.168.9.3/32'
+	list allowed_ips 'fd00:9::3/128'
+	option description 'TabletMarcos'
+
+config wireguard_vpn 'Miguela'
+	option public_key 'kF9dogbkFo/4VmJ3CsmesZmDq3rUgb7NHGBOZuCVSSo='
+	option preshared_key '43mzeMAeIGHykpbLgcaaMvyVyo4G0OOJyJNqs8rGHJk='
+	list allowed_ips '192.168.9.4/32'
+	list allowed_ips 'fd00:9::4/128'
+	option description 'Miguela'
+
+config wireguard_vpn 'asd'
+	option public_key 'GAJnElI4ZubEzuPW6Rbr0DbfpWUV8GozbyhlBiLxdlo='
+	option preshared_key '3XtPyW0L/AgZa7EF+GwQnpU+uD/Lm2DEzFtHZJAWqRc='
+	list allowed_ips '192.168.9.7/32'
+	list allowed_ips 'fd00:9::7/128'
+	option description 'asd'
+
+config wireguard_vpn 'MiguelaPC'
+	option public_key 'D2PbcVFqzeV0JpFa1K5ZUJ/D6J1OAQtjvHCR95Q2JQQ='
+	option preshared_key 'O7iZ7qMEiCNneB0I8qci3zTru+tbfv/dKw6WnFGKdqI='
+	list allowed_ips '192.168.9.8/32'
+	list allowed_ips 'fd00:9::8/128'
+	option description 'MiguelaPC'
+
+config wireguard_vpn 'OrdenadorMiguel'
+	option public_key 'BZCNkFMuOJ7U1w3C/fKeId4Dlj1+5A6qwfNNBdvUjxs='
+	option preshared_key 'DntOPhcf1QXlTMpZXH1PRE7aWPxk3ED953M6XzlNsPM='
+	list allowed_ips '192.168.9.2/32'
+	list allowed_ips 'fd00:9::2/128'
+	option description 'OrdenadorMiguel'
+
