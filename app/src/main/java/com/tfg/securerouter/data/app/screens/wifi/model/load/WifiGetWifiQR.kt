@@ -9,9 +9,9 @@ data class WifiQrState(
     val ssid: String = "",
     val auth: String = "",
     val hidden: Boolean = false,
-    val txt: String = "",          // cadena WIFI:S:...;;
-    val qrAnsi: String = "",       // QR en ANSI para mostrar en consola/textarea
-    val pngPath: String? = null,   // si se creó el PNG, ruta devuelta
+    val txt: String = "",
+    val qrAnsi: String = "",
+    val pngPath: String? = null,
     val error: String? = null
 )
 

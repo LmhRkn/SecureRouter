@@ -72,7 +72,7 @@ class ChooseDateTimeZone(
             appendLine("uci -q set system.@system[0].zonename='$desired'")
             if (posix != null) {
                 appendLine("uci -q set system.@system[0].timezone='$posix'")
-            } // si es null, no tocamos 'timezone' para no romper DST
+            }
             appendLine("uci -q commit system")
             appendLine("/etc/init.d/system reload 2>/dev/null || /etc/init.d/system reload_config 2>/dev/null || /etc/init.d/system restart || true")
             appendLine("/etc/init.d/sysntpd restart 2>/dev/null || true")
@@ -106,7 +106,6 @@ class ChooseDateTimeZone(
         val tzPosix = sanitizeToLastValidPosix(tzPosixRaw)
         if (!tzPosix.isNullOrBlank()) return tzPosix
 
-        // 2) Último recurso: derivar desde offset actual (sin DST)
         val raw = sanitizeToLastNonEmpty(sh("date +%z 2>/dev/null || echo +0000")).trim() // ej: +0200
         val m = Regex("""([+-])(\d{2})(\d{2})""").matchEntire(raw)
         return if (m != null) {

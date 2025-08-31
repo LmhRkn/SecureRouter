@@ -13,7 +13,7 @@ import com.tfg.securerouter.data.app.automatization.automatizations.before_openi
 import com.tfg.securerouter.data.app.automatization.automatizations.before_opening.RouterHasDomain
 import com.tfg.securerouter.data.app.automatization.automatizations.before_opening.ShPasswdSetter
 import com.tfg.securerouter.data.app.automatization.automatizations.on_vpn.GenerateServerRSA
-import com.tfg.securerouter.data.app.automatization.automatizations.on_vpn.InstallQrencode
+import com.tfg.securerouter.data.app.automatization.automatizations.before_opening.InstallQrencode
 import com.tfg.securerouter.data.app.automatization.automatizations.on_vpn.InstallWireguardTools
 import com.tfg.securerouter.data.app.automatization.automatizations.on_vpn.VPNConfigureFirewall
 import com.tfg.securerouter.data.app.automatization.automatizations.on_vpn.VPNConfigureNetwork
@@ -29,15 +29,14 @@ object AutomatizationRegistryBeforeOpening {
         ::ChooseDateTimeZone,
         ::PrepareDnsFirewall,
         ::IsActualizationFileCreated,
+        ::InstallQrencode,
         ::IsActualizationExists,
-        // ::EnsureCurlTask, ...
     )
 }
 
 object AutomatizationRegistryAfterSHLogin {
     val factories: List<TaskFactory> = listOf(
         ::SshPasswdDetector,
-        // ::EnsureCurlTask, ...
     )
 }
 
@@ -56,7 +55,6 @@ object AutomatizationRegistryBeforeAdBlocker {
 object AutomatizationRegistryOnVPN {
     val factories: List<TaskFactory> = listOf(
         ::InstallWireguardTools,
-        ::InstallQrencode,
         ::GenerateServerRSA,
         ::VPNConfigureFirewall,
         ::VPNConfigureNetwork,

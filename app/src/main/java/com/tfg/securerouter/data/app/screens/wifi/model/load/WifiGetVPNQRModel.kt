@@ -26,7 +26,6 @@ class WifiGetVPNQRModel(
         val peerFolder = "peer_${AppSession.nextDeviceVPN}"
         val file = "/root/vpn/devices/$peerFolder/client.conf"
 
-        // Solo leemos el conf con marcadores fiables; nada de base64/qrencode
         val cmd = """
         printf "__CONF_START__"
         qrencode -t ansiutf8 < $file

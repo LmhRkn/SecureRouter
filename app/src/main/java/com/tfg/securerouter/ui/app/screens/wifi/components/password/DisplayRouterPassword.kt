@@ -63,7 +63,7 @@ fun DisplayRouterPassword(
                         visible = isPasswordVisible,
                         onToggle = { isPasswordVisible = !isPasswordVisible },
                         onCopy = { clipboard.setText(AnnotatedString(password)) },
-                        onQr = { scope.launch { onQrClick(wifiCoordinator) } }, // 👈 Lanza la suspend
+                        onQr = { scope.launch { onQrClick(wifiCoordinator) } },
                         onEdit = onEditButtonPress
                     )
                 },
@@ -74,12 +74,10 @@ fun DisplayRouterPassword(
 }
 
 suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
-    // Obtiene el modelo
     val qrModel = wifiCoordinator.modules
         .filterIsInstance<WifiGetWifiQRModel>()
         .first()
 
-    // Carga datos (ejecuta el script UCI + qrencode)
     val ok = qrModel.loadData()
     if (!ok) {
         PromptBus.confirm(
@@ -93,7 +91,6 @@ suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
         return
     }
 
-    // Espera a que el StateFlow tenga resultado o error (máx. 10s)
     val st = withTimeoutOrNull(10_000) {
         qrModel.state.first { it.error != null || it.qrAnsi.isNotBlank() }
     } ?: run {
@@ -108,7 +105,6 @@ suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
         return
     }
 
-    // Muestra resultado
     if (st.error != null) {
         PromptBus.confirm(
             AlertSpec(
@@ -148,7 +144,7 @@ suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
 private fun SmallIconButton(onClick: () -> Unit, content: @Composable () -> Unit) {
     IconButton(
         onClick = onClick,
-        modifier = Modifier.width(36.dp), // área táctil compacta
+        modifier = Modifier.width(36.dp),
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         )

@@ -28,7 +28,7 @@ import com.tfg.securerouter.ui.app.screens.wifi.components.speedtest.WifiOptionS
 import com.tfg.securerouter.ui.app.screens.wifi.components.vpn_conection.WifiVPNSection
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
-import com.tfg.securerouter.ui.notice.tutorials.AutoOpenTutorialOnce
+import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
 import kotlinx.coroutines.delay
 
 /**
@@ -80,6 +80,7 @@ class WifiScreen : ScreenDefault() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU, Build.VERSION_CODES.O)
     @Composable
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
+        PromptHost()
         AutoOpenTutorialOnce(
             routerId = AppSession.routerId,
             screenKey = HomeMenuOption.route

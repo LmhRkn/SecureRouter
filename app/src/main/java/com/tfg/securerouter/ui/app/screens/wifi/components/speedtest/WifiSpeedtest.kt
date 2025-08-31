@@ -33,8 +33,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-// -------------------- PUBLIC COMPOSABLE --------------------
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WifiSpeedtest(
@@ -97,8 +95,6 @@ fun WifiSpeedtest(
         }
     }
 }
-
-// -------------------- CARDS & WIDGETS --------------------
 
 @Composable
 private fun LoadingCard(onCancel: (() -> Unit)?) {
@@ -205,8 +201,6 @@ private fun ResultCard(data: SpeedData, onRunAgain: () -> Unit) {
         data.isp?.let {
             Text("ISP: $it", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
-        // NO mostramos resultUrl
-
         Spacer(Modifier.height(16.dp))
         OutlinedButton(onClick = onRunAgain, shape = RoundedCornerShape(12.dp)) {
             Text("Repetir prueba")
@@ -330,8 +324,6 @@ private fun parsePlainText(txt: String): SpeedData {
         resultUrl = url
     )
 }
-
-// -------------------- HELPERS --------------------
 
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable

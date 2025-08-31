@@ -228,12 +228,12 @@ fun DrawerHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 48.dp, bottom = 16.dp, start = 16.dp), // más espacio arriba
+            .padding(top = 48.dp, bottom = 16.dp, start = 16.dp),
         contentAlignment = Alignment.CenterStart
     ) {
         Text(
             text = "SecureRouter",
-            style = MaterialTheme.typography.headlineSmall.copy( // tamaño visible y adecuado
+            style = MaterialTheme.typography.headlineSmall.copy(
                 color = MaterialTheme.colorScheme.onPrimary
             )
         )

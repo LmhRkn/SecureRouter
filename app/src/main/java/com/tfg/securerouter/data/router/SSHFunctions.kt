@@ -63,8 +63,6 @@ private fun connectSSH(
             val config = Properties().apply {
                 put("StrictHostKeyChecking", "no")
                 put("PreferredAuthentications", "password")
-                // Opcionalmente:
-                // put("ServerAliveInterval", "10")  // algunos JSch no leen esto; usamos API abajo
             }
             setConfig(config)
             if (jschSocketFactory != null) setSocketFactory(jschSocketFactory)

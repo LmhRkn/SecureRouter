@@ -48,7 +48,7 @@ fun RoutersList(
         }
     }
 
-    val baseRouters: List<RouterInfo> = getRouterList(ephemeral) // ← SOLO ephemeral real
+    val baseRouters: List<RouterInfo> = getRouterList(ephemeral)
     val routers: List<RouterInfo> =
         if (match != null) {
             baseRouters.map {

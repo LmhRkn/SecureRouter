@@ -101,7 +101,6 @@ class InstallSpeedtestOokla(
     }
 
     companion object {
-        // ---- Textos de los diálogos ----
         val EulaSpec = AlertSpec(
             title = "Speedtest CLI — Licencia (EULA)",
             message = """

@@ -1,8 +1,12 @@
 package com.tfg.securerouter
 
 import android.app.Application
+import android.util.Log
 import com.tfg.securerouter.data.app.screens.language.utils.setDeviceLanguage
+import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.json.JsonInitializer
+import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
+import kotlin.system.exitProcess
 
 /**
  * Custom [Application] class for SecureRouter.
@@ -27,7 +31,9 @@ class SecureRouterApp : Application() {
         setDeviceLanguage(this)
 
 
-//        RouterSelectorCache.update("1") { r -> r.copy(publicIpOrDomain = "securerouter.ddns.net") }
+//        RouterSelectorCache.update("1") { r -> r.copy(mac = "AA:BB:CC:DD:EE:FF") }
+//        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = "12345678") }
+        Log.d("ROUTERS", "routers: ${RouterSelectorCache.getRouters()}")
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////// DESCOMENTAR ESTO Y EJECUTAR Y VOLVER A COMENTAR ////////////////////////
@@ -36,10 +42,10 @@ class SecureRouterApp : Application() {
 //            RouterInfo(
 //                name = "SecureRouter5G",
 //                localIp = "192.168.10.1",
-//                mac = "DE:A6:32:85:D4:B9",
+//                mac = "AA:BB:CC:DD:EE:FF",
 //                id = 1,
-//                publicIpOrDomain = "securerouter.ddns.net",
 //                isVpn = false,
+//                sshPassword = "12345678"
 //            )
 //        )
 //------------------------------------------------------------------------------------------------

@@ -93,12 +93,10 @@ fun FilterButton(
                         }
                     },
                     onClick = {
-                        // Toggle filter and create a new Set for recomposition
                         val updated = currentFilters.value.toMutableSet()
                         if (updated.contains(label)) updated.remove(label) else updated.add(label)
                         currentFilters.value = updated
 
-                        // Notify parent immediately
                         onFiltersChanged(updated.toSet())
                     }
                 )

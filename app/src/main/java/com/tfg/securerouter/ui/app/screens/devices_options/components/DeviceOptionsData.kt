@@ -97,7 +97,7 @@ private fun MainView(
                 }
             }
             IconButton(
-                onClick = onIconClick, // también abre el selector
+                onClick = onIconClick,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .offset(x = 6.dp, y = (-6).dp)

@@ -30,7 +30,6 @@ import com.tfg.securerouter.data.router.shUsingLaunch
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.data.utils.encryptPassword
 
-// UI helpers ya existentes
 import com.tfg.securerouter.ui.app.screens.wifi.components.password.PasswordInputField
 import com.tfg.securerouter.ui.app.screens.wifi.components.password.PasswordErrorText
 
@@ -40,7 +39,6 @@ import kotlinx.coroutines.withTimeoutOrNull
 fun ShLogin(
    navController: NavController
 ) {
-   // 1) Estados persistentes por router
    var loggingIn by rememberSaveable(AppSession.routerId) { mutableStateOf(true) }
    var ok by rememberSaveable(AppSession.routerId) { mutableStateOf(false) }
    var authError by rememberSaveable(AppSession.routerId) { mutableStateOf<String?>(null) }

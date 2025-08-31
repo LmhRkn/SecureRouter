@@ -56,7 +56,7 @@ fun BlockedDevicesList(
     val eventFlow = parent.eventBus
     var searchQuery by rememberSaveable { mutableStateOf("") }
     var labelFilters by rememberSaveable { mutableStateOf(emptySet<DeviceLabel>()) }
-    var showAllowedDevices by rememberSaveable { mutableStateOf(true) } // Cuando es true, se muestra la lista de permitidos y esta se oculta
+    var showAllowedDevices by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(eventFlow) {
         eventFlow.collect { event ->

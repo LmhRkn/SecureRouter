@@ -2,7 +2,6 @@ package com.tfg.securerouter.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// EXTRAS
 val ConnectedStatusLight = Color(0xFFA5D6A7)
 val OnConnectedStatusLight = Color(0xFF4CAF50)
 
@@ -11,7 +10,6 @@ val OnDisconnectedStatusLight = Color(0xFF7C7C7C)
 
 val ErrorStatusLight = Color(0xFFFFCDD2)
 val OnErrorStatusLight = Color(0xFFF44336)
-///
 
 val primaryLight = Color(0xFF4A5D92)
 val onPrimaryLight = Color(0xFFFFFFFF)

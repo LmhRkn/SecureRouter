@@ -12,7 +12,6 @@ class InstallVnstat(
 
     override val timeoutMs: Long = 100_000L
 
-    // --- Helpers para eliminar el banner y quedarnos con la última línea útil ---
     private fun lastNonEmpty(out: String): String =
         out.lineSequence()
             .map { it.trim() }

@@ -1,4 +1,4 @@
-package com.tfg.securerouter.data.app.automatization.automatizations.on_vpn
+package com.tfg.securerouter.data.app.automatization.automatizations.before_opening
 
 import android.util.Log
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo

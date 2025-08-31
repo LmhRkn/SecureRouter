@@ -32,7 +32,7 @@ fun EditableTextField(
     label: String? = null,
     textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     placeholder: String? = null,
-    actions: (@Composable RowScope.() -> Unit)? = null, // <--- NUEVO
+    actions: (@Composable RowScope.() -> Unit)? = null,
     onEditButtonPress: (() -> Unit)? = null,
     buttonSize: Dp = 32.dp,
     iconSize: Dp = 18.dp,

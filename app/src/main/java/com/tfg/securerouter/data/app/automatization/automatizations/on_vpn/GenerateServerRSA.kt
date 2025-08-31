@@ -10,7 +10,6 @@ class GenerateServerRSA(
     private val sh: suspend (String) -> String,
 ) : AutomatizationDefault() {
 
-    // Rutas esperadas
     private val baseDir = "vpn"
     private val srvDir  = "$baseDir/router"
     private val privKey = "$srvDir/wgserver.key"

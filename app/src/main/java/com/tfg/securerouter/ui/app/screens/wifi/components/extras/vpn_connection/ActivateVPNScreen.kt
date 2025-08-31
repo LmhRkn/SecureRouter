@@ -51,7 +51,7 @@ fun ActivateVPNScreen(
 
         OutlinedTextField(
             value = nameText,
-            onValueChange = { nameText = noWhitespace(it) },   // <- sin espacios
+            onValueChange = { nameText = noWhitespace(it) },
             label = { Text("Nombre de la conexión") },
             placeholder = { Text("ej.: Casa, Oficina, VPN-Móvil") },
             singleLine = true,
@@ -148,7 +148,7 @@ private fun isValidDomain(domain: String): Boolean {
 }
 
 private fun normalizeName(raw: String): String =
-    raw.filterNot(Char::isWhitespace) // sin espacios
+    raw.filterNot(Char::isWhitespace)
 
 private fun isValidName(name: String): Boolean =
     name.isNotBlank() && name.length in 1..64 && name.none(Char::isWhitespace)

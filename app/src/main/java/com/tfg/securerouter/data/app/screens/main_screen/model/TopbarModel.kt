@@ -28,11 +28,8 @@ import com.tfg.securerouter.data.app.screens.main_screen.state.TopBarModel
  * @see TopBarModel
  */
 class TopBarViewModel : ViewModel() {
-
-    // Internal mutable state holding the top bar's UI data
     private val _topBarState = mutableStateOf(TopBarModel())
 
-    // Public immutable state observed by the UI
     val topBarState: State<TopBarModel> = _topBarState
 
     /**

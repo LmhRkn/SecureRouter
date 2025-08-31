@@ -78,8 +78,8 @@ object VnstatParser {
 fun LineChart(
     title: String,
     labels: List<String>,
-    seriesA: List<Double>, // RX
-    seriesB: List<Double>, // TX
+    seriesA: List<Double>,
+    seriesB: List<Double>,
     unitY: String = "MiB",
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -102,10 +102,8 @@ fun LineChart(
             val plotX = marginL
             val plotY = marginT
 
-            // Fondo
             drawRect(color = Color(0xFFF8F9FC))
 
-            // Grid Y + labels
             val ticks = 5
             for (i in 0..ticks) {
                 val yVal = i * maxY / ticks
@@ -123,18 +121,15 @@ fun LineChart(
                     )
                 }
             }
-            // Eje X
             drawLine(Color(0xFF888888), Offset(plotX, plotY + plotH), Offset(plotX + plotW, plotY + plotH))
 
             if (n >= 1) {
-                // helper para coord
                 fun pt(i: Int, v: Double): Offset {
                     val x = if (n == 1) plotX else plotX + (i.toFloat() * (plotW / (n - 1f)))
                     val y = plotY + plotH - (v / maxY).toFloat() * plotH
                     return Offset(x, y)
                 }
 
-                // Etiquetas X (no todas)
                 val step = when {
                     n <= 8 -> 1
                     n <= 16 -> 2
@@ -153,12 +148,10 @@ fun LineChart(
                             }
                         )
                     }
-                    // guía vertical
                     drawLine(Color(0xFFE6E8EE), Offset(x, plotY), Offset(x, plotY + plotH),
                         strokeWidth = 1f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f,6f)))
                 }
 
-                // Serie RX (sólida)
                 if (seriesA.isNotEmpty()) {
                     val p = Path()
                     seriesA.forEachIndexed { i, v ->
@@ -168,7 +161,6 @@ fun LineChart(
                     drawPath(p, Color(0xFF8B5CF6), style = Stroke(width = 4f))
                 }
 
-                // Serie TX (discontinua)
                 if (seriesB.isNotEmpty()) {
                     val p = Path()
                     seriesB.forEachIndexed { i, v ->
@@ -297,7 +289,7 @@ fun sshVnstatProvider(
             connect(5000)
         }
         try {
-            val cmd = "vnstat -h; echo; vnstat -d"
+            val cmd = "vnstat -u; vnstat -h; echo; vnstat -d"
             val channel = session.openChannel("exec") as ChannelExec
             channel.setCommand(cmd)
             val input = channel.inputStream
@@ -310,49 +302,3 @@ fun sshVnstatProvider(
         }
     }
 }
-
-// Provider de demo (texto estático)
-suspend fun demoProvider(): String = SAMPLE
-
-val SAMPLE = """
-h  rx (MiB)   tx (MiB)  ][  h  rx (MiB)   tx (MiB)  ][  h  rx (MiB)   tx (MiB)
-00 1.0 0.2 ][ 08 5.4 0.5 ][ 16 1.2 0.1
-01 0.8 0.2 ][ 09 6.8 0.6 ][ 17 0.8 0.1
-02 0.6 0.2 ][ 10 7.2 0.6 ][ 18 0.6 0.1
-03 0.5 0.2 ][ 11 6.0 0.6 ][ 19 0.7 0.1
-04 0.4 0.2 ][ 12 3.0 0.4 ][ 20 0.9 0.1
-05 0.4 0.2 ][ 13 2.8 0.4 ][ 21 1.1 0.2
-06 1.2 0.3 ][ 14 3.6 0.5 ][ 22 2.5 0.3
-07 3.1 0.4 ][ 15 4.2 0.5 ][ 23 5.0 0.6
-
-         day         rx      |     tx      |    total    |
-      07/23/25      1.20 GiB |  110.00 MiB |    1.30 GiB |
-      07/24/25    980.00 MiB |   90.00 MiB |    1.04 GiB |
-      07/25/25      2.10 GiB |  180.00 MiB |    2.27 GiB |
-      07/26/25    450.00 MiB |   40.00 MiB |  490.00 MiB |
-      07/27/25    700.00 MiB |   55.00 MiB |  755.00 MiB |
-      07/28/25      1.60 GiB |  120.00 MiB |    1.72 GiB |
-      07/29/25      3.20 GiB |  250.00 MiB |    3.45 GiB |
-      07/30/25    380.00 MiB |   35.00 MiB |  415.00 MiB |
-      07/31/25      1.10 GiB |   85.00 MiB |    1.18 GiB |
-      08/01/25    590.00 MiB |   45.00 MiB |  635.00 MiB |
-      08/02/25      2.80 GiB |  210.00 MiB |    3.01 GiB |
-      08/03/25    610.00 MiB |   48.00 MiB |  658.00 MiB |
-      08/04/25    440.00 MiB |   41.00 MiB |  481.00 MiB |
-      08/05/25      1.90 GiB |  140.00 MiB |    2.04 GiB |
-      08/06/25    520.00 MiB |   44.00 MiB |  564.00 MiB |
-      08/07/25    470.00 MiB |   43.00 MiB |  513.00 MiB |
-      08/08/25      1.30 GiB |  100.00 MiB |    1.40 GiB |
-      08/09/25      2.00 GiB |  160.00 MiB |    2.16 GiB |
-      08/10/25    390.00 MiB |   38.00 MiB |  428.00 MiB |
-      08/11/25    610.00 MiB |   52.00 MiB |  662.00 MiB |
-      08/12/25    480.00 MiB |   46.00 MiB |  526.00 MiB |
-      08/13/25      1.70 GiB |  130.00 MiB |    1.83 GiB |
-      08/14/25    630.00 MiB |   50.00 MiB |  680.00 MiB |
-      08/15/25      2.50 GiB |  190.00 MiB |    2.69 GiB |
-      08/16/25    510.00 MiB |   49.00 MiB |  559.00 MiB |
-      08/17/25    470.00 MiB |   42.00 MiB |  512.00 MiB |
-      08/18/25      1.40 GiB |  120.00 MiB |    1.52 GiB |
-      08/19/25    560.00 MiB |   47.00 MiB |  607.00 MiB |
-      08/20/25    591.69 MiB |   30.63 MiB |  622.32 MiB |
-""".trimIndent()

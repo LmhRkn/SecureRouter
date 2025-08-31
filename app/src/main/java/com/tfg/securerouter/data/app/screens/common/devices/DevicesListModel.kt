@@ -138,7 +138,6 @@ open class DevicesListModel<T>(
         val res = mutableSetOf<String>()
         val lines = fdbText.lines()
 
-        // Formato "brctl showmacs br-lan" (como el dump que enviaste)
         val brctlRe = Regex("""^\s*\d+\s+([0-9a-fA-F:]{17})\s+(yes|no)\s+([\d.]+)""", RegexOption.IGNORE_CASE)
         var matchedBrctl = false
         for (l in lines) {
@@ -146,11 +145,10 @@ open class DevicesListModel<T>(
             matchedBrctl = true
             val mac = m.groupValues[1].lowercase()
             val isLocal = m.groupValues[2].equals("yes", ignoreCase = true)
-            if (!isLocal) res += mac // solo hosts reales
+            if (!isLocal) res += mac
         }
         if (matchedBrctl) return res
 
-        // Formato "bridge fdb show"
         val macRe = Regex("""\b([0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5})\b""")
         lines.forEach { l ->
             val line = l.trim()
@@ -193,7 +191,7 @@ open class DevicesListModel<T>(
                 val dhcpIdentifier = parts.last()
                 if (dhcpIdentifier == "*") return@mapNotNull null
 
-                val isLeaseValid = (expiry == 0L) || (expiry > now)   // 0 => estático
+                val isLeaseValid = (expiry == 0L) || (expiry > now)
                 val isOnlineNow = presence.isOnline(mac)
                 val isBlockedNow = mac in blockedMacs
 
@@ -228,13 +226,10 @@ open class DevicesListModel<T>(
                             labels = enriched.labels - DeviceLabel.Online + DeviceLabel.Offline
                         ).also { DeviceManagerCache.put(it) }
                     } else enriched
-                // -----------------------------------------------------
-
                 finalDevice
             }
     }
 
-    // ---------- Persistencia de labels ----------
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveDiveJson(
         mac: String,

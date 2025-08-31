@@ -23,7 +23,7 @@ import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
 import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
-import com.tfg.securerouter.ui.notice.tutorials.AutoOpenTutorialOnce
+import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
 
 class HomeScreen : ScreenDefault() {
 

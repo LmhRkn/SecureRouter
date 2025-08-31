@@ -1,4 +1,3 @@
-// com/tfg/securerouter/data/automatization/ExecuteAutomatizations.kt
 package com.tfg.securerouter.data.app.automatization
 
 import android.os.SystemClock

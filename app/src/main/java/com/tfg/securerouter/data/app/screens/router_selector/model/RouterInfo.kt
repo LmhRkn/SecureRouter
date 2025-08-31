@@ -15,7 +15,7 @@ data class RouterInfo(
     val labels: Set<RouterLabel> = emptySet(),
     val sshPassword: String? = null,
 
-    val vpnHost: String? = null,   // p.ej. 10.6.0.1 (WireGuard) o router.midominio.local
+    val vpnHost: String? = null,
     val vpnPort: Int? = 22,
     val sshHostKeyFingerprint: String? = null,
 

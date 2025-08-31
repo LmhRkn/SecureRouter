@@ -171,7 +171,6 @@ private fun NoticeMediaView(media: NoticeMedia) {
         }
 
         is NoticeMedia.AsciiMonospace -> {
-            // Muestra QR ASCII monoespaciado sin wrap, con scroll
             Box(
                 Modifier
                     .fillMaxWidth()

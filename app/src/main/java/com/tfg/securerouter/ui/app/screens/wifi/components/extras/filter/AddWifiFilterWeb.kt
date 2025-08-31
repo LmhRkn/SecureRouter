@@ -85,10 +85,10 @@ fun AddWifiFilterWeb(
             Button(
                 enabled = isValid && !duplicate,
                 onClick = {
-                    val previewLabel = normalized // tu label es el dominio
+                    val previewLabel = normalized
                     saveRuleGeneric(
                         previewLabel = previewLabel,
-                        crossesMidnight = false, // no aplica aquí
+                        crossesMidnight = false,
                         oldRule = oldRule,
                         currentRules = currentRules,
                         nextIndex = nextIndex,
@@ -104,7 +104,7 @@ fun AddWifiFilterWeb(
                             )
                         },
                         onAddRemote = { r ->
-                            onAddRemote(r)  // engánchalo a tu capa UCI si quieres
+                            onAddRemote(r)
                         },
                         onSaveLocal = onSave
                     )

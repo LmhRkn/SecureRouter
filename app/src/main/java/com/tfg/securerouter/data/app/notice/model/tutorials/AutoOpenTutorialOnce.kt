@@ -1,5 +1,4 @@
-// com.tfg.securerouter.ui.notice.tutorials.AutoOpenTutorialOnce.kt
-package com.tfg.securerouter.ui.notice.tutorials
+package com.tfg.securerouter.data.app.notice.model.tutorials
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

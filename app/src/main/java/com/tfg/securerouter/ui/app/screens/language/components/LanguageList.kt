@@ -61,9 +61,9 @@ fun LanguageList(
                     language = text,
                     isSelected = selectedStates[index],
                     onClick = {
-                        val prev = selectedStates.indexOfFirst { it }   // -1 si ninguno
+                        val prev = selectedStates.indexOfFirst { it }
                         if (prev != -1 && prev != index) selectedStates[prev] = false
-                        selectedStates[index] = true                    // sin toggle
+                        selectedStates[index] = true
 
                         val prevVal = if (prev != -1) selectedStates[prev] else null
                         Log.d("LanguageList", "previousIndex: $prev -> $prevVal")

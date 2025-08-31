@@ -69,14 +69,6 @@ fun DrawerContent(
                         }
                     }
 
-//                    menuItemsBot?.let {
-//                        DrawerItem(
-//                            label = stringResource(id = it.titleResId),
-//                            icon = it.icon,
-//                            onClick = { onItemClick(it.route) }
-//                        )
-//                    }
-
                     menuItemsBot.forEachIndexed { index, menuOption ->DrawerItem(
                         label = stringResource(id = menuOption.titleResId),
                         icon = menuOption.icon,
