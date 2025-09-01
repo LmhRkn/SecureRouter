@@ -22,7 +22,7 @@ class InstallAdGuardHome(
         lastNonEmpty(sh("( { $cmd ; } 2>/dev/null || true) | tail -n 1"))
 
     private suspend fun isAdGuardHomeInstalled(): Int {
-        val res = shLastLine("command -v AdGuardHome  >/dev/null 2>&1 && echo 1 || echo 0")
+        val res = shLastLine("command -v AdGuardHome >/dev/null 2>&1 && echo 1 || echo 0")
         Log.d("InstallAdGuardHome", "isAdGuardHomeInstalled(last)='$res'")
         return if (res == "1") -1 else 1
     }

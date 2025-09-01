@@ -33,7 +33,7 @@ class SecureRouterApp : Application() {
 
 //        RouterSelectorCache.update("1") { r -> r.copy(mac = "AA:BB:CC:DD:EE:FF") }
 //        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = "12345678") }
-        Log.d("ROUTERS", "routers: ${RouterSelectorCache.getRouters()}")
+//        Log.d("ROUTERS", "routers: ${RouterSelectorCache.getRouters()}")
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////// DESCOMENTAR ESTO Y EJECUTAR Y VOLVER A COMENTAR ////////////////////////

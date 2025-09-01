@@ -4,7 +4,7 @@ import com.tfg.securerouter.data.router.launchCommand
 import com.tfg.securerouter.data.utils.AppSession
 
 object DelVPNPeer {
-    fun addVPNPeer(ip: String, name: String) {
+    fun delVPNPeer(ip: String, name: String) {
         val num = ip.substringBefore('/').substringAfterLast('.')
         val BASE = "/root/vpn"
         val DEV = "$BASE/devices/peer_$num"

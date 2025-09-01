@@ -30,7 +30,7 @@ fun DeviceManagementScreen(
             wifiCoordinator = wifiCoordinator,
             onCancel = { deletePeer = false },
             onConfirmDelete = { name, ip ->
-                DelVPNPeer.addVPNPeer(ip = ip, name = name)
+                DelVPNPeer.delVPNPeer(ip = ip, name = name)
                 deletePeer = false
             }
         )

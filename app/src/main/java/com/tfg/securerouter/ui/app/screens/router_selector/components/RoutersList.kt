@@ -40,8 +40,11 @@ fun RoutersList(
 
     val everyRouter = RouterSelectorCache.getRouters()
 
+    Log.d("RoutersList", "Routers: $everyRouter")
+
     LaunchedEffect(Unit) {
         ephemeral = detectEphemeralOpenWrt()
+        Log.d("RoutersList", "Ephemeral: $ephemeral")
         if (ephemeral == null) {
             match = findMatchingNoIpRouter(everyRouter)
             Log.d("RoutersList", "Match por IP pública/no-ip: $match")
@@ -49,6 +52,8 @@ fun RoutersList(
     }
 
     val baseRouters: List<RouterInfo> = getRouterList(ephemeral)
+    Log.d("RoutersList", "Base routers: $baseRouters")
+
     val routers: List<RouterInfo> =
         if (match != null) {
             baseRouters.map {
@@ -61,6 +66,8 @@ fun RoutersList(
             }
         } else baseRouters
     val anyOnline = routers.any { RouterLabel.Online in it.labels }
+    Log.d("RoutersList", "Routers: $routers")
+    Log.d("RoutersList", "Any online: $anyOnline")
 
     if (runnerRouter == null) {
         Column(

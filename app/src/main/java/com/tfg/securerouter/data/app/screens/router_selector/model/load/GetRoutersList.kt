@@ -59,10 +59,13 @@ suspend fun detectEphemeralOpenWrt(): RouterInfo? = withContext(Dispatchers.IO) 
     val mac = getGatewayMacAddress(ip) ?: getCurrentBssid()
     val macNorm = normalizeMacOrNull(mac)
 
+    Log.d("RoutersList", "ip: $ip, mac: $mac, macNorm: $macNorm")
+
     val ok = isOpenWrtNoAuth(
         ip = ip,
         viaVpn = false,
     )
+    Log.d("RoutersList", "isOpenWrtNoAuth: $ok")
     if (!ok) return@withContext null
 
     return@withContext RouterInfo(
@@ -96,12 +99,8 @@ suspend fun detectEphemeralOpenWrtViaVpn(hostInTunnel: String): RouterInfo? =
 
 suspend fun findMatchingNoIpRouter(routers: List<RouterInfo>): RouterInfo? {
     val current = getPublicIp()?.trim()?.lowercase() ?: return null
-    Log.d("findMatchingNoIpRouter", "router: $routers")
-    Log.d("findMatchingNoIpRouter", "current: $current")
     for (r in routers) {
-        Log.d("findMatchingNoIpRouter", "r: $r")
         val target = r.publicIpOrDomain?.trim()?.lowercase().orEmpty()
-        Log.d("findMatchingNoIpRouter", "target: $target")
         if (target.isBlank()) continue
 
         val ips: Set<String> = when {

@@ -185,52 +185,6 @@ fun isOpenWrtBySsh(host: String, viaVpn: Boolean = false): Boolean {
 
 suspend fun isOpenWrtNoAuth(ip: String, viaVpn: Boolean = false, timeoutMs: Int = 1500): Boolean =
     withContext(kotlinx.coroutines.Dispatchers.IO) {
-        // HTTP HEAD a /cgi-bin/luci
-        fun head(urlStr: String): Pair<Int, Map<String,String>>? = try {
-            val url = java.net.URL(urlStr)
-            val c = (url.openConnection() as java.net.HttpURLConnection).apply {
-                requestMethod = "HEAD"
-                connectTimeout = timeoutMs
-                readTimeout = timeoutMs
-                instanceFollowRedirects = false
-            }
-            val code = c.responseCode
-            val headers = c.headerFields.filterKeys { it != null }
-                .mapValues { it.value?.joinToString(",") ?: "" }
-            c.disconnect()
-            code to headers.mapKeys { it.key!!.lowercase() }
-        } catch (_: Exception) { null }
-
-        val h1 = head("http://$ip/cgi-bin/luci")
-        if (h1 != null) {
-            val (code, hdr) = h1
-            val loc = hdr["location"]?.lowercase().orEmpty()
-            val server = hdr["server"]?.lowercase().orEmpty()
-            if (code in listOf(200,401,403)) return@withContext true
-            if (code in listOf(301,302) && "/cgi-bin/luci" in loc) return@withContext true
-            if ("uhttpd" in server) return@withContext true
-        }
-
-        val h2 = head("http://$ip/")
-        if (h2 != null) {
-            val (code, hdr) = h2
-            val server = hdr["server"]?.lowercase().orEmpty()
-            if (code in 200..403 && "uhttpd" in server) return@withContext true
-        }
-
-        try {
-            val url = java.net.URL("https://$ip/cgi-bin/luci")
-            val c = (url.openConnection() as javax.net.ssl.HttpsURLConnection).apply {
-                requestMethod = "HEAD"
-                connectTimeout = timeoutMs
-                readTimeout = timeoutMs
-            }
-            val code = c.responseCode
-            val server = (c.getHeaderField("Server") ?: "").lowercase()
-            c.disconnect()
-            if (code in listOf(200,401,403) || "uhttpd" in server) return@withContext true
-        } catch (_: Exception) {}
-
         try {
             java.net.Socket().use { s ->
                 s.connect(java.net.InetSocketAddress(ip, 22), timeoutMs)
@@ -276,9 +230,8 @@ suspend fun getPublicIp(): String? = withContext(Dispatchers.IO) {
 suspend fun resolveDomainIps(host: String, timeoutMs: Int = 2000): Set<String> =
     withContext(kotlinx.coroutines.Dispatchers.IO) {
         try {
-            // OJO: esto usa el resolver del sistema. Si el host tiene AAAA y prefieres IPv4, filtramos:
             InetAddress.getAllByName(host)
-                .filterIsInstance<Inet4Address>()        // quita esta línea si también quieres IPv6
+                .filterIsInstance<Inet4Address>()
                 .map { it.hostAddress.trim().lowercase() }
                 .toSet()
         } catch (_: Exception) {
