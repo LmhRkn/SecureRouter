@@ -1,11 +1,24 @@
 package com.tfg.securerouter.ui.app.screens.language
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
+import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
+import com.tfg.securerouter.data.app.notice.utils.PromptHost
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterLanguageTutorial
 import com.tfg.securerouter.data.app.screens.language.LanguageCoordinator
+import com.tfg.securerouter.data.app.screens.wifi.tutorials.WifiTutorial
+import com.tfg.securerouter.data.utils.AppSession
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.language.components.LanguageButtons
 import com.tfg.securerouter.ui.app.screens.language.components.LanguageList
@@ -60,7 +73,16 @@ class LanguageScreen: ScreenDefault() {
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val languageCoordinator = coordinator as? LanguageCoordinator
             ?: throw IllegalArgumentException("Expected LanguageCoordinator")
+        val tutorialSpec by TutorialCenter.spec.collectAsState()
+        val tutorialOpen by TutorialCenter.open.collectAsState()
 
+        PromptHost()
+        AutoOpenTutorialOnce(
+            routerId = AppSession.routerId,
+            screenKey = HomeMenuOption.route
+        )
+
+        RegisterLanguageTutorial()
         setComponents(
             {
                 LanguageList(this)
@@ -68,6 +90,16 @@ class LanguageScreen: ScreenDefault() {
             },
         )
 
-        RenderScreen()
+        Box(Modifier.fillMaxSize()) {
+            RenderScreen()
+
+            if (tutorialOpen && tutorialSpec != null) {
+                TutorialModal(
+                    spec = tutorialSpec!!,
+                    onSkip = { TutorialCenter.close() },
+                    onFinish = { TutorialCenter.close() }
+                )
+            }
+        }
     }
 }

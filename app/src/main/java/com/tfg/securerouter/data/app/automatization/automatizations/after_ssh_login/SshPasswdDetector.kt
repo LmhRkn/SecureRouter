@@ -17,9 +17,9 @@ class SshPasswdDetector(
             """
                 h=$(awk -F: '$1=="root"{print $2}' /etc/shadow 2>/dev/null)
                 case "${'$'}h" in
-                  ""|"!"|"*"|"!!") echo EMPTY ;;     # sin contraseña o bloqueada
-                  "!"*)            echo LOCKED ;;    # bloqueada con hash previo
-                  \$*)             echo SET ;;       # hay hash -> hay contraseña
+                  ""|"!"|"*"|"!!") echo EMPTY ;;
+                  "!"*)            echo LOCKED ;; 
+                  \$*)             echo SET ;;   
                   *)               echo UNKNOWN ;;
                 esac
             """.trimIndent()

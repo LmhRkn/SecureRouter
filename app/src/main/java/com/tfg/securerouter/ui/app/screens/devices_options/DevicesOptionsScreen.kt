@@ -2,7 +2,9 @@ package com.tfg.securerouter.ui.app.screens.devices_options
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,12 +15,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.navegation.LocalNavController
+import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
+import com.tfg.securerouter.data.app.notice.utils.PromptHost
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.devices_options.DevicesOptionsCoordinator
 import com.tfg.securerouter.data.app.screens.devices_options.model.load.DeviceTimesRuleModel
+import com.tfg.securerouter.data.app.screens.devices_options.tutorials.RegisterDevicesOptionTutorial
+import com.tfg.securerouter.data.app.screens.wifi.tutorials.WifiTutorial
 import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.utils.AppSession
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsBlockButton
 import com.tfg.securerouter.ui.app.screens.devices_options.components.DeviceOptionsBlocked
@@ -40,6 +49,12 @@ class DevicesOptionsScreen: ScreenDefault() {
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val navController = LocalNavController.current
         val macArg = navController.currentBackStackEntry?.arguments?.getString("mac")?.uppercase()
+
+        PromptHost()
+        AutoOpenTutorialOnce(
+            routerId = AppSession.routerId,
+            screenKey = HomeMenuOption.route
+        )
 
         if (macArg.isNullOrBlank()) {
             setComponents({ M3Text("Dispositivo no especificado.") })
@@ -69,6 +84,10 @@ class DevicesOptionsScreen: ScreenDefault() {
         val deviceTimesRuleModel = devicesOptionsCoordinator.modules
             .filterIsInstance<DeviceTimesRuleModel>().first()
         val deviceTimesRule = deviceTimesRuleModel.state.collectAsState().value
+        val tutorialSpec by TutorialCenter.spec.collectAsState()
+        val tutorialOpen by TutorialCenter.open.collectAsState()
+
+        RegisterDevicesOptionTutorial()
 
         setComponents(
             { DeviceOptionsData(macArg, {}) },
@@ -83,6 +102,16 @@ class DevicesOptionsScreen: ScreenDefault() {
             }
         )
 
-        RenderScreen()
+        Box(Modifier.fillMaxSize()) {
+            RenderScreen()
+
+            if (tutorialOpen && tutorialSpec != null) {
+                TutorialModal(
+                    spec = tutorialSpec!!,
+                    onSkip = { TutorialCenter.close() },
+                    onFinish = { TutorialCenter.close() }
+                )
+            }
+        }
     }
 }

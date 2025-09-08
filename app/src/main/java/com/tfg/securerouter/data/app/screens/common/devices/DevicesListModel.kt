@@ -38,7 +38,7 @@ open class DevicesListModel<T>(
               cat /tmp/dhcp.leases 2>/dev/null || true
 
               echo '===FDB==='
-              (bridge fdb show 2>/dev/null || brctl showmacs br-lan 2>/dev/null || true)
+              (brctl showmacs br-lan 2>/dev/null || true)
 
               echo '===BLOCKED==='
               for s in ${'$'}(uci -q show wireless | sed -n "s/^wireless\.\\([^=]*\\)=wifi-iface/\\1/p"); do

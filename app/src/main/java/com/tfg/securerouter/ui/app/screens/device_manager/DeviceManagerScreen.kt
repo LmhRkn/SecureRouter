@@ -1,15 +1,26 @@
 package com.tfg.securerouter.ui.app.screens.device_manager
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
+import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
+import com.tfg.securerouter.data.app.notice.utils.PromptHost
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.device_manager.DeviceManagerCoordinator
 import com.tfg.securerouter.data.app.screens.device_manager.model.load.HistoricalDeviceModel
+import com.tfg.securerouter.data.app.screens.device_manager.tutorials.RegisterDeviceManagerTutorial
+import com.tfg.securerouter.data.app.screens.wifi.tutorials.WifiTutorial
+import com.tfg.securerouter.data.utils.AppSession
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.device_manager.components.BlockedDevicesList
 import com.tfg.securerouter.ui.app.screens.device_manager.components.ButtonToggleList
@@ -70,7 +81,16 @@ class DeviceManagerScreen: ScreenDefault() {
             deviceManagerCoordinator.modules.filterIsInstance<HistoricalDeviceModel>().first()
 
         val devicesState = connectedDevicesModel.state.collectAsState().value
+        val tutorialSpec by TutorialCenter.spec.collectAsState()
+        val tutorialOpen by TutorialCenter.open.collectAsState()
 
+        PromptHost()
+        AutoOpenTutorialOnce(
+            routerId = AppSession.routerId,
+            screenKey = HomeMenuOption.route
+        )
+
+        RegisterDeviceManagerTutorial()
         setComponents(
             {
                 DeviceManagerSearchBar(parent = this@DeviceManagerScreen)
@@ -89,6 +109,16 @@ class DeviceManagerScreen: ScreenDefault() {
             },
         )
 
-        RenderScreen()
+        Box(Modifier.fillMaxSize()) {
+            RenderScreen()
+
+            if (tutorialOpen && tutorialSpec != null) {
+                TutorialModal(
+                    spec = tutorialSpec!!,
+                    onSkip = { TutorialCenter.close() },
+                    onFinish = { TutorialCenter.close() }
+                )
+            }
+        }
     }
 }

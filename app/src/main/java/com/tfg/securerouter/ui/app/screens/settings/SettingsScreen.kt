@@ -1,10 +1,23 @@
 package com.tfg.securerouter.ui.app.screens.settings
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.navegation.LocalNavController
+import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
+import com.tfg.securerouter.data.app.notice.utils.PromptHost
 import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
+import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterSettingsTutorial
 import com.tfg.securerouter.data.app.screens.settings.SettingsCoordinator
+import com.tfg.securerouter.data.app.screens.wifi.tutorials.WifiTutorial
+import com.tfg.securerouter.data.utils.AppSession
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
+import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.settings.components.LanguageComponent
 
@@ -64,7 +77,16 @@ class SettingsScreen : ScreenDefault() {
     override fun ScreenContent(coordinator: ScreenCoordinatorDefault) {
         val settingsCoordinator = coordinator as? SettingsCoordinator
             ?: throw IllegalArgumentException("Expected SettingCoordinator")
+        val tutorialSpec by TutorialCenter.spec.collectAsState()
+        val tutorialOpen by TutorialCenter.open.collectAsState()
 
+        PromptHost()
+        AutoOpenTutorialOnce(
+            routerId = AppSession.routerId,
+            screenKey = HomeMenuOption.route
+        )
+
+        RegisterSettingsTutorial()
         setComponents(
             {
                 LanguageComponent(
@@ -73,6 +95,16 @@ class SettingsScreen : ScreenDefault() {
             }
         )
 
-        RenderScreen()
+        Box(Modifier.fillMaxSize()) {
+            RenderScreen()
+
+            if (tutorialOpen && tutorialSpec != null) {
+                TutorialModal(
+                    spec = tutorialSpec!!,
+                    onSkip = { TutorialCenter.close() },
+                    onFinish = { TutorialCenter.close() }
+                )
+            }
+        }
     }
 }

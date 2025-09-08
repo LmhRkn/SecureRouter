@@ -17,7 +17,7 @@ class IsActualizationExists(
 
         Log.d("IsActualizationExists", "output: $output \noutput.contains(\"NOT_FOUND\"): ${output.contains("NOT_FOUND")}")
 
-        return if (output.contains("NOT_FOUND")) -1 else 1
+        return if (output.contains("El sistema ya esta actualizado")) -1 else 1
     }
 
     override suspend fun execute(): Boolean {

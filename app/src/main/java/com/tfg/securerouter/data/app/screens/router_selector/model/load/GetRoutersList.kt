@@ -24,7 +24,6 @@ fun getRouterList(ephemeral: RouterInfo? = null): List<RouterInfo> {
     val ids: Set<String> = getCurrentConnectionIdentifiers()
         .map { it.trim().lowercase() }
         .toSet()
-    Log.d(TAG, "IDs actuales (MAC/BSSID/IP): $ids")
 
     data class Annot(val router: RouterInfo, val isCurrent: Boolean)
 
@@ -108,7 +107,6 @@ suspend fun findMatchingNoIpRouter(routers: List<RouterInfo>): RouterInfo? {
             target.any { it.isLetter() } -> resolveDomainIps(target)
             else -> emptySet()
         }
-
         if (current in ips) return r
     }
     return null

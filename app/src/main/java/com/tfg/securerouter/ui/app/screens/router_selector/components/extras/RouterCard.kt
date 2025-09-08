@@ -34,8 +34,6 @@ fun RouterCard(
         mutableStateOf(RouterLabel.New in router.labels)
     }
 
-    println("router: $router -> Offline: ${RouterLabel.Offline} || Online: ${RouterLabel.Online} ")
-
     Box(
         modifier = Modifier
             .fillMaxWidth()

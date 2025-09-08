@@ -7,16 +7,20 @@ import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialSpec
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
 import com.tfg.securerouter.data.app.screens.home.tutorials.steps.HomeTutorialStep1
 import com.tfg.securerouter.data.app.screens.home.tutorials.steps.HomeTutorialStep2
+import com.tfg.securerouter.data.app.screens.home.tutorials.steps.LanguageTutorialStep1
+import com.tfg.securerouter.data.app.screens.home.tutorials.steps.LanguageTutorialStep2
+import com.tfg.securerouter.data.app.screens.home.tutorials.steps.LanguageTutorialStep3
 
 
 @Composable
-fun RegisterHomeTutorial() {
+fun RegisterLanguageTutorial() {
     val tutorial = remember {
         TutorialSpec(
             steps = listOf(
-                HomeTutorialStep1(),
-                HomeTutorialStep2()
-            ),
+                LanguageTutorialStep1(),
+                LanguageTutorialStep2(),
+                LanguageTutorialStep3(),
+                ),
             startIndex = 0,
             skippable = true
         )

@@ -32,7 +32,9 @@ class SecureRouterApp : Application() {
 
 
 //        RouterSelectorCache.update("1") { r -> r.copy(mac = "AA:BB:CC:DD:EE:FF") }
-//        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = "12345678") }
+//        RouterSelectorCache.update("1") { r -> r.copy(isVpn = true) }
+//        RouterSelectorCache.update("1") { r -> r.copy(sshPassword = null) }
+//        RouterSelectorCache.update("1") { r -> r.copy(publicIpOrDomain = "securerouter2.ddns.net") }
 //        Log.d("ROUTERS", "routers: ${RouterSelectorCache.getRouters()}")
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,9 +44,10 @@ class SecureRouterApp : Application() {
 //            RouterInfo(
 //                name = "SecureRouter5G",
 //                localIp = "192.168.10.1",
-//                mac = "AA:BB:CC:DD:EE:FF",
+//                mac = "AA:BB:CC:DD:EE:FF",º
 //                id = 1,
-//                isVpn = false,
+//                publicIpOrDomain = "securerouter3.ddns.net",
+//                isVpn = true,
 //                sshPassword = "12345678"
 //            )
 //        )

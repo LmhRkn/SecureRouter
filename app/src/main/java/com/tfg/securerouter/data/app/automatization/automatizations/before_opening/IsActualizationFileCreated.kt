@@ -17,38 +17,21 @@ class IsActualizationFileCreated(
 
     override suspend fun execute(): Boolean {
         val ensureScriptCmd = """
-            set -e
             cat > /root/check_update.sh << 'EOF'
-            #!/bin/sh
+            current_version=${'$'}(cat /etc/openwrt_release | grep DISTRIB_RELEASE | cut -d"'" -f2)
+            latest_version=${'$'}(curl -s https://downloads.openwrt.org/releases/ | grep -Eo 'href="[0-9]+\.[0-9]+\.[0-9]+/"' | sort -V | tail -1 | cut -d'"' -f2 | sed 's/\///')
 
-            # Detectar target (ej: ath79/generic)
-            target=$(grep DISTRIB_TARGET= /etc/openwrt_release | cut -d"'" -f2)
-
-            # Detectar nombre de la placa (ej: tplink,archer-c60-v3)
-            board=$(cat /tmp/sysinfo/board_name)
-
-            # Última versión estable disponible en el repo
-            latest=$(curl -fsS https://downloads.openwrt.org/releases/ \
-                | grep -Eo 'href="[0-9]+\.[0-9]+\.[0-9]+/"' \
-                | cut -d'"' -f2 | tr -d '/' \
-                | sort -V | tail -1)
-
-            # Buscar imagen sysupgrade en la carpeta del target
-            url="https://downloads.openwrt.org/releases/${'$'}latest/targets/${'$'}target/"
-            image=$(curl -fsS "${'$'}url" | grep "sysupgrade.bin" | grep "${'$'}board" | cut -d'"' -f2)
-
-            if [ -n "${'$'}image" ]; then
-                echo "URL Found"
-                echo "${'$'}url${'$'}image"
-                echo
-                echo "command"
-                echo "cd /tmp"
-                echo "wget ${'$'}url${'$'}image"
-                echo "sysupgrade -n /tmp/$(basename ${'$'}image)"
-                echo "end_command"
-            else
-                echo "\nNOT_FOUND\n"
+            if [ -z "${'$'}latest_version" ]; then
+                echo "Error: No se pudo obtener la ultima version"
+                exit 1
             fi
+
+            if [ "${'$'}current_version" = "${'$'}latest_version" ]; then
+                echo "El sistema ya esta actualizado"
+                exit 0
+            fi
+
+            echo "Actualizacion disponible"
             EOF
             chmod +x /root/check_update.sh
         """.trimIndent()

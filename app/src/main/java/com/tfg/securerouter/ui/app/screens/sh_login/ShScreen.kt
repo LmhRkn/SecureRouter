@@ -7,6 +7,7 @@ import com.tfg.securerouter.data.app.screens.ScreenCoordinatorDefault
 import com.tfg.securerouter.data.app.screens.language.LanguageCoordinator
 import com.tfg.securerouter.data.app.screens.router_selector.RouterSelectorCoordinator
 import com.tfg.securerouter.data.app.screens.sh_login.ShLoginCoordinator
+import com.tfg.securerouter.data.app.screens.wifi.tutorials.WifiTutorial
 import com.tfg.securerouter.ui.app.screens.ScreenDefault
 import com.tfg.securerouter.ui.app.screens.language.components.LanguageButtons
 import com.tfg.securerouter.ui.app.screens.language.components.LanguageList
@@ -29,6 +30,7 @@ class ShScreen: ScreenDefault() {
             ?: throw IllegalArgumentException("Expected ShLoginCoordinator")
 
         val navController = LocalNavController.current
+        WifiTutorial()
 
 
         setComponents(
