@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
@@ -22,8 +23,9 @@ import com.tfg.securerouter.ui.app.screens.home.components.ConnectedDevicesList
 import com.tfg.securerouter.ui.app.screens.home.components.HomeRouterInfoSection
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialModal
-import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
 import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
+import com.tfg.securerouter.data.app.screens.home.tutorials.RegisterHomeTutorial
+import com.tfg.securerouter.R
 
 class HomeScreen : ScreenDefault() {
 
@@ -69,7 +71,7 @@ class HomeScreen : ScreenDefault() {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.Default.Router,
-                        contentDescription = "Router icon",
+                        contentDescription = stringResource(R.string.router_icon),
                         modifier = Modifier.size(128.dp)
                     )
                 }

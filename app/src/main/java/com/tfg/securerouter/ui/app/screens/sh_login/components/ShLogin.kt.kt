@@ -1,6 +1,5 @@
 package com.tfg.securerouter.ui.app.screens.sh_login.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +33,7 @@ import com.tfg.securerouter.ui.app.screens.wifi.components.password.PasswordInpu
 import com.tfg.securerouter.ui.app.screens.wifi.components.password.PasswordErrorText
 
 import kotlinx.coroutines.withTimeoutOrNull
+import com.tfg.securerouter.ui.app.common.password.PasswordRequirements
 
 @Composable
 fun ShLogin(
@@ -98,7 +98,6 @@ private fun login(
    when (AppSession.createSSHPassword) {
       null -> {
          LaunchedEffect("skipCreateSSH") {
-            Log.d("ShLogin", "createSSHPassword == null -> onSave() (LaunchedEffect)")
             onSave()
          }
       }
@@ -150,6 +149,10 @@ private fun login(
                errorMessage = stringResource(R.string.wifi_wrong_repeated_password)
             )
 
+            Spacer(Modifier.height(12.dp))
+
+            PasswordRequirements(password = password)
+
             Spacer(Modifier.height(16.dp))
 
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
@@ -163,7 +166,7 @@ private fun login(
                      onSave()
                   },
                   enabled = canPrimary
-               ) { Text("Crear") }
+               ) { Text(stringResource(R.string.creat_button)) }
             }
          }
       }
@@ -212,7 +215,7 @@ private fun login(
                      onSave()
                   },
                   enabled = canPrimary
-               ) { Text("Conectar") }
+               ) { Text(stringResource(R.string.connect_button)) }
             }
          }
       }

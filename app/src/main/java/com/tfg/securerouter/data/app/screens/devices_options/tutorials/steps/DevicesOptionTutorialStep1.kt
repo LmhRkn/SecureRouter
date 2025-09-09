@@ -5,6 +5,6 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun DevicesOptionTutorialStep1(): TutorialStep = TutorialStep(
-        title = "Opciones de los dispositivos",
-        body  = "Aquí puedes modificar información del dispositivo."
+        title = R.string.device_options_title,
+        body  = R.string.device_options_spec_1
     )

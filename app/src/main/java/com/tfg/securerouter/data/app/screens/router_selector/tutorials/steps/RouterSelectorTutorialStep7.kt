@@ -5,9 +5,9 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun RouterSelectorTutorialStep7(): TutorialStep = TutorialStep(
-        title = "Entrar a un router pt. 3",
-        body  = "Importante: Guarda esta contraseña porque otros usuarios la necesitan para conectarse mediante la aplicación.",
-        media = NoticeMedia.Url(
-            "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/Global/Alert.png"
-        )
+    title = R.string.router_selector_tutorial_enter_router_title,
+    body  = R.string.router_selector_tutorial_step7,
+    media = NoticeMedia.Url(
+        "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/Global/Alert.png"
     )
+)

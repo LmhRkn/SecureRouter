@@ -17,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.screens.wifi.model.send.ad_blocekr.AdBlockerOffWifi
@@ -30,6 +31,7 @@ import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.common.buttons.ToggleButton
 import com.tfg.securerouter.ui.app.notice.alerts.AlertModal
 import kotlinx.coroutines.withTimeoutOrNull
+import com.tfg.securerouter.R
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -56,7 +58,7 @@ fun WifiAdBlockerSection(router: RouterInfo?) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("Bloqueador de anuncios:", style = MaterialTheme.typography.bodyLarge)
+        Text(stringResource(R.string.wifi_add_blocker), style = MaterialTheme.typography.bodyLarge)
 
         ToggleButton(
             checked = checked ?: false,
@@ -131,18 +133,15 @@ fun ConfigAlert(
     when (ok) {
         null -> {}
         true -> {
-            Log.d("ConfigAlert", "out: bb")
             onInstalled()
         }
         false -> {
-            Log.d("ConfigAlert", "out: aa")
 
             val alert = remember {
                 AlertSpec(
-                    title = "Requiere instalación",
-                    message = "Esta acción requiere configuración\n en ${AppSession.routerIp}:3000.\nMira la guía.",
-                    confirmText = "Continuar",
-                    cancelText = "Cancelar",
+                    title = R.string.wifi_require_instalation,
+                    message = R.string.wifi_require_installation_message,
+                    confirmText = R.string.continue_button,
                     showCancel = true
                 )
             }

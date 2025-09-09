@@ -59,7 +59,7 @@ fun RouterCard(
 
                 Icon(
                     imageVector = icon,
-                    contentDescription = if (router.isVpn) "Router por VPN" else "Router",
+                    contentDescription = if (router.isVpn) stringResource(R.string.router_vpn_label) else stringResource(R.string.router_label),
                     modifier = Modifier
                         .size(50.dp)
                         .padding(end = 12.dp),

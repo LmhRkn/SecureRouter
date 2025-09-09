@@ -5,9 +5,8 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun DevicesOptionTutorialStep3(): TutorialStep = TutorialStep(
-        title = "Tipo dispositivo",
-        body  = "Si el tipo de dispositivo no se ha detectado bien, puedes cambiarlo dando al botón de editar sobre el icono de dispositivo.\n" +
-                "Este cambio solo afecta a tu aplicación.",
+        title = R.string.device_options_type_title,
+        body  = R.string.device_options_type_spec_3,
         media = NoticeMedia.Url(
             "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec3.jpg"
         )

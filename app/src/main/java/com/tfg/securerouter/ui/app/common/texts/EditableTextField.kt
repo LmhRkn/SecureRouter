@@ -17,12 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.tfg.securerouter.R
 
 @Composable
 fun EditableTextField(
@@ -76,7 +78,7 @@ fun EditableTextField(
                         placeholder = { if (placeholder != null) Text(placeholder) },
                         trailingIcon = {
                             IconButton(onClick = { editingValue = TextFieldValue("") }) {
-                                Icon(Icons.Filled.Clear, contentDescription = "Limpiar")
+                                Icon(Icons.Filled.Clear, contentDescription = stringResource(R.string.clear_button))
                             }
                         },
                         textStyle = textStyle
@@ -99,7 +101,7 @@ fun EditableTextField(
                         ) {
                             Icon(Icons.Filled.Close, contentDescription = null)
                             Spacer(Modifier.width(8.dp))
-                            Text(text = "Cancelar")
+                            Text(text = stringResource(R.string.cancel_button))
                         }
                         Spacer(Modifier.width(8.dp))
                         Button(
@@ -111,7 +113,7 @@ fun EditableTextField(
                         ) {
                             Icon(Icons.Filled.Check, contentDescription = null)
                             Spacer(Modifier.width(8.dp))
-                            Text(text = "Guardar")
+                            Text(text = stringResource(R.string.save_button))
                         }
                     }
                 }
@@ -155,7 +157,7 @@ fun EditableTextField(
                         ) {
                             Icon(
                                 Icons.Filled.Edit,
-                                contentDescription = "Editar",
+                                contentDescription = stringResource(R.string.edit_button),
                                 modifier = Modifier.size(iconSize)
                             )
                         }

@@ -51,7 +51,6 @@ fun LanguageButtons(
             .filterIsInstance<LanguageScreenEvent.LanguageSelected>()
             .collect { ev ->
                 selectedLanguage = ev.query
-                Log.d("LanguageButtons", "Se puede pulsar")
             }
     }
 

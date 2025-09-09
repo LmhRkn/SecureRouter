@@ -15,8 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.screens.router_selector.RouterLabel
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.screens.router_selector.model.load.detectEphemeralOpenWrt
@@ -40,20 +42,15 @@ fun RoutersList(
 
     val everyRouter = RouterSelectorCache.getRouters()
 
-    Log.d("RoutersList", "Routers: $everyRouter")
 
     LaunchedEffect(Unit) {
         ephemeral = detectEphemeralOpenWrt()
-        Log.d("RoutersList", "Ephemeral: $ephemeral")
         if (ephemeral == null) {
             match = findMatchingNoIpRouter(everyRouter)
-            Log.d("RoutersList", "Match por IP pública/no-ip: $match")
         }
     }
 
     val baseRouters: List<RouterInfo> = getRouterList(ephemeral)
-    Log.d("RoutersList", "Base routers: $baseRouters")
-
     val routers: List<RouterInfo> =
         if (match != null) {
             baseRouters.map {
@@ -66,8 +63,6 @@ fun RoutersList(
             }
         } else baseRouters
     val anyOnline = routers.any { RouterLabel.Online in it.labels }
-    Log.d("RoutersList", "Routers: $routers")
-    Log.d("RoutersList", "Any online: $anyOnline")
 
     if (runnerRouter == null) {
         Column(
@@ -75,12 +70,12 @@ fun RoutersList(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text("Selecciona un Router", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.select_router), style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(16.dp))
 
             if (!anyOnline) {
                 Text(
-                    text = "No hay ningún router conectado ahora mismo.",
+                    text = stringResource(R.string.no_router_connected_error),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -117,7 +112,6 @@ fun RoutersList(
                                 runnerRouter = router
                             }
                         }
-                        Log.d("RouterSelectionScreen", "AppSession: ${AppSession.routerId}, ${AppSession.routerIp}")
                     }
                 )
             }

@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.common.screen_components.devices.DeviceLabel
 import com.tfg.securerouter.data.app.common.screen_components.devices.model.DeviceModel
@@ -21,6 +22,7 @@ import com.tfg.securerouter.data.json.jsons.device_manager.DeviceManagerCache
 import com.tfg.securerouter.data.utils.time.TimeUtils.blockedNowHuman
 import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
 import com.tfg.securerouter.ui.app.notice.alerts.AlertModal
+import com.tfg.securerouter.R
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -30,7 +32,7 @@ fun DeviceOptionsBlockButton(
     onChanged: (DeviceModel) -> Unit
 ) {
     val isBlocked = DeviceLabel.Blocked in deviceModel.labels
-    val text = if (isBlocked) "Desbloquear dispositivo" else "Bloquear dispositivo"
+    val text = if (isBlocked) stringResource(R.string.unblock_device_button) else stringResource(R.string.block_device_text)
     val icon = if (isBlocked) Icons.Outlined.LockOpen else Icons.Outlined.Lock
 
     var activeAlert by remember { mutableStateOf<AlertSpec?>(null) }
@@ -40,7 +42,7 @@ fun DeviceOptionsBlockButton(
         BlockDevice.blockDevice(deviceModel.mac)
         val updated = deviceModel.copy(
             labels = deviceModel.labels + DeviceLabel.Blocked,
-            blockedAt = "Bloqueado ${blockedNowHuman()}"
+            blockedAt = "${R.string.device_label_blocked} ${blockedNowHuman()}"
         )
         DeviceManagerCache.update(updated.mac) { updated }
         onChanged(updated)

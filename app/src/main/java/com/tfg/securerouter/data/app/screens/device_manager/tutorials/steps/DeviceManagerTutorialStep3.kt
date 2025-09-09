@@ -5,8 +5,8 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun DeviceMAnagerTutorialStep3(): TutorialStep = TutorialStep(
-        title = "Pantalla Device Manager",
-        body  = "También puedes aplicar filtros para que sea mas fácil de encontrar.",
+        title = R.string.device_manager_screen,
+        body  = R.string.device_manager_spec_3,
         media = NoticeMedia.Url(
             "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/DeviceManagerTutorial/Spec3.jpg"
         )

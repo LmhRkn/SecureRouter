@@ -34,6 +34,7 @@ import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.menu_screens.WifiMenuOption
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.screens.wifi.utils.validatePassword
+import com.tfg.securerouter.ui.app.common.password.PasswordRequirements
 
 @Composable
 fun ChangeRouterPassword(
@@ -94,6 +95,10 @@ fun ChangeRouterPassword(
             validate = { it == newPassword },
             errorMessage = stringResource(R.string.wifi_wrong_repeated_password)
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        PasswordRequirements(password = newPassword)
 
         Spacer(modifier = Modifier.height(16.dp))
 

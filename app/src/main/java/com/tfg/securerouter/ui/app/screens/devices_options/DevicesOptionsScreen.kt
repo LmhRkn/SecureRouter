@@ -13,8 +13,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.menu.menu_screens.HomeMenuOption
 import com.tfg.securerouter.data.app.navegation.LocalNavController
 import com.tfg.securerouter.data.app.notice.model.tutorials.AutoOpenTutorialOnce
@@ -57,14 +59,14 @@ class DevicesOptionsScreen: ScreenDefault() {
         )
 
         if (macArg.isNullOrBlank()) {
-            setComponents({ M3Text("Dispositivo no especificado.") })
+            setComponents({ M3Text(stringResource(R.string.device_option_unspecified_device_error)) })
             RenderScreen()
             return
         }
 
         val routerId = AppSession.routerId
         if (routerId == null) {
-            setComponents({ M3Text("No hay router seleccionado.") })
+            setComponents({ M3Text(stringResource(R.string.device_option_no_router_selected_error)) })
             RenderScreen()
             return
         }

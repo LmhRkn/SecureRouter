@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
+import com.tfg.securerouter.R
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -77,11 +79,10 @@ fun WifiSpeedtest(
                     modifier = Modifier.padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("Iniciar test", style = MaterialTheme.typography.titleLarge)
+                    Text(stringResource(R.string.wifi_speed_test_start), style = MaterialTheme.typography.titleLarge)
                     Spacer(Modifier.height(10.dp))
                     Text(
-                        "Mide la velocidad de tu conexión.\n" +
-                                "Aceptaremos licencia y privacidad si es la primera vez.",
+                        stringResource(R.string.wifi_speed_test_measure_speed),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -89,7 +90,7 @@ fun WifiSpeedtest(
                     Button(
                         onClick = { scope.launch { runTest() } },
                         shape = RoundedCornerShape(16.dp)
-                    ) { Text("Empezar") }
+                    ) { Text(stringResource(R.string.start_button)) }
                 }
             }
         }
@@ -104,23 +105,22 @@ private fun LoadingCard(onCancel: (() -> Unit)?) {
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Midiendo…", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.wifi_speed_test_measuring), style = MaterialTheme.typography.titleLarge)
         Spacer(Modifier.height(14.dp))
         SweepLoader(size = 136.dp, stroke = 12.dp)
         Spacer(Modifier.height(12.dp))
         Text(
-            "Esto puede tardar unos segundos.",
+            stringResource(R.string.wifi_speed_test_delay),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         if (onCancel != null) {
             Spacer(Modifier.height(16.dp))
-            TextButton(onClick = onCancel) { Text("Cancelar") }
+            TextButton(onClick = onCancel) { Text(stringResource(R.string.cancel_button)) }
         }
     }
 }
 
-/** Anillo animado moderno (sweep + pulso). */
 @Composable
 private fun SweepLoader(size: Dp, stroke: Dp) {
     val transition = rememberInfiniteTransition(label = "sweep")
@@ -203,7 +203,7 @@ private fun ResultCard(data: SpeedData, onRunAgain: () -> Unit) {
         }
         Spacer(Modifier.height(16.dp))
         OutlinedButton(onClick = onRunAgain, shape = RoundedCornerShape(12.dp)) {
-            Text("Repetir prueba")
+            Text(stringResource(R.string.wifi_speed_test_restart_measure))
         }
     }
 }
@@ -211,7 +211,7 @@ private fun ResultCard(data: SpeedData, onRunAgain: () -> Unit) {
 @Composable
 private fun ErrorCard(message: String, onRetry: () -> Unit) {
     Column(Modifier.fillMaxWidth().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("No se pudo ejecutar la prueba", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.error)
+        Text(stringResource(R.string.wifi_speed_test_cant_execute_error), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.error)
         Spacer(Modifier.height(8.dp))
         Text(message, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.height(16.dp))

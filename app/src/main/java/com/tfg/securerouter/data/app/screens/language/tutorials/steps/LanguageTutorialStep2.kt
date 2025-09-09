@@ -5,9 +5,9 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun LanguageTutorialStep2(): TutorialStep = TutorialStep(
-        title = "Cambiar Idioma pt. 1",
-        body  = "Selecciona el idioma que quieras que tenga la aplicación.",
-        media = NoticeMedia.Url(
-            "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/LanguageTutorial/Spec2.jpg"
-        )
+    title = R.string.language_tutorial_title,
+    body  = R.string.language_tutorial_step2,
+    media = NoticeMedia.Url(
+        "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/LanguageTutorial/Spec2.jpg"
     )
+)

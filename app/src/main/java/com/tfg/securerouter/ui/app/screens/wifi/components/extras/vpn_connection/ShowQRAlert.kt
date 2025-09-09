@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import com.tfg.securerouter.data.utils.QRDecoder
+import com.tfg.securerouter.R
 
 @Composable
 fun ShowQRAlert(
@@ -56,9 +58,9 @@ fun ShowQRAlert(
                 if (pngB64.isNotEmpty()) {
                     val ok = PromptBus.confirm(
                         AlertSpec(
-                            title = "Escanea este QR con el nuevo dispositivo",
+                            title = R.string.wifi_vpn_scan_qr,
                             imageBase64 = pngB64,
-                            confirmText = "Listo",
+                            confirmText = R.string.done_button,
                             showCancel = false,
                             maxHeightDp = 520
                         )
@@ -70,9 +72,9 @@ fun ShowQRAlert(
                 } else {
                     PromptBus.confirm(
                         AlertSpec(
-                            title = "Error al convertir el QR",
-                            message = "Salida ANSI vacía.",
-                            confirmText = "Cerrar",
+                            title = R.string.wifi_vpn_error_qr,
+                            message = R.string.ansi_error,
+                            confirmText = R.string.close_button,
                             showCancel = false
                         )
                     )

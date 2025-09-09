@@ -5,6 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
 import com.tfg.securerouter.data.app.automatization.ExecuteAutomationsBlockingUI
@@ -23,7 +25,7 @@ fun WifiVPNSection(
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     ExpandableSection(
-        title = "Activar VPN",
+        title = stringResource(R.string.wifi_vpn_activate_vpn),
         expanded = expanded,
         onExpandedChange = { expanded = it },
         content = {

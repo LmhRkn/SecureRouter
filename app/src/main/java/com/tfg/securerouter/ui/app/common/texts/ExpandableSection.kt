@@ -33,7 +33,7 @@ fun ExpandableSection(
 
     val isExpanded = if (isControlled) expanded!! else internal.value
     val setExpanded: (Boolean) -> Unit =
-        if (isControlled) onExpandedChange!!
+        if (isControlled) onExpandedChange
         else { { internal.value = it } }
 
     Column(modifier = modifier) {

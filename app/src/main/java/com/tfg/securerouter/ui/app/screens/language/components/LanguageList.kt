@@ -66,8 +66,6 @@ fun LanguageList(
                         selectedStates[index] = true
 
                         val prevVal = if (prev != -1) selectedStates[prev] else null
-                        Log.d("LanguageList", "previousIndex: $prev -> $prevVal")
-                        Log.d("LanguageList", "index: $index -> ${selectedStates[index]}")
 
                         CoroutineScope(Dispatchers.Main).launch {
                             parent.sendEvent(LanguageScreenEvent.LanguageSelected(abbreviation))

@@ -5,9 +5,9 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun HomeAdviceStep2(): TutorialStep = TutorialStep(
-        title = "IMPORTANTE",
-        body  = "Es buena practica guardar con un nombre reconocible los dispositivos.",
-        media = NoticeMedia.Url(
-            "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/Global/Alert.png"
-        )
+    title = R.string.tutorial_important_label,
+    body  = R.string.home_save_with_name_hint,
+    media = NoticeMedia.Url(
+        "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/Global/Alert.png"
     )
+)

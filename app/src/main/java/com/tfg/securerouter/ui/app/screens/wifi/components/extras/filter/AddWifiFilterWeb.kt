@@ -60,16 +60,16 @@ fun AddWifiFilterWeb(
         OutlinedTextField(
             value = text,
             onValueChange = { text = it },
-            label = { Text("Dominio o URL") },
-            placeholder = { Text("ej.: youtube.com o https://sub.ejemplo.com/path") },
+            label = { Text(stringResource(R.string.wifi_url_domain)) },
+            placeholder = { Text(stringResource(R.string.wifi_url_domain_example))},
             singleLine = true,
             isError = (!isValid && normalized.isNotBlank()) || duplicate,
             supportingText = {
                 when {
-                    normalized.isBlank() -> Text("Introduce un dominio o URL")
-                    !isValid -> Text("Dominio no válido")
-                    duplicate -> Text("Ya existe una regla para $normalized")
-                    else -> Text("Se guardará como: $normalized")
+                    normalized.isBlank() -> Text(stringResource(R.string.wifi_introduce_url_domain))
+                    !isValid -> Text(stringResource(R.string.wifi_url_domain_no_valid))
+                    duplicate -> Text("${stringResource(R.string.wifi_url_domain_already_exists)} $normalized")
+                    else -> Text("${stringResource(R.string.wifi_url_domain_save_as)} $normalized")
                 }
             },
             modifier = Modifier.fillMaxWidth()

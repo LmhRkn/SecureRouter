@@ -29,8 +29,6 @@ fun DeviceTypePicker(
     onCancel: () -> Unit,
     onSave: (DeviceTypeConfig) -> Unit
 ) {
-    Log.d("DeviceTypePicker", "currentTypeLabel: $currentTypeLabel")
-
     val initialIndex = remember(currentTypeLabel, types) {
         val idx = types.indexOfFirst { it.label == currentTypeLabel }
         if (idx >= 0) idx else types.indexOfFirst { false }.coerceAtLeast(0)

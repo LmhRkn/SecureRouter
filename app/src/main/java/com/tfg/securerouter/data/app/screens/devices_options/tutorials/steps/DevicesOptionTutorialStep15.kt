@@ -5,9 +5,9 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun DevicesOptionTutorialStep15(): TutorialStep = TutorialStep(
-        title = "Bloqueo dispositivo pt. 4",
-        body = "Y confirmas dando a Desbloquear.",
-        media = NoticeMedia.Url(
-            "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec3.jpg"
-        )
+    title = R.string.device_options_tutorial_block_device_title,
+    body = R.string.device_options_tutorial_block_device_spec_15,
+    media = NoticeMedia.Url(
+        "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec3.jpg"
     )
+)

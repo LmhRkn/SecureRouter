@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -17,6 +18,7 @@ import com.tfg.securerouter.data.app.screens.wifi.model.send.vpn.AddVPNPeer
 import com.tfg.securerouter.data.json.jsons.router_selector.RouterSelectorCache
 import com.tfg.securerouter.data.utils.AppSession
 import java.net.IDN
+import com.tfg.securerouter.R
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -45,22 +47,22 @@ fun ActivateVPNScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            "Introduce el dominio asociado a tu IP pública (DDNS) y un nombre para esta conexión.",
+            stringResource(R.string.wifi_vpn_introduce_domain ),
             style = MaterialTheme.typography.titleMedium
         )
 
         OutlinedTextField(
             value = nameText,
             onValueChange = { nameText = noWhitespace(it) },
-            label = { Text("Nombre de la conexión") },
-            placeholder = { Text("ej.: Casa, Oficina, VPN-Móvil") },
+            label = { Text(stringResource(R.string.wifi_vpn_conexion_name)) },
+            placeholder = { Text(stringResource(R.string.wifi_vpn_conexion_name_example)) },
             singleLine = true,
             isError = (!isNameValid && normalizedName.isNotBlank()),
             supportingText = {
                 when {
-                    normalizedName.isBlank() -> Text("Introduce un nombre")
-                    !isNameValid -> Text("Nombre no válido (sin espacios)")
-                    else -> Text("Se guardará como: $normalizedName")
+                    normalizedName.isBlank() -> Text(stringResource(R.string.wifi_vpn_introduce_a_name))
+                    !isNameValid -> Text(stringResource(R.string.wifi_vpn_ino_valid_name))
+                    else -> Text("${stringResource(R.string.wifi_url_domain_save_as)} $normalizedName")
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -69,15 +71,15 @@ fun ActivateVPNScreen(
         OutlinedTextField(
             value = domainText,
             onValueChange = { domainText = noWhitespace(it) },
-            label = { Text("Dominio (IP pública)") },
-            placeholder = { Text("ej.: mi-casa.ddns.net o vpn.midominio.com") },
+            label = { Text(stringResource(R.string.wifi_vpn_public_ip)) },
+            placeholder = { Text(stringResource(R.string.wifi_vpn_public_ip_example)) },
             singleLine = true,
             isError = (!isDomainValid && normalizedDomain.isNotBlank()),
             supportingText = {
                 when {
-                    normalizedDomain.isBlank() -> Text("Introduce un dominio")
-                    !isDomainValid -> Text("Dominio no válido (sin espacios)")
-                    else -> Text("Se guardará como: $normalizedDomain")
+                    normalizedDomain.isBlank() -> Text(stringResource(R.string.wifi_vpn_introduce_domain_2))
+                    !isDomainValid -> Text(stringResource(R.string.wifi_vpn_introduce_domain_2_no_valid))
+                    else -> Text("${stringResource(R.string.wifi_url_domain_save_as)} $normalizedDomain")
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -101,7 +103,7 @@ fun ActivateVPNScreen(
                 },
                 enabled = isNameValid && isDomainValid
             ) {
-                Text("Activar VPN")
+                Text(stringResource(R.string.wifi_vpn_activate))
             }
 
             OutlinedButton(
@@ -109,7 +111,7 @@ fun ActivateVPNScreen(
                     onCancel()
                 }
             ) {
-                Text("Cancelar")
+                Text(stringResource(R.string.cancel_button))
             }
         }
     }

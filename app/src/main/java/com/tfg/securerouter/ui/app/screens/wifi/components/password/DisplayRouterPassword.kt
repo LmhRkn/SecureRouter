@@ -82,9 +82,9 @@ suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
     if (!ok) {
         PromptBus.confirm(
             AlertSpec(
-                title = "No se pudo generar el QR",
-                message = "Fallo al solicitar los datos.",
-                confirmText = "Cerrar",
+                title = R.string.wifi_alert_qr_error,
+                message = R.string.wifi_alert_qr_error_msg,
+                confirmText = R.string.close_button,
                 showCancel = false
             )
         )
@@ -96,9 +96,9 @@ suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
     } ?: run {
         PromptBus.confirm(
             AlertSpec(
-                title = "Tiempo de espera agotado",
-                message = "No se obtuvo respuesta del generador de QR.",
-                confirmText = "Cerrar",
+                title =  R.string.wifi_alert_time_run_out,
+                message =  R.string.wifi_alert_time_run_out_msg,
+                confirmText = R.string.close_button,
                 showCancel = false
             )
         )
@@ -108,9 +108,8 @@ suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
     if (st.error != null) {
         PromptBus.confirm(
             AlertSpec(
-                title = "No se pudo generar el QR",
-                message = st.error,
-                confirmText = "Cerrar",
+                title = R.string.wifi_alert_qr_error,
+                confirmText = R.string.close_button,
                 showCancel = false
             )
         )
@@ -121,18 +120,18 @@ suspend fun onQrClick(wifiCoordinator: WifiCoordinator) {
     if (pngB64.isEmpty()) {
         PromptBus.confirm(
             AlertSpec(
-                title = "Error al convertir el QR",
-                message = "Salida ANSI vacía.",
-                confirmText = "Cerrar",
+                title = R.string.wifi_alert_convert_qr_error,
+                message = R.string.wifi_alert_convert_qr_error_msg,
+                confirmText = R.string.close_button,
                 showCancel = false
             )
         )
     } else {
         PromptBus.confirm(
             AlertSpec(
-                title = "Escanea este QR para conectarte",
+                title = R.string.wifi_alert_scan_qr,
                 imageBase64 = pngB64,
-                confirmText = "Listo",
+                confirmText = R.string.done_button,
                 showCancel = false,
                 maxHeightDp = 520
             )

@@ -1,6 +1,7 @@
 package com.tfg.securerouter.data.app.automatization.automatizations.before_opening
 
 import android.util.Log
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.screens.router_selector.model.RouterInfo
 import com.tfg.securerouter.data.app.automatization.AutomatizationDefault
 import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
@@ -27,13 +28,10 @@ class IsActualizationExists(
 
     companion object {
         val UpdateAlert = AlertSpec(
-            title = "Actualización disponible",
-            message = """
-                Tienes que actualizar el router, 
-                no hacerlo supone un riesgo considerable
-            """.trimIndent(),
-            confirmText = "Aceptar",
-            cancelText = "Cancelar",
+            title = R.string.abailable_update,
+            message = R.string.abailable_update_body,
+            confirmText = R.string.accept_button,
+            cancelText = R.string.cancel_button,
             showCancel = true
         )
     }

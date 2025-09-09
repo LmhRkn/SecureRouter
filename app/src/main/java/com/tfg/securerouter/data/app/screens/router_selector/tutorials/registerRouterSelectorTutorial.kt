@@ -12,6 +12,7 @@ import com.tfg.securerouter.data.app.screens.settings.tutorials.steps.RouterSele
 import com.tfg.securerouter.data.app.screens.settings.tutorials.steps.RouterSelectorTutorialStep6
 import com.tfg.securerouter.data.app.screens.settings.tutorials.steps.RouterSelectorTutorialStep7
 import com.tfg.securerouter.data.app.screens.settings.tutorials.steps.RouterSelectorTutorialStep8
+import com.tfg.securerouter.data.app.screens.settings.tutorials.steps.RouterSelectorTutorialStep9
 import com.tfg.securerouter.ui.app.notice.tutorials.TutorialCenter
 import com.tfg.securerouter.data.app.screens.settings.tutorials.steps.SettingsTutorialStep1
 
@@ -29,6 +30,7 @@ fun RegisterRotuerSelectorTutorial() {
                 RouterSelectorTutorialStep6(),
                 RouterSelectorTutorialStep7(),
                 RouterSelectorTutorialStep8(),
+                RouterSelectorTutorialStep9(),
             ),
             startIndex = 0,
             skippable = true

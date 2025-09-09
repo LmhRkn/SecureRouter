@@ -13,9 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
 import com.tfg.securerouter.data.app.screens.wifi.model.load.WifiGetVPNPeers
+import com.tfg.securerouter.R
 
 @Composable
 fun DeletePeerPanel(
@@ -44,7 +46,7 @@ fun DeletePeerPanel(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text("Eliminar dispositivo VPN", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.wifi_vpn_delete_peer), style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
 
         androidx.compose.material3.OutlinedTextField(
@@ -52,8 +54,8 @@ fun DeletePeerPanel(
             onValueChange = { query = it },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            placeholder = { Text("Buscar por nombre o IP…") },
-            label = { Text("Buscar") }
+            placeholder = { Text(stringResource(R.string.wifi_vpn_search_name_ip)) },
+            label = { Text(stringResource(R.string.wifi_vpn_search)) }
         )
 
         Spacer(Modifier.height(8.dp))
@@ -83,7 +85,7 @@ fun DeletePeerPanel(
             horizontalArrangement = Arrangement.End
         ) {
             androidx.compose.material3.OutlinedButton(onClick = onCancel) {
-                Text("Cancelar")
+                Text(stringResource(R.string.cancel_button))
             }
             Spacer(Modifier.width(8.dp))
             Button(
@@ -92,7 +94,7 @@ fun DeletePeerPanel(
                     selected?.let { onConfirmDelete(it.name, it.ip) }
                 }
             ) {
-                Text("Borrar")
+                Text(stringResource(R.string.delete_button))
             }
         }
     }

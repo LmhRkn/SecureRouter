@@ -1,13 +1,14 @@
 package com.tfg.securerouter.data.app.notice.model.alerts
 
 import androidx.compose.runtime.Immutable
+import com.tfg.securerouter.R
 
 @Immutable
 data class AlertSpec(
-    val title: String,
-    val message: String? = null,
-    val confirmText: String = "Aceptar",
-    val cancelText: String = "Cancelar",
+    val title: Int,
+    val message: Int? = null,
+    val confirmText: Int = R.string.accept_button,
+    val cancelText: Int = R.string.cancel_button,
     val showCancel: Boolean = true,
 
     val isMonospace: Boolean = false,

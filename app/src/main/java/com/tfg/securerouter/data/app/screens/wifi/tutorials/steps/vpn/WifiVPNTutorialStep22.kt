@@ -1,11 +1,12 @@
 package com.tfg.securerouter.data.app.screens.wifi.tutorials.steps.vpn
 
+import com.tfg.securerouter.R
 import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun WifiVPNTutorialStep22(): TutorialStep = TutorialStep(
-    title = "Más funcionalidades de la VPN pt.2",
-    body  = "O puedes borrar un punto de acceso ya creado para que no pueda segir entrando.",
+    title = R.string.wifi_vpn_tutorial_more_features_title,
+    body  = R.string.wifi_vpn_tutorial_more_features_step_22,
     media = NoticeMedia.Url(
         "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec22.jpg"
     )

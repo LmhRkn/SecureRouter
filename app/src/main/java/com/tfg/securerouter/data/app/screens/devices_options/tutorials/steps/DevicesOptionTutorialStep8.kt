@@ -5,9 +5,9 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun DevicesOptionTutorialStep8(): TutorialStep = TutorialStep(
-        title = "Bloqueo dispositivos por tiempo pt. 2",
-        body = "Aquí verás las reglas que ya existen.",
-        media = NoticeMedia.Url(
-            "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec3.jpg"
-        )
+    title = R.string.device_options_tutorial_block_time_title,
+    body = R.string.device_options_tutorial_block_time_spec_8,
+    media = NoticeMedia.Url(
+        "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec3.jpg"
     )
+)

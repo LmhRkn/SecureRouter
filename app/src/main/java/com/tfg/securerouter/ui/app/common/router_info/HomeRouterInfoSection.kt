@@ -14,6 +14,7 @@ import com.tfg.securerouter.ui.app.common.texts.EditableTextField
 import com.tfg.securerouter.data.app.notice.model.alerts.AlertSpec
 import com.tfg.securerouter.data.utils.AppSession
 import com.tfg.securerouter.ui.app.notice.alerts.AlertModal
+import com.tfg.securerouter.R
 
 @Composable
 fun RouterInfoSection(
@@ -68,9 +69,7 @@ fun RouterInfoSection(
 }
 
 val confirmSpec: AlertSpec = AlertSpec(
-    title = "¿Aplicar cambios?",
-    message = "Esta acción reiniciará el router. ¿Continuar?",
-    confirmText = "Aceptar",
-    cancelText = "Cancelar",
+    title = R.string.wifi_vpn_tutorial_configured_title,
+    message = R.string.wifi_vpn_tutorial_configured_step_25,
     showCancel = true
 )

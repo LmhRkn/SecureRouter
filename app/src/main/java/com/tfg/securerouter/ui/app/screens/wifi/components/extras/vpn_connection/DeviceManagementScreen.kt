@@ -13,10 +13,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.tfg.securerouter.data.app.screens.wifi.WifiCoordinator
 import com.tfg.securerouter.data.app.screens.wifi.model.send.vpn.DelVPNPeer
 import com.tfg.securerouter.ui.app.screens.wifi.components.vpn_conection.DeletePeerPanel
+import com.tfg.securerouter.R
 
 @Composable
 fun DeviceManagementScreen(
@@ -41,9 +43,9 @@ fun DeviceManagementScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = onAddDevice) { Text("Agregar Dispositivo") }
+            Button(onClick = onAddDevice) { Text(stringResource(R.string.wifi_vpn_add_device)) }
             Spacer(Modifier.height(8.dp))
-            Button(onClick = { deletePeer = true }) { Text("Eliminar Dispositivo") }
+            Button(onClick = { deletePeer = true }) { Text(stringResource(R.string.wifi_vpn_del_device)) }
         }
     }
 }

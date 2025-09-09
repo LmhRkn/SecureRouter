@@ -9,14 +9,22 @@
     <string name="settings_title">Configuración</string>
     <string name="change_router_title">Selector de router</string>
 
+    <!-- PASSWORD -->
+    <string name="password_requirements_title">Requisitos de la contraseña</string>
+    <string name="password_req_min_len">Mínimo %1$d caracteres</string>
+    <string name="password_req_upper">Al menos una mayúscula (A–Z)</string>
+    <string name="password_req_lower">Al menos una minúscula (a–z)</string>
+    <string name="password_req_digit">Al menos un número (0–9)</string>
+    <string name="password_req_special">Al menos un símbolo (p. ej. ! @ # $ %)</string>
+    <string name="password_req_no_spaces">Sin espacios en blanco</string>
+    <string name="password_req_not_common">No usar contraseñas comunes (p. ej. "password", "123456")</string>
 
     <!-- MAIN SCREEN -->
     <string name="menu_ic_description">Menú</string>
-    <string name="home_router_Info_section_description">Editar alias</string>
+    <string name="home_router_info_section_description">Editar alias</string>
 
     <!-- HOME SCREEN -->
     <string name="home_connected_devices_list">Dispositivos conectados</string>
-    <string name="home_router_info_section_description">Editar alias</string>
 
     <!-- Divece Manager -->
     <string name="dive_manger_historical_devices_list">Dispositivos Permitidos</string>
@@ -35,9 +43,26 @@
     <string name="add_button">Añadir</string>
     <string name="edit_button">Editar</string>
     <string name="clear_button">Quitar</string>
+    <string name="accept_button">Aceptar</string>
+    <string name="block_button">Bloquear</string>
+    <string name="unblock_button">Desbloquear</string>
+    <string name="continue_button">Continuar</string>
+    <string name="done_button">Listo</string>
+    <string name="close_button">Cerrar</string>
+    <string name="back_button">Atrás</string>
+    <string name="next_button">Siguiente</string>
+    <string name="finish_button">Finalizar</string>
+    <string name="skip_button">Saltar</string>
+    <string name="creat_button">Crear</string>
+    <string name="connect_button">Conectar</string>
+    <string name="start_button">Empezaar</string>
+    <string name="delete_button">Borrar</string>
 
     <!-- ICONS -->
     <string name="vpn_icon_string">VPN</string>
+    <string name="router_icon">Router icon</string>
+    <string name="router_vpn_label">Router por VPN</string>
+    <string name="router_label">Router</string>
 
     <!-- Device's Labels -->
     <string name="device_label_phone">Móvil</string>
@@ -57,8 +82,8 @@
     <string name="device_type_picker_title">Tipo de dispositivo</string>
 
     <!-- COMMON COMPONENTS -->
-    <string name="search_bar_hint">Búscar...</string>
-    <string name="search_bar_search_icon_description">Icono Búscar</string>
+    <string name="search_bar_hint">Buscar...</string>
+    <string name="search_bar_search_icon_description">Icono Buscar</string>
     <string name="search_bar_trailing_icon_description">Icono Limpiar</string>
 
     <string name="filter_button_description">Abrir Filtros</string>
@@ -94,6 +119,86 @@
     <string name="wifi_show_password">Mostrar contraseña</string>
     <string name="wifi_hide_password">Ocultar contraseña</string>
 
+    <string name="wifi_add_blocker">Bloqueador de anuncios:</string>
+    <string name="wifi_require_instalation">Requiere instalación</string>
+
+    <string name="wifi_require_installation_message">
+    Esta acción requiere configuración en 192.168.10.1:3000.
+    Mira la guía.
+</string>
+
+    <string name="wifi_url_domain">Dominio o URL</string>
+    <string name="wifi_url_domain_no_valid">Dominio no válido</string>
+    <string name="wifi_introduce_url_domain">Introduce un dominio o URL</string>
+    <string name="wifi_url_domain_example">ej.: youtube.com o https://sub.ejemplo.com/path</string>
+    <string name="wifi_url_domain_already_exists">Ya existe una regla para</string>
+    <string name="wifi_url_domain_save_as">Se guardará como:</string>
+
+    <string name="wifi_vpn_introduce_domain">Introduce el dominio asociado a tu IP pública (DDNS) y un nombre para esta conexión.</string>
+    <string name="wifi_vpn_conexion_name">Nombre de la conexión</string>
+    <string name="wifi_vpn_conexion_name_example">ej.: Casa, Oficina, VPN-Móvil</string>
+
+    <string name="wifi_vpn_introduce_a_name">Introduce un nombre</string>
+    <string name="wifi_vpn_ino_valid_name">Nombre no válido (sin espacios)</string>
+
+    <string name="wifi_vpn_public_ip">Dominio (IP pública)</string>
+    <string name="wifi_vpn_public_ip_example">ej.: mi-casa.ddns.net o vpn.midominio.com</string>
+
+    <string name="wifi_vpn_introduce_domain_2">Introduce un dominio</string>
+    <string name="wifi_vpn_introduce_domain_2_no_valid">Dominio no válido (sin espacios)</string>
+
+    <string name="wifi_vpn_activate">Activar VPN</string>
+    <string name="wifi_vpn_add_device">Agregar Dispositivo</string>
+    <string name="wifi_vpn_del_device">Eliminar Dispositivo</string>
+
+    <string name="wifi_vpn_scan_qr">Escanea este QR con el nuevo dispositivo</string>
+    <string name="wifi_vpn_error_qr">Escanea este QR con el nuevo dispositivo</string>
+
+    <string name="wifi_filters">Filtros</string>
+    <string name="wifi_times">Tiempos</string>
+
+    <string name="wifi_traffic_graph">Trafico en la red</string>
+
+    <string name="wifi_alert_qr_error">No se pudo generar el QR</string>
+    <string name="wifi_alert_qr_error_msg">Fallo al solicitar los datos.</string>
+
+    <string name="wifi_alert_time_run_out">Tiempo de espera agotado</string>
+    <string name="wifi_alert_time_run_out_msg">No se obtuvo respuesta del generador de QR</string>
+
+    <string name="wifi_alert_convert_qr_error">Error al convertir el QR</string>
+    <string name="wifi_alert_convert_qr_error_msg">Salida ANSI vacía.</string>
+
+    <string name="wifi_alert_scan_qr">Escanea este QR para conectarte.</string>
+
+    <string name="wifi_speed_test_start">Iniciar test</string>
+    <string name="wifi_speed_test_measure_speed">Mide la velocidad de tu conexión.
+ Aceptaremos licencia y privacidad si es la primera vez.</string>
+
+    <string name="wifi_speed_test_measuring">Midiendo…</string>
+    <string name="wifi_speed_test_delay">Esto puede tardar unos segundos.</string>
+    <string name="wifi_speed_test_restart_measure">Repetir prueba</string>
+
+    <string name="wifi_speed_test_cant_execute_error">No se pudo ejecutar la prueba</string>
+
+    <string name="wifi_vpn_delete_peer">Eliminar dispositivo VPN</string>
+    <string name="wifi_vpn_search_name_ip">Buscar por nombre o IP…</string>
+    <string name="wifi_vpn_search">Buscar</string>
+
+    <string name="wifi_vpn_activate_vpn">Activar VPN</string>
+
+    <!-- DEVICE OPTIONS -->
+    <string name="device_option_block_device_question">¿Bloquear dispositivo?</string>
+    <string name="device_option_block_device_warning">El dispositivo perderá acceso a la red.</string>
+    <string name="device_option_unblock_device_question">¿Desbloquear dispositivo?</string>
+    <string name="device_option_unblock_device_info">El dispositivo volverá a tener acceso a la red.</string>
+
+    <string name="unblock_device_button">Desbloquear dispositivo</string>
+    <string name="block_device_text">Bloquear Dispositivo:</string>
+    <string name="device_option_times_label">Tiempos</string>
+
+    <string name="device_option_unspecified_device_error">Dispositivo no especificado.</string>
+    <string name="device_option_no_router_selected_error">No hay router seleccionado.</string>
+
     <!-- TABLES -->
     <string name="table_block_device_text">Bloquear Dispositivo:</string>
     <string name="table_from_hour_text">De:</string>
@@ -104,4 +209,220 @@
     <string name="table_add_rule_button">Añadir regla</string>
     <string name="table_edit_rule_button">Editar regla</string>
     <string name="table_save_rule_changes_button">Guardar Cambios</string>
+
+    <!-- TUTORIALS -->
+    <string name="tutorial_important_label">IMPORTANTE</string>
+    <string name="show_tutorial">Mostrar tutorial</string>
+
+    <!-- DEVICE MANAGER TUTORIAL -->
+    <string name="device_manager_hint_1">Es buena practica revisar cada día si hay dispositivos nuevos.</string>
+    <string name="device_manager_hint_2">Es buena practica guardar con un nombre reconocible los dispositivos.</string>
+    <string name="device_manager_hint_3">Si no reconoces un dispositivo, es importante bloquearlo.</string>
+
+    <string name="device_manager_screen">Pantalla Device Manager</string>
+    <string name="device_manager_spec_1">Aquí puedes buscar el dispositivo que quieras modificar.</string>
+    <string name="device_manager_spec_2">Puedes usar el buscador para encontrar el dispositivo que quieres modificar.</string>
+    <string name="device_manager_spec_3">También puedes aplicar filtros para que sea mas fácil de encontrar.</string>
+    <string name="device_manager_spec_4">Si quieres ver los dispositivos bloqueados pulsas en "Mostrar Dispositivos Bloqueados".</string>
+    <string name="device_manager_spec_5">Para volver a ver los dispositivos no bloqueado pulsa en Mostrar "Dispositivos Permitidos".</string>
+    <string name="device_manager_spec_6">Si pulsas en el dispositivo puedes ver los datos y modificarlos.</string>
+
+    <!-- DEVICE OPTIONS TUTORIAL -->
+    <string name="device_option_hint_1">Si no reconoces un dispositivo, es importante bloquearlo.</string>
+
+    <string name="device_options_title">Opciones de los dispositivos</string>
+    <string name="device_options_spec_1">Aquí puedes modificar información del dispositivo.</string>
+
+    <string name="device_options_change_name_title">Cambiar el nombre del dispositivo</string>
+    <string name="device_options_change_name_spec_2">Puedes cambiar el nombre del dispositivo dando al botón de editar arriba a la derecha.
+        Ten en cuenta que el nombre del dispositivo solo estará cambiado para tu aplicación.
+        Otros usuarios no verán este cambio.</string>
+
+    <string name="device_options_type_title">Tipo dispositivo</string>
+    <string name="device_options_type_spec_3">Si el tipo de dispositivo no se ha detectado bien, puedes cambiarlo dando al botón de editar sobre el icono de dispositivo.
+        Este cambio solo afecta a tu aplicación.</string>
+    <string name="device_options_type_spec_4">Seleccionas qué tipo de dispositivo es y pulsas sobre el botón guardar para que se apliquen los cambios.</string>
+    <string name="device_options_type_spec_5">Seleccionas qué tipo de dispositivo es.</string>
+    <string name="device_options_type_spec_6">Seleccionas que tipo de dispositivo es y pulsas sobre el botón guardar para que se apliquen los cambios.</string>
+
+    <string name="device_options_tutorial_block_time_title">Bloqueo dispositivos por tiempo</string>
+    <string name="device_options_tutorial_block_time_spec_7">Si quieres hacer que un dispositivo no pueda usar internet durante un periodo de tiempo concreto y unos días concretos de la semana tienes que pulsar sobre el botón + de tiempos.</string>
+    <string name="device_options_tutorial_block_time_spec_8">Aquí verás las reglas que ya existen.</string>
+    <string name="device_options_tutorial_block_time_spec_9">Puedes borrarlas pulsando sobre la "x" de la regla.</string>
+    <string name="device_options_tutorial_block_time_spec_10">Si quieres agregar una regla, pulsas sobre el botón "Añadir Regla".</string>
+    <string name="device_options_tutorial_block_time_spec_11">Seleccionas la hora de inicio y la hora de fin de bloqueo, (círculo verde y rojo respectivamente).</string>
+
+    <string name="device_options_tutorial_block_device_title">Bloqueo dispositivo</string>
+    <string name="device_options_tutorial_block_device_spec_12">Para impedir el acceso al wifi, pulsas en el botón al final de la página "Bloquear Dispositivo".</string>
+    <string name="device_options_tutorial_block_device_spec_13">Y confirmas dando a bloquear.</string>
+    <string name="device_options_tutorial_block_device_spec_14">Para volver a permitir el acceso al dispositivo, pulsas sobre "Desbloquear dispositivo".</string>
+    <string name="device_options_tutorial_block_device_spec_15">Y confirmas dando a Desbloquear.</string>
+
+    <!-- FILTER TUTORIAL -->
+    <string name="filter_tutorial_title">Pantalla Filtros</string>
+    <string name="filter_tutorial_spec_1">Aquí se bloquea a todos los dispositivos a la vez</string>
+
+    <string name="filter_tutorial_block_time_title">Bloqueo por tiempo</string>
+    <string name="filter_tutorial_block_time_spec_2">Para poder limitar las horas en las que se puede conectar al router, pulsamos en el símbolo "+" del apartado "tiempos".</string>
+    <string name="filter_tutorial_block_time_spec_3">Aquí se verán todas las reglas ya creadas</string>
+    <string name="filter_tutorial_block_time_spec_4">Si queremos limitar el acceso a todos los dispositivos en una franja horaria concreta y unos días concretos de la semana, pulsamos en el botón "Añadir regla".</string>
+    <string name="filter_tutorial_block_time_spec_5">Seleccionamos la hora a la que se deja de poder conectar y la hora a la que se vuelve a poder conectar.</string>
+    <string name="filter_tutorial_block_time_spec_6">Seleccionamos los días de la semana en los que queremos que se haga efecto la norma.</string>
+    <string name="filter_tutorial_block_time_spec_7">Y añadimos la regla con el botón "Añadir".</string>
+    <string name="filter_tutorial_block_time_spec_8">Con esto hemos agregado la regla.</string>
+    <string name="filter_tutorial_block_time_spec_9">Si queremos quitar la norma pulsamos en la "x" situada a la derecha de dicha norma.</string>
+
+    <string name="filter_tutorial_block_webs_title">Bloqueo acceso a webs</string>
+    <string name="filter_tutorial_block_webs_spec_10">Para poder bloquear el acceso a una web, pulsamos en el símbolo "+" del apartado "filtros".</string>
+    <string name="filter_tutorial_block_webs_spec_11">Aquí se verán todas las reglas ya creadas.</string>
+    <string name="filter_tutorial_block_webs_spec_12">Si queremos bloquear el acceso a todos los dispositivos a una web, pulsamos en el botón "Añadir regla".</string>
+    <string name="filter_tutorial_block_webs_spec_13">Escribimos el dominio que queremos bloquear (Ejemplo: elpais.com).</string>
+    <string name="filter_tutorial_block_webs_spec_14">Y añadimos la regla con el botón "Añadir".</string>
+    <string name="filter_tutorial_block_webs_spec_15">Con esto hemos agregado la regla.</string>
+    <string name="filter_tutorial_block_webs_spec_16">Si queremos quitar la norma pulsamos en la "x" situada a la derecha de dicha norma.</string>
+
+    <!-- HOME TUTORIAL -->
+
+    <string name="home_daily_check_hint">Es buena practica revisar cada día si hay dispositivos nuevos.</string>
+    <string name="home_save_with_name_hint">Es buena practica guardar con un nombre reconocible los dispositivos.</string>
+    <string name="home_unrecognized_device_warning">Si no reconoces un dispositivo, es importante bloquearlo.</string>
+
+    <string name="home_tutorial_step1_title">¡Bienvenido a SecureRouter!</string>
+    <string name="home_tutorial_step1_body">Configura tu red y revisa los dispositivos conectados.</string>
+
+    <string name="home_tutorial_step2_title">Consejo rápido</string>
+    <string name="home_tutorial_step2_body">Pulsa el botón de editar a la derecha del alias del router para renombrarlo rápidamente.</string>
+
+    <!-- Language -->
+    <string name="language_tutorial_title">Idioma</string>
+    <string name="language_tutorial_body">Aquí puede cambiar el idioma que se mostrará en la aplicación.</string>
+    <string name="language_tutorial_step2">Selecciona el idioma que quieras que tenga la aplicación.</string>
+    <string name="language_tutorial_step3">Y pulsas en aplicar.</string>
+
+    <!-- ROUTER SELECTOR -->
+    <string name="router_selector_tutorial_title">Pantalla Selección del Router</string>
+    <string name="router_selector_tutorial_step1">Aquí te aparecen todos los routers que tienes guardados.
+        Además, sale el estado de cada router y si puedes acceder a ellos.</string>
+    <string name="router_selector_tutorial_step2">Cuando detecta un router nuevo, te saldrá el icono que indica que es un nuevo router.</string>
+    <string name="router_selector_tutorial_step3">El símbolo circular verde implica que el router es accesible.</string>
+    <string name="router_selector_tutorial_step4">Si no sale ningún icono, significa que el router no está conectado y no es accesible.</string>
+
+    <string name="router_selector_tutorial_enter_router_title">Entrar a un router</string>
+    <string name="router_selector_tutorial_step5">Si nunca te has conectado a un router y además eres el primer usuario en conectarse al router con la aplicación, te pedirá que configures la contraseña de acceso.</string>
+    <string name="router_selector_tutorial_step6">Aviso: Esta contraseña es la que se usa para entrar con la aplicación, no es la misma que se usa para conectarse al router para tener acceso a internet.</string>
+    <string name="router_selector_tutorial_step7">Importante: Guarda esta contraseña porque otros usuarios la necesitan para conectarse mediante la aplicación.</string>
+    <string name="router_selector_tutorial_step8">Si ya alguien se ha conectado antes te pedirá la contraseña que ya existe, te la tiene que aportar el usuario que la haya conectado.</string>
+    <string name="router_selector_tutorial_step9">Pulsa sobre el router conectado para poder configurarlo.</string>
+
+    <string name="select_router">Selecciona un Router</string>
+    <string name="no_router_connected_error">No hay ningún router conectado ahora mismo.</string>
+
+    <!-- SETTINGS TUTORIAL -->
+    <string name="settings_tutorial_title">Pantalla Configuración</string>
+    <string name="settings_tutorial_step1">Puedes cambiar el idioma pulsando en Idioma.</string>
+
+    <!-- WIFI ADBLOCKER TUTORIAL -->
+    <string name="wifi_adblocker_tutorial_title">Configuración Adblocker</string>
+    <string name="wifi_adblocker_tutorial_step1">Si quieres poder navegar sin anuncios, puedes activar esta función.</string>
+    <string name="wifi_adblocker_tutorial_step2">Pulsa el interruptor para activar el adblock.</string>
+    <string name="wifi_adblocker_tutorial_step3">Si es la primera vez que enciendes el adblocker, escribe lo siguiente en el buscador: 192.168.10.1:3000</string>
+    <string name="wifi_adblocker_tutorial_step4">Una vez dentro, pulsa en "Get Started".</string>
+    <string name="wifi_adblocker_tutorial_step5">Cambia el puerto de 3000 a 8080</string>
+    <string name="wifi_adblocker_tutorial_step6">Baja y pulsa "Next"</string>
+    <string name="wifi_adblocker_tutorial_step7">Crea un usuario y contraseña de mínimo 8 caracteres</string>
+    <string name="wifi_adblocker_tutorial_step8">Pulsa en el menú</string>
+    <string name="wifi_adblocker_tutorial_step9">Pulsa en el menú</string>
+    <string name="wifi_adblocker_tutorial_step10">Pulsa en "Settings"</string>
+    <string name="wifi_adblocker_tutorial_step11">Pulsa en "DNS settings"</string>
+    <string name="wifi_adblocker_tutorial_step12">Cambia la dirección por 127.0.0.1:54</string>
+    <string name="wifi_adblocker_tutorial_step13">Baja un poco y pulsa en "Save"</string>
+
+    <string name="wifi_adblocker_tutorial_step14_title">Adblock Creado</string>
+    <string name="wifi_adblocker_tutorial_step14">Listo, disfruta de un internet sin anuncios y más seguro.</string>
+
+    <!-- WIFI VPN TUTORIAL -->
+    <string name="wifi_vpn_tutorial_title">Configuración VPN</string>
+    <string name="wifi_vpn_tutorial_step1">Si quieres poder configurar tu red desde fuera de casa, es importante configurar esta función.</string>
+
+    <string name="wifi_vpn_tutorial_my_public_ip_title">Mi IP pública</string>
+    <string name="wifi_vpn_tutorial_my_public_ip_step_2">Lo primero que vamos a hacer es ver cuál es nuestra IP pública, para ello vamos a entrar en www.cual-es-mi-ip.net</string>
+    <string name="wifi_vpn_tutorial_my_public_ip_step_3">Vamos a guardarnos el número que aparece ahí. Ahora más adelante lo usaremos.</string>
+
+    <string name="wifi_vpn_tutorial_noip_title">Configuración No-IP</string>
+    <string name="wifi_vpn_tutorial_noip_step_4">Ahora entraremos a www.noip.com para poder configurar el "camino" a nuestro router, no os preocupéis que es seguro.</string>
+    <string name="wifi_vpn_tutorial_noip_step_5">Crearemos nuestra cuenta dando a "Inscribir" y creando nuestra cuenta, es importante guardarnos usuario y contraseña.</string>
+    <string name="wifi_vpn_tutorial_noip_step_6">Una vez dentro de la cuenta, pulsaremos en "DDNS y acceso rápido".</string>
+    <string name="wifi_vpn_tutorial_noip_step_7">Pulsaremos en "DNS Records".</string>
+    <string name="wifi_vpn_tutorial_noip_step_8">Pulsaremos en "Crear nombre de host" para crear el dominio.</string>
+    <string name="wifi_vpn_tutorial_noip_step_9">Ponemos el nombre que queramos que se vea en nuestra URL ("camino"), por ejemplo: your-url.</string>
+    <string name="wifi_vpn_tutorial_noip_step_10">Y pulsamos en "Crear".</string>
+    <string name="wifi_vpn_tutorial_noip_step_11">Nos apuntamos cómo queda la URL, en este ejemplo es your-url.ddns.net.</string>
+
+    <string name="wifi_vpn_tutorial_wireguard_title">Configuración WireGuard</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_12">En el dispositivo que queramos usar para poder configurar el router fuera de la red nos instalamos WireGuard.</string>
+
+    <string name="wifi_vpn_tutorial_access_point_title">Creación punto de acceso VPN</string>
+    <string name="wifi_vpn_tutorial_access_point_step_13">Abrimos las opciones de VPN.</string>
+    <string name="wifi_vpn_tutorial_access_point_step_14">Si es la primera vez, directamente podremos añadir un punto de acceso. Le pondremos el nombre que queramos y la URL que hemos creado en No-IP y pulsamos en Activar VPN.</string>
+    <string name="wifi_vpn_tutorial_access_point_step_15">Usaremos este QR para establecer la conexión usando la aplicación instalada WireGuard.&#10;&#10;Si vas a poner la VPN en el mismo dispositivo, haz una captura de pantalla.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_16">Pulsaremos en el botón "+" para agregar la conexión.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_17">Pulsaremos en "Escanear desde código QR" y escaneamos el código QR generado por la aplicación.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_18">Podemos activar la conexión dando al interruptor.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_19">O desactivarlo volviendo a darlo.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_20">Con la VPN activa y desde una red distinta a la de casa, si entramos a la aplicación veremos que está conectado a través de la VPN.</string>
+
+    <string name="wifi_vpn_tutorial_more_features_title">Más funcionalidades de la VPN</string>
+    <string name="wifi_vpn_tutorial_more_features_step_21">Si ya tienes al menos un punto de acceso, te saldrá la opción de agregar otro.</string>
+    <string name="wifi_vpn_tutorial_more_features_step_22">O puedes borrar un punto de acceso ya creado para que no pueda seguir entrando.</string>
+    <string name="wifi_vpn_tutorial_more_features_step_23">Si pulsas sobre el punto de acceso que quieres borrar.</string>
+    <string name="wifi_vpn_tutorial_more_features_step_24">Y pulsas en "Borrar" podrás borrar dicho punto de acceso.</string>
+
+    <string name="wifi_vpn_tutorial_configured_title">VPN configurado</string>
+    <string name="wifi_vpn_tutorial_configured_step_25">Genial, ya puedes disfrutar del uso de la aplicación en cualquier parte del mundo.</string>
+
+    <!-- ALERT -->
+    <string name="qr_decode_error">No se pudo decodificar el QR.</string>
+    <string name="image_base64_invalid_error">No se pudo mostrar la imagen (base64 inválido).</string>
+    <string name="qr_content_description">QR.</string>
+    <string name="ansi_error">Salida ANSI vacía.</string>
+
+    <string name="abailable_update">Actualización disponible</string>
+    <string name="abailable_update_body">Tienes que actualizar el router,
+no hacerlo supone un riesgo considerable</string>
+    <string name="speedtest_eula_alert">Speedtest CLI — Licencia (EULA)</string>
+    <string name="speedtest_eula_alert_body">
+==============================================================================
+Solo puedes usar este software Speedtest y la información generada
+por él para uso personal y no comercial, a través de una interfaz de
+línea de comandos en un ordenador personal. El uso de este software está
+sujeto al Acuerdo de Licencia de Usuario Final, Términos de Uso y la
+Política de Privacidad en las siguientes URLs:
+
+    https://www.speedtest.net/about/eula
+    https://www.speedtest.net/about/terms
+    https://www.speedtest.net/about/privacy
+==============================================================================
+
+¿Aceptas la licencia?
+</string>
+
+    <string name="speedtest_gdpr_alert">Speedtest CLI — Privacidad (GDPR)</string>
+    <string name="speedtest_gdpr_alert_body">
+==============================================================================
+Ookla recopila ciertos datos mediante Speedtest que pueden ser
+considerados identificables personalmente, como tu dirección IP,
+identificadores únicos del dispositivo o ubicación. Ookla considera
+que tiene un interés legítimo en compartir estos datos con proveedores
+de internet, fabricantes de hardware y reguladores de la industria
+para ayudarles a comprender y crear un internet mejor y más rápido.
+Para más información, incluyendo cómo se pueden compartir los datos,
+dónde se pueden transferir y los datos de contacto de Ookla, consulta
+nuestra Política de Privacidad en:
+
+    https://www.speedtest.net/privacy
+==============================================================================
+
+¿Aceptas la política de privacidad?
+</string>
+
 </resources>

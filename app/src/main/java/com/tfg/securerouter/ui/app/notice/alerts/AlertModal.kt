@@ -23,7 +23,9 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.asImageBitmap
 import android.util.Base64
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
+import com.tfg.securerouter.R
 
 @Composable
 fun AlertModal(
@@ -31,20 +33,14 @@ fun AlertModal(
     onConfirm: () -> Unit,
     onCancel: () -> Unit
 ) {
-    Dialog(
-        onDismissRequest = { /* Evitamos que se cierre tocando fuera */ }
-    ) {
-        Surface(
-            shape = MaterialTheme.shapes.medium,
-            tonalElevation = 4.dp
-        ) {
+    Dialog(onDismissRequest = { /* Evitamos que se cierre tocando fuera */ }) {
+        Surface(shape = MaterialTheme.shapes.medium, tonalElevation = 4.dp) {
             Column(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.padding(24.dp).fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = spec.title, style = MaterialTheme.typography.titleLarge)
+                // title es Int (R.string), hay que resolverlo
+                Text(text = stringResource(spec.title), style = MaterialTheme.typography.titleLarge)
                 Spacer(Modifier.height(8.dp))
 
                 spec.imageBase64?.let { b64 ->
@@ -64,43 +60,51 @@ fun AlertModal(
                         ) {
                             Image(
                                 bitmap = bitmap.asImageBitmap(),
-                                contentDescription = "QR",
+                                contentDescription = stringResource(R.string.qr_content_description),
                                 modifier = Modifier.fillMaxWidth(),
                                 contentScale = ContentScale.Fit
                             )
                         }
                     } else {
-                        Text("No se pudo decodificar el QR.", color = MaterialTheme.colorScheme.error)
+                        Text(
+                            stringResource(R.string.qr_decode_error),
+                            color = MaterialTheme.colorScheme.error
+                        )
                     }
                 }
 
                 Spacer(Modifier.height(16.dp))
-                spec.message?.takeIf { it.isNotBlank() }?.let { msg ->
-                    val scroll = rememberScrollState()
-                    val base = MaterialTheme.typography.bodyLarge
-                    val size = (base.fontSize.value * spec.fontScale).sp
 
-                    Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .heightIn(max = spec.maxHeightDp.dp)
-                            .padding(vertical = 8.dp)
-                            .verticalScroll(scroll)
-                    ) {
-                        Text(
-                            text = msg,
-                            style = base.copy(
-                                fontSize = size,
-                                fontFamily = if (spec.isMonospace) FontFamily.Monospace else base.fontFamily,
-                                platformStyle = PlatformTextStyle(includeFontPadding = false),
-                                lineHeightStyle = LineHeightStyle(
-                                    alignment = LineHeightStyle.Alignment.Center,
-                                    trim = LineHeightStyle.Trim.None
+                // message es Int?, hay que resolverlo y luego comprobar blank
+                spec.message?.let { msgId ->
+                    val msg = stringResource(msgId)
+                    if (msg.isNotBlank()) {
+                        val scroll = rememberScrollState()
+                        val base = MaterialTheme.typography.bodyLarge
+                        val size = (base.fontSize.value * spec.fontScale).sp
+
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .heightIn(max = spec.maxHeightDp.dp)
+                                .padding(vertical = 8.dp)
+                                .verticalScroll(scroll)
+                        ) {
+                            Text(
+                                text = msg,
+                                style = base.copy(
+                                    fontSize = size,
+                                    fontFamily = if (spec.isMonospace) FontFamily.Monospace else base.fontFamily,
+                                    platformStyle = PlatformTextStyle(includeFontPadding = false),
+                                    lineHeightStyle = LineHeightStyle(
+                                        alignment = LineHeightStyle.Alignment.Center,
+                                        trim = LineHeightStyle.Trim.None
+                                    ),
                                 ),
-                            ),
-                            softWrap = spec.softWrap,
-                            overflow = TextOverflow.Clip,
-                        )
+                                softWrap = spec.softWrap,
+                                overflow = TextOverflow.Clip,
+                            )
+                        }
                     }
                 }
 
@@ -110,12 +114,12 @@ fun AlertModal(
                 ) {
                     if (spec.showCancel) {
                         TextButton(onClick = onCancel) {
-                            Text(spec.cancelText)
+                            Text(stringResource(spec.cancelText))
                         }
                         Spacer(Modifier.width(8.dp))
                     }
                     Button(onClick = onConfirm) {
-                        Text(spec.confirmText)
+                        Text(stringResource(spec.confirmText))
                     }
                 }
             }

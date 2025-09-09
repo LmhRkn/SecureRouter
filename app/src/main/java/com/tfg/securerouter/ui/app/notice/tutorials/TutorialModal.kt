@@ -12,6 +12,7 @@ package com.tfg.securerouter.ui.app.notice.tutorials
     import androidx.compose.ui.draw.clip
     import androidx.compose.ui.layout.ContentScale
     import androidx.compose.ui.platform.LocalContext
+    import androidx.compose.ui.res.stringResource
     import androidx.compose.ui.text.style.TextOverflow
     import androidx.compose.ui.unit.dp
     import coil.compose.AsyncImage
@@ -19,6 +20,7 @@ package com.tfg.securerouter.ui.app.notice.tutorials
     import com.tfg.securerouter.data.app.notice.model.NoticeMedia
     import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialSpec
     import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
+    import com.tfg.securerouter.R
 
     @Composable
     fun TutorialModal(
@@ -60,7 +62,7 @@ package com.tfg.securerouter.ui.app.notice.tutorials
                         ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Atrás"
+                                contentDescription = stringResource(R.string.back_button)
                             )
                         }
 
@@ -70,12 +72,12 @@ package com.tfg.securerouter.ui.app.notice.tutorials
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.ArrowForward,
-                                    contentDescription = "Siguiente"
+                                    contentDescription = stringResource(R.string.next_button)
                                 )
                             }
                         } else {
                             Button(onClick = onFinish) {
-                                Text("Finalizar")
+                                Text(stringResource(R.string.finish_button))
                             }
                         }
                     }
@@ -84,7 +86,7 @@ package com.tfg.securerouter.ui.app.notice.tutorials
 
                     if (spec.skippable) {
                         OutlinedButton(onClick = onSkip) {
-                            Text("Saltar")
+                            Text(stringResource(R.string.skip_button))
                         }
                     }
                 }
@@ -99,7 +101,7 @@ package com.tfg.securerouter.ui.app.notice.tutorials
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                step.title,
+                stringResource(step.title),
                 style = MaterialTheme.typography.headlineSmall,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -109,7 +111,7 @@ package com.tfg.securerouter.ui.app.notice.tutorials
             when (step.media) {
                 is NoticeMedia.Url,
                 is NoticeMedia.Resource -> {
-                    TutorialStepImage(step.media, step.title)
+                    TutorialStepImage(step.media, stringResource(step.title))
                     Spacer(Modifier.height(12.dp))
                 }
                 NoticeMedia.None -> {}
@@ -117,7 +119,7 @@ package com.tfg.securerouter.ui.app.notice.tutorials
                 is NoticeMedia.Base64Image -> TODO()
             }
 
-            step.body?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+            step.body?.let { Text(stringResource(it), style = MaterialTheme.typography.bodyMedium) }
         }
     }
 

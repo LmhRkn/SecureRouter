@@ -5,9 +5,9 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun HomeAdviceStep3(): TutorialStep = TutorialStep(
-        title = "IMPORTANTE",
-        body  = "Si no reconoces un dispositivo, es importante bloquearlo.",
-        media = NoticeMedia.Url(
-            "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/Global/Alert.png"
-        )
+    title = R.string.tutorial_important_label,
+    body  = R.string.home_unrecognized_device_warning,
+    media = NoticeMedia.Url(
+        "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/Global/Alert.png"
     )
+)

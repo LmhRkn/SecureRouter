@@ -5,9 +5,9 @@ import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.tutorials.TutorialStep
 
 fun DevicesOptionTutorialStep7(): TutorialStep = TutorialStep(
-        title = "Bloqueo dispositivos por tiempo pt. 1",
-        body = "Si quieres hacer que un dispositivo no pueda usar internet durante un periodo de tiempo concreto y unos días concretos de la semana tienes que pulsar sobre el botón + de tiempos.",
-        media = NoticeMedia.Url(
-            "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec3.jpg"
-        )
+    title = R.string.device_options_tutorial_block_time_title,
+    body = R.string.device_options_tutorial_block_time_spec_7,
+    media = NoticeMedia.Url(
+        "https://raw.githubusercontent.com/ElMarkoos/SecureRouterAssets/main/WifiTutorial/VPN/Spec3.jpg"
     )
+)

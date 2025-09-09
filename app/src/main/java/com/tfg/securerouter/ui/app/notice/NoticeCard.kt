@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import com.tfg.securerouter.data.app.notice.model.NoticeDefaults
 import com.tfg.securerouter.data.app.notice.model.NoticeMedia
 import com.tfg.securerouter.data.app.notice.model.NoticeSpec
 import kotlinx.coroutines.delay
+import com.tfg.securerouter.R
 
 @Composable
 fun NoticeCard(
@@ -156,7 +158,7 @@ private fun NoticeMediaView(media: NoticeMedia) {
                 ) {
                     Image(
                         bitmap = bitmap.asImageBitmap(),
-                        contentDescription = "QR",
+                        contentDescription = stringResource(R.string.qr_content_description),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp)
@@ -164,7 +166,7 @@ private fun NoticeMediaView(media: NoticeMedia) {
                 }
             } else {
                 Text(
-                    "No se pudo mostrar la imagen (base64 inválido).",
+                    text = stringResource(R.string.image_base64_invalid_error),
                     color = MaterialTheme.colorScheme.error
                 )
             }
