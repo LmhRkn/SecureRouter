@@ -56,7 +56,7 @@
     <string name="skip_button">Saltar</string>
     <string name="creat_button">Crear</string>
     <string name="connect_button">Conectar</string>
-    <string name="start_button">Empezaar</string>
+    <string name="start_button">Empezar</string>
     <string name="delete_button">Borrar</string>
 
     <!-- ICONS -->
@@ -156,7 +156,7 @@
     <string name="wifi_filters">Filtros</string>
     <string name="wifi_times">Tiempos</string>
 
-    <string name="wifi_traffic_graph">Trafico en la red</string>
+    <string name="wifi_traffic_graph">Tráfico en la red</string>
 
     <string name="wifi_alert_qr_error">No se pudo generar el QR</string>
     <string name="wifi_alert_qr_error_msg">Fallo al solicitar los datos.</string>
@@ -214,16 +214,16 @@
     <string name="show_tutorial">Mostrar tutorial</string>
 
     <!-- DEVICE MANAGER TUTORIAL -->
-    <string name="device_manager_hint_1">Es buena practica revisar cada día si hay dispositivos nuevos.</string>
-    <string name="device_manager_hint_2">Es buena practica guardar con un nombre reconocible los dispositivos.</string>
+    <string name="device_manager_hint_1">Es buena práctica revisar cada día si hay dispositivos nuevos.</string>
+    <string name="device_manager_hint_2">Es buena práctica guardar con un nombre reconocible los dispositivos.</string>
     <string name="device_manager_hint_3">Si no reconoces un dispositivo, es importante bloquearlo.</string>
 
     <string name="device_manager_screen">Pantalla Device Manager</string>
     <string name="device_manager_spec_1">Aquí puedes buscar el dispositivo que quieras modificar.</string>
     <string name="device_manager_spec_2">Puedes usar el buscador para encontrar el dispositivo que quieres modificar.</string>
-    <string name="device_manager_spec_3">También puedes aplicar filtros para que sea mas fácil de encontrar.</string>
+    <string name="device_manager_spec_3">También puedes aplicar filtros para que sea más fácil de encontrar.</string>
     <string name="device_manager_spec_4">Si quieres ver los dispositivos bloqueados pulsas en "Mostrar Dispositivos Bloqueados".</string>
-    <string name="device_manager_spec_5">Para volver a ver los dispositivos no bloqueado pulsa en Mostrar "Dispositivos Permitidos".</string>
+    <string name="device_manager_spec_5">Para volver a ver los dispositivos no bloqueados pulsa en Mostrar "Dispositivos Permitidos".</string>
     <string name="device_manager_spec_6">Si pulsas en el dispositivo puedes ver los datos y modificarlos.</string>
 
     <!-- DEVICE OPTIONS TUTORIAL -->
@@ -242,7 +242,7 @@
         Este cambio solo afecta a tu aplicación.</string>
     <string name="device_options_type_spec_4">Seleccionas qué tipo de dispositivo es y pulsas sobre el botón guardar para que se apliquen los cambios.</string>
     <string name="device_options_type_spec_5">Seleccionas qué tipo de dispositivo es.</string>
-    <string name="device_options_type_spec_6">Seleccionas que tipo de dispositivo es y pulsas sobre el botón guardar para que se apliquen los cambios.</string>
+    <string name="device_options_type_spec_6">Seleccionas qué tipo de dispositivo es y pulsas sobre el botón guardar para que se apliquen los cambios.</string>
 
     <string name="device_options_tutorial_block_time_title">Bloqueo dispositivos por tiempo</string>
     <string name="device_options_tutorial_block_time_spec_7">Si quieres hacer que un dispositivo no pueda usar internet durante un periodo de tiempo concreto y unos días concretos de la semana tienes que pulsar sobre el botón + de tiempos.</string>
@@ -263,7 +263,7 @@
 
     <string name="filter_tutorial_block_time_title">Bloqueo por tiempo</string>
     <string name="filter_tutorial_block_time_spec_2">Para poder limitar las horas en las que se puede conectar al router, pulsamos en el símbolo "+" del apartado "tiempos".</string>
-    <string name="filter_tutorial_block_time_spec_3">Aquí se verán todas las reglas ya creadas</string>
+    <string name="filter_tutorial_block_time_spec_3">Aquí se verán todas las reglas ya creadas.</string>
     <string name="filter_tutorial_block_time_spec_4">Si queremos limitar el acceso a todos los dispositivos en una franja horaria concreta y unos días concretos de la semana, pulsamos en el botón "Añadir regla".</string>
     <string name="filter_tutorial_block_time_spec_5">Seleccionamos la hora a la que se deja de poder conectar y la hora a la que se vuelve a poder conectar.</string>
     <string name="filter_tutorial_block_time_spec_6">Seleccionamos los días de la semana en los que queremos que se haga efecto la norma.</string>
@@ -282,8 +282,8 @@
 
     <!-- HOME TUTORIAL -->
 
-    <string name="home_daily_check_hint">Es buena practica revisar cada día si hay dispositivos nuevos.</string>
-    <string name="home_save_with_name_hint">Es buena practica guardar con un nombre reconocible los dispositivos.</string>
+    <string name="home_daily_check_hint">Es buena práctica revisar cada día si hay dispositivos nuevos.</string>
+    <string name="home_save_with_name_hint">Es buena práctica guardar con un nombre reconocible los dispositivos.</string>
     <string name="home_unrecognized_device_warning">Si no reconoces un dispositivo, es importante bloquearlo.</string>
 
     <string name="home_tutorial_step1_title">¡Bienvenido a SecureRouter!</string>
@@ -294,7 +294,7 @@
 
     <!-- Language -->
     <string name="language_tutorial_title">Idioma</string>
-    <string name="language_tutorial_body">Aquí puede cambiar el idioma que se mostrará en la aplicación.</string>
+    <string name="language_tutorial_body">Aquí puedes cambiar el idioma que se mostrará en la aplicación.</string>
     <string name="language_tutorial_step2">Selecciona el idioma que quieras que tenga la aplicación.</string>
     <string name="language_tutorial_step3">Y pulsas en aplicar.</string>
 
@@ -367,7 +367,7 @@
     <string name="wifi_vpn_tutorial_wireguard_step_16">Pulsaremos en el botón "+" para agregar la conexión.</string>
     <string name="wifi_vpn_tutorial_wireguard_step_17">Pulsaremos en "Escanear desde código QR" y escaneamos el código QR generado por la aplicación.</string>
     <string name="wifi_vpn_tutorial_wireguard_step_18">Podemos activar la conexión dando al interruptor.</string>
-    <string name="wifi_vpn_tutorial_wireguard_step_19">O desactivarlo volviendo a darlo.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_19">O desactivarlo volviendo a pulsarlo.</string>
     <string name="wifi_vpn_tutorial_wireguard_step_20">Con la VPN activa y desde una red distinta a la de casa, si entramos a la aplicación veremos que está conectado a través de la VPN.</string>
 
     <string name="wifi_vpn_tutorial_more_features_title">Más funcionalidades de la VPN</string>

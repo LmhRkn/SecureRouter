@@ -82,11 +82,11 @@
     <string name="device_type_picker_title">Device type</string>
 
     <!-- COMMON COMPONENTS -->
-    <string name="search_bar_hint">Search...</string>
+    <string name="search_bar_hint">Search…</string>
     <string name="search_bar_search_icon_description">Search Icon</string>
     <string name="search_bar_trailing_icon_description">Clear Icon</string>
 
-    <string name="filter_button_description">Open Filters</string>
+    <string name="filter_button_description">Open filters</string>
 
     <string name="expandable_section_collapse">Collapse</string>
     <string name="expandable_section_expand">Expand</string>
@@ -110,7 +110,7 @@
 
     <string name="wifi_repeat_new_password">Repeat new password</string>
 
-    <string name="wifi_not_enough_characters">"The password must be at least 8 characters"</string>
+    <string name="wifi_not_enough_characters">The password must be at least 8 characters.</string>
     <string name="wifi_wrong_old_password">The current password is not correct</string>
     <string name="wifi_wrong_repeated_password">The new passwords do not match</string>
 
@@ -128,7 +128,7 @@
     <string name="wifi_url_domain">Domain or URL</string>
     <string name="wifi_url_domain_no_valid">Invalid domain</string>
     <string name="wifi_introduce_url_domain">Enter a domain or URL</string>
-    <string name="wifi_url_domain_example">e.g.: youtube.com or https://sub.example.com/path</string>
+    <string name="wifi_url_domain_example">e.g., youtube.com or https://sub.example.com/path</string>
     <string name="wifi_url_domain_already_exists">A rule already exists for</string>
     <string name="wifi_url_domain_save_as">It will be saved as:</string>
 
@@ -170,7 +170,7 @@
 
     <string name="wifi_speed_test_start">Start test</string>
     <string name="wifi_speed_test_measure_speed">Measure your connection speed.
- We will accept license and privacy if it is the first time.</string>
+We’ll accept the license and privacy policy if this is the first time.</string>
 
     <string name="wifi_speed_test_measuring">Measuring…</string>
     <string name="wifi_speed_test_delay">This may take a few seconds.</string>
@@ -191,14 +191,14 @@
     <string name="device_option_unblock_device_info">The device will regain network access.</string>
 
     <string name="unblock_device_button">Unblock device</string>
-    <string name="block_device_text">Block Device:</string>
+    <string name="block_device_text">Block device:</string>
     <string name="device_option_times_label">Schedules</string>
 
     <string name="device_option_unspecified_device_error">Device not specified.</string>
     <string name="device_option_no_router_selected_error">No router selected.</string>
 
     <!-- TABLES -->
-    <string name="table_block_device_text">Block Device:</string>
+    <string name="table_block_device_text">Block device:</string>
     <string name="table_from_hour_text">From:</string>
     <string name="table_to_hour_text">To:</string>
     <string name="table_days_of_the_week_text">Days of the week:</string>
@@ -247,37 +247,37 @@
     <string name="device_options_tutorial_block_time_spec_7">If you want to prevent a device from using the internet during a specific time period and on specific days of the week, tap the "+" button in Schedules.</string>
     <string name="device_options_tutorial_block_time_spec_8">Here you will see the existing rules.</string>
     <string name="device_options_tutorial_block_time_spec_9">You can delete them by tapping the "x" on the rule.</string>
-    <string name="device_options_tutorial_block_time_spec_10">To add a rule, tap the "Add Rule" button.</string>
+    <string name="device_options_tutorial_block_time_spec_10">To add a rule, tap the “Add rule” button.</string>
     <string name="device_options_tutorial_block_time_spec_11">Select the start time and end time of the block (green and red circles respectively).</string>
 
     <string name="device_options_tutorial_block_device_title">Device blocking</string>
-    <string name="device_options_tutorial_block_device_spec_12">To prevent Wi-Fi access, tap the "Block Device" button at the bottom of the page.</string>
-    <string name="device_options_tutorial_block_device_spec_13">And confirm by tapping Block.</string>
-    <string name="device_options_tutorial_block_device_spec_14">To allow access again, tap "Unblock device".</string>
-    <string name="device_options_tutorial_block_device_spec_15">And confirm by tapping Unblock.</string>
+    <string name="device_options_tutorial_block_device_spec_12">To prevent Wi-Fi access, tap the “Block device” button at the bottom of the page.</string>
+    <string name="device_options_tutorial_block_device_spec_13">Then confirm by tapping “Block”.</string>
+    <string name="device_options_tutorial_block_device_spec_14">To allow access again, tap “Unblock device”.</string>
+    <string name="device_options_tutorial_block_device_spec_15">Then confirm by tapping “Unblock”.</string>
 
     <!-- FILTER TUTORIAL -->
-    <string name="filter_tutorial_title">Filters Screen</string>
-    <string name="filter_tutorial_spec_1">Here you block all devices at once</string>
+    <string name="filter_tutorial_title">Filters screen</string>
+    <string name="filter_tutorial_spec_1">Here you block all devices at once.</string>
 
     <string name="filter_tutorial_block_time_title">Time blocking</string>
-    <string name="filter_tutorial_block_time_spec_2">To limit the hours during which you can connect to the router, tap the "+" symbol in the "Schedules" section.</string>
-    <string name="filter_tutorial_block_time_spec_3">Here you will see all the rules already created</string>
-    <string name="filter_tutorial_block_time_spec_4">If you want to limit access for all devices during a specific time slot and specific days of the week, tap the "Add rule" button.</string>
+    <string name="filter_tutorial_block_time_spec_2">To limit the hours during which devices can connect to the router, tap the “+” symbol in the “Schedules” section.</string>
+    <string name="filter_tutorial_block_time_spec_3">Here you will see all the rules already created.</string>
+    <string name="filter_tutorial_block_time_spec_4">If you want to limit access for all devices during a specific time slot and specific days of the week, tap the “Add rule” button.</string>
     <string name="filter_tutorial_block_time_spec_5">Select the time when connection is blocked and the time when it is allowed again.</string>
     <string name="filter_tutorial_block_time_spec_6">Select the days of the week on which you want the rule to take effect.</string>
-    <string name="filter_tutorial_block_time_spec_7">And add the rule with the "Add" button.</string>
-    <string name="filter_tutorial_block_time_spec_8">With this we have added the rule.</string>
-    <string name="filter_tutorial_block_time_spec_9">If you want to remove the rule, tap the "x" to the right of it.</string>
+    <string name="filter_tutorial_block_time_spec_7">Then add the rule with the “Add” button.</string>
+    <string name="filter_tutorial_block_time_spec_8">The rule has been added.</string>
+    <string name="filter_tutorial_block_time_spec_9">If you want to remove the rule, tap the “x” to the right of it.</string>
 
     <string name="filter_tutorial_block_webs_title">Website blocking</string>
-    <string name="filter_tutorial_block_webs_spec_10">To block access to a website, tap the "+" symbol in the "Filters" section.</string>
+    <string name="filter_tutorial_block_webs_spec_10">To block access to a website, tap the “+” symbol in the “Filters” section.</string>
     <string name="filter_tutorial_block_webs_spec_11">Here you will see all the rules already created.</string>
-    <string name="filter_tutorial_block_webs_spec_12">If you want to block access for all devices to a website, tap the "Add rule" button.</string>
-    <string name="filter_tutorial_block_webs_spec_13">Write the domain you want to block (Example: elpais.com).</string>
-    <string name="filter_tutorial_block_webs_spec_14">And add the rule with the "Add" button.</string>
-    <string name="filter_tutorial_block_webs_spec_15">With this we have added the rule.</string>
-    <string name="filter_tutorial_block_webs_spec_16">If you want to remove the rule, tap the "x" to the right of it.</string>
+    <string name="filter_tutorial_block_webs_spec_12">If you want to block access for all devices to a website, tap the “Add rule” button.</string>
+    <string name="filter_tutorial_block_webs_spec_13">Enter the domain you want to block (e.g., elpais.com).</string>
+    <string name="filter_tutorial_block_webs_spec_14">Then add the rule with the “Add” button.</string>
+    <string name="filter_tutorial_block_webs_spec_15">The rule has been added.</string>
+    <string name="filter_tutorial_block_webs_spec_16">If you want to remove the rule, tap the “x” to the right of it.</string>
 
     <!-- HOME TUTORIAL -->
     <string name="home_daily_check_hint">It is good practice to check each day if there are new devices.</string>
@@ -297,10 +297,10 @@
     <string name="language_tutorial_step3">And tap Apply.</string>
 
     <!-- ROUTER SELECTOR -->
-    <string name="router_selector_tutorial_title">Router Selection Screen</string>
+    <string name="router_selector_tutorial_title">Router selection screen</string>
     <string name="router_selector_tutorial_step1">Here all the routers you have saved will appear.
-        In addition, the status of each router and whether you can access them is shown.</string>
-    <string name="router_selector_tutorial_step2">When a new router is detected, an icon will indicate that it is a new router.</string>
+        In addition, the status of each router and whether you can access it is shown.</string>
+    <string name="router_selector_tutorial_step2">When a new router is detected, an icon will indicate that it is new.</string>
     <string name="router_selector_tutorial_step3">The green circular symbol means the router is accessible.</string>
     <string name="router_selector_tutorial_step4">If no icon appears, it means the router is not connected and is not accessible.</string>
 
@@ -315,14 +315,14 @@
     <string name="no_router_connected_error">There is no router connected right now.</string>
 
     <!-- SETTINGS TUTORIAL -->
-    <string name="settings_tutorial_title">Settings Screen</string>
+    <string name="settings_tutorial_title">Settings screen</string>
     <string name="settings_tutorial_step1">You can change the language by tapping Language.</string>
 
     <!-- WIFI ADBLOCKER TUTORIAL -->
-    <string name="wifi_adblocker_tutorial_title">Adblocker Setup</string>
+    <string name="wifi_adblocker_tutorial_title">Ad blocker setup</string>
     <string name="wifi_adblocker_tutorial_step1">If you want to browse without ads, you can enable this feature.</string>
-    <string name="wifi_adblocker_tutorial_step2">Toggle the switch to enable the adblock.</string>
-    <string name="wifi_adblocker_tutorial_step3">If this is the first time you turn on the adblocker, type the following in the browser: 192.168.10.1:3000</string>
+    <string name="wifi_adblocker_tutorial_step2">Toggle the switch to enable the ad blocker.</string>
+    <string name="wifi_adblocker_tutorial_step3">If this is the first time you turn it on, enter the following in the browser: 192.168.10.1:3000</string>
     <string name="wifi_adblocker_tutorial_step4">Once inside, tap "Get Started".</string>
     <string name="wifi_adblocker_tutorial_step5">Change the port from 3000 to 8080</string>
     <string name="wifi_adblocker_tutorial_step6">Scroll down and tap "Next"</string>
@@ -331,46 +331,46 @@
     <string name="wifi_adblocker_tutorial_step9">Tap the menu</string>
     <string name="wifi_adblocker_tutorial_step10">Tap "Settings"</string>
     <string name="wifi_adblocker_tutorial_step11">Tap "DNS settings"</string>
-    <string name="wifi_adblocker_tutorial_step12">Change the address to 127.0.0.1:54</string>
+    <string name="wifi_adblocker_tutorial_step12">Change the address to 127.0.0.1:54.</string>
     <string name="wifi_adblocker_tutorial_step13">Scroll down a bit and tap "Save"</string>
 
-    <string name="wifi_adblocker_tutorial_step14_title">Adblock Created</string>
-    <string name="wifi_adblocker_tutorial_step14">All set, enjoy a safer, ad-free internet.</string>
+    <string name="wifi_adblocker_tutorial_step14_title">Ad blocker created</string>
+    <string name="wifi_adblocker_tutorial_step14">All set—enjoy a safer, ad-free internet.</string>
 
     <!-- WIFI VPN TUTORIAL -->
-    <string name="wifi_vpn_tutorial_title">VPN Setup</string>
+    <string name="wifi_vpn_tutorial_title">VPN setup</string>
     <string name="wifi_vpn_tutorial_step1">If you want to configure your network from outside your home, it is important to set up this feature.</string>
 
     <string name="wifi_vpn_tutorial_my_public_ip_title">My public IP</string>
-    <string name="wifi_vpn_tutorial_my_public_ip_step_2">First, let’s see what your public IP is; to do this, go to www.cual-es-mi-ip.net</string>
+    <string name="wifi_vpn_tutorial_my_public_ip_step_2">First, let’s see what your public IP is; to do this, go to www.cual-es-mi-ip.net.</string>
     <string name="wifi_vpn_tutorial_my_public_ip_step_3">Write down the number that appears there. We will use it shortly.</string>
 
-    <string name="wifi_vpn_tutorial_noip_title">No-IP Setup</string>
+    <string name="wifi_vpn_tutorial_noip_title">No-IP setup</string>
     <string name="wifi_vpn_tutorial_noip_step_4">Now go to www.noip.com to set up the “path” to your router—don’t worry, it’s safe.</string>
     <string name="wifi_vpn_tutorial_noip_step_5">Create your account by tapping "Sign Up" and creating your account; it’s important to save your username and password.</string>
-    <string name="wifi_vpn_tutorial_noip_step_6">Once in your account, tap "DDNS and quick access".</string>
+    <string name="wifi_vpn_tutorial_noip_step_6">Once in your account, tap “DDNS and quick access”.</string>
     <string name="wifi_vpn_tutorial_noip_step_7">Tap "DNS Records".</string>
-    <string name="wifi_vpn_tutorial_noip_step_8">Tap "Create hostname" to create the domain.</string>
-    <string name="wifi_vpn_tutorial_noip_step_9">Enter the name you want to appear in your URL (“path”), for example: your-url.</string>
+    <string name="wifi_vpn_tutorial_noip_step_8">Tap “Create hostname” to create the domain.</string>
+    <string name="wifi_vpn_tutorial_noip_step_9">Enter the name you want to appear in your URL (“path”), e.g., your-url.</string>
     <string name="wifi_vpn_tutorial_noip_step_10">And tap "Create".</string>
-    <string name="wifi_vpn_tutorial_noip_step_11">Note down how the URL looks; in this example it is your-url.ddns.net.</string>
+    <string name="wifi_vpn_tutorial_noip_step_11">Note the final URL; in this example it is your-url.ddns.net.</string>
 
     <string name="wifi_vpn_tutorial_wireguard_title">WireGuard Setup</string>
     <string name="wifi_vpn_tutorial_wireguard_step_12">Install WireGuard on the device you want to use to configure the router from outside the network.</string>
 
     <string name="wifi_vpn_tutorial_access_point_title">Create VPN access point</string>
     <string name="wifi_vpn_tutorial_access_point_step_13">Open the VPN options.</string>
-    <string name="wifi_vpn_tutorial_access_point_step_14">If this is the first time, you can add an access point right away. Give it any name you want and the URL you created in No-IP, then tap Activate VPN.</string>
-    <string name="wifi_vpn_tutorial_access_point_step_15">We will use this QR to establish the connection using the WireGuard app.&#10;&#10;If you are going to set up the VPN on the same device, take a screenshot.</string>
-    <string name="wifi_vpn_tutorial_wireguard_step_16">Tap the "+" button to add the connection.</string>
-    <string name="wifi_vpn_tutorial_wireguard_step_17">Tap "Scan from QR code" and scan the QR code generated by the app.</string>
+    <string name="wifi_vpn_tutorial_access_point_step_14">If this is the first time, you can add an access point right away. Give it any name you want and the URL you created in No-IP, then tap “Activate VPN”.</string>
+    <string name="wifi_vpn_tutorial_access_point_step_15">We’ll use this QR to establish the connection using the WireGuard app.&#10;&#10;If you are going to set up the VPN on the same device, take a screenshot.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_16">Tap the “+” button to add the connection.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_17">Tap “Scan from QR code” and scan the QR code generated by the app.</string>
     <string name="wifi_vpn_tutorial_wireguard_step_18">You can enable the connection by toggling the switch.</string>
-    <string name="wifi_vpn_tutorial_wireguard_step_19">Or disable it by toggling it again.</string>
+    <string name="wifi_vpn_tutorial_wireguard_step_19">Or disable it by toggling the switch again.</string>
     <string name="wifi_vpn_tutorial_wireguard_step_20">With the VPN active and from a different network than your home, if you open the app you will see that it is connected through the VPN.</string>
 
     <string name="wifi_vpn_tutorial_more_features_title">More VPN features</string>
     <string name="wifi_vpn_tutorial_more_features_step_21">If you already have at least one access point, you will see the option to add another.</string>
-    <string name="wifi_vpn_tutorial_more_features_step_22">Or you can delete an existing access point so it can no longer log in.</string>
+    <string name="wifi_vpn_tutorial_more_features_step_22">Or you can delete an existing access point so it can no longer sign in.</string>
     <string name="wifi_vpn_tutorial_more_features_step_23">Tap the access point you want to delete.</string>
     <string name="wifi_vpn_tutorial_more_features_step_24">And tap "Delete" to remove that access point.</string>
 
@@ -383,11 +383,11 @@
     <string name="qr_content_description">QR.</string>
     <string name="ansi_error">Empty ANSI output.</string>
 
-    <string name="abailable_update">Available update</string>
-    <string name="abailable_update_body">You need to update the router,
-not doing so poses a considerable risk</string>
+    <string name="abailable_update">Update available</string>
+    <string name="abailable_update_body">You need to update the router; not doing so poses a considerable risk</string>
 
-    <string name="speedtest_eula_alert">Speedtest CLI — Licencia (EULA)</string>
+    <!-- SPEEDTEST DIALOGS -->
+    <string name="speedtest_eula_alert">Speedtest CLI — License (EULA)</string>
     <string name="speedtest_eula_alert_body">
 ==============================================================================
 You may only use this Speedtest software and information generated
@@ -404,8 +404,8 @@ these URLs:
 Do you accept the license?
 </string>
 
-    <string name="speedtest_gdpr_alert">Speedtest CLI — Privacidad (GDPR)</string>
-<string name="speedtest_gdpr_alert_body">
+    <string name="speedtest_gdpr_alert">Speedtest CLI — Privacy (GDPR)</string>
+    <string name="speedtest_gdpr_alert_body">
 ==============================================================================
 Ookla collects certain data through Speedtest that may be considered
 personally identifiable, such as your IP address, unique device
@@ -413,7 +413,7 @@ identifiers or location. Ookla believes it has a legitimate interest
 to share this data with internet providers, hardware manufacturers and
 industry regulators to help them understand and create a better and
 faster internet. For further information including how the data may be
-shared, where the data may be transferred and Ookla\'s contact details,
+shared, where the data may be transferred and Ooklas contact details,
 please see our Privacy Policy at:
 
     https://www.speedtest.net/privacy
